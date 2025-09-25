@@ -1,0 +1,49 @@
+# ==========================
+# CMake / build
+# ==========================
+/out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+*.swp
+
+# ==========================
+# Qt / IDE
+# ==========================
+*.user
+*.user.* 
+*.pro.user
+*.pro.user.* 
+*.qbs.user
+*.qmlproject.user
+*.autosave
+*.creator.*
+*.vcxproj*
+*.sln
+*.ncb
+*.opensdf
+*.sdf
+*.suo
+*.DS_Store
+
+# ==========================
+# Backup / temporary files
+# ==========================
+*~
+*.swp
+*.tmp
+*.bak
+
+# ==========================
+# Executables / binaries
+# ==========================
+todoapp
+*.exe
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+
