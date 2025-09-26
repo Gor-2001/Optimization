@@ -1,7 +1,7 @@
-#include "../inc/experiment.h"
+#include "../inc/test.h"
 using namespace std::chrono;
 
-void PSV_unsorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)
+void prediction_test_unsorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)
 {
     vector_params_t separators_params = {numbers_range, separators_count};
     std::vector<uint16_t> separator = random_vector_generation(separators_params);
@@ -20,7 +20,7 @@ void PSV_unsorted(uint16_t separators_count, uint16_t numbers_range, uint16_t ve
     }
 }
 
-void PSV_sorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)
+void prediction_test_sorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)
 {
     vector_params_t separators_params = {numbers_range, separators_count};
     std::vector<uint16_t> separator = random_vector_generation(separators_params);

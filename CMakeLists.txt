@@ -15,11 +15,12 @@ add_executable(optimization
     src/main.cpp
     src/window.cpp
     src/window.h
+    src/define.h
 
     src/prediction/src/window.cpp
-    src/prediction/src/experiment.cpp
+    src/prediction/src/test.cpp
     src/prediction/inc/window.h
-    src/prediction/inc/experiment.h
+    src/prediction/inc/test.h
 )
 
 target_link_libraries(optimization Qt5::Widgets)

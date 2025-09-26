@@ -1,5 +1,5 @@
-#ifndef PREDICTION_EXPERIMENT_H
-#define PREDICTION_EXPERIMENT_H
+#ifndef PREDICTION_TEST_H
+#define PREDICTION_TEST_H
 
 #include <vector>
 #include <cstdint>
@@ -21,15 +21,13 @@ struct vector_params_t {
 
 // Benchmark functions
 
-void PSV();
-
-void PSV_unsorted(
+void prediction_test_unsorted(
     uint16_t separators_count = SEPARATORS_COUNT,
     uint16_t numbers_range = NUMBERS_RANGE, 
     uint16_t vector_size = VECTOR_SIZE
 );
 
-void PSV_sorted(
+void prediction_test_sorted(
     uint16_t separators_count = SEPARATORS_COUNT,
     uint16_t numbers_range = NUMBERS_RANGE, 
     uint16_t vector_size = VECTOR_SIZE
@@ -41,4 +39,4 @@ random_vector_generation(
     const vector_params_t& vector_params
 );
 
-#endif // PREDICTION_EXPERIMENT_H
+#endif // PREDICTION_TEST_H

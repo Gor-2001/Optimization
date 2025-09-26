@@ -14,16 +14,16 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     QWidget *central = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(central);
 
-    openButton = new QPushButton("Open PSV Window", this);
+    openButton = new QPushButton("Open Prediction Test", this);
     layout->addWidget(openButton);
 
-    connect(openButton, &QPushButton::clicked, this, &MainMenuWindow::openPSVWindow);
+    connect(openButton, &QPushButton::clicked, this, &MainMenuWindow::openPTWindow);
 
     setCentralWidget(central);
 }
 
-void MainMenuWindow::openPSVWindow()
+void MainMenuWindow::openPTWindow()
 {
-    MainWindow *psvWindow = new MainWindow(this); // create PSV window
-    psvWindow->show();
+    PredictionWindow *ptWindow = new PredictionWindow(this); // create PT window
+    ptWindow->show();
 }

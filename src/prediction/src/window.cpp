@@ -4,11 +4,11 @@
 #include <QWidget>
 #include <QDebug>
 
-#include "../inc/experiment.h"
+#include "../inc/test.h"
 #include "../inc/window.h"
 #include "../../define.h"
 
-MainWindow::MainWindow(QWidget *parent)
+PredictionWindow::PredictionWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     auto *central = new QWidget(this);
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainLayout->addLayout(paramsLayout);
 
     // Run Test button
-    runButton = new QPushButton("Run PSV Test", this);
+    runButton = new QPushButton("Run Prediction Test", this);
     mainLayout->addWidget(runButton);
 
     // Output box
@@ -65,18 +65,18 @@ MainWindow::MainWindow(QWidget *parent)
     // Make window larger by default
     resize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    connect(runButton, &QPushButton::clicked, this, &MainWindow::runTest);
+    connect(runButton, &QPushButton::clicked, this, &PredictionWindow::runTest);
 }
 
 // Helper: print to both QTextEdit and console
-void MainWindow::printResult(const QString &text)
+void PredictionWindow::printResult(const QString &text)
 {
     outputBox->append(text);
     qDebug() << text;
 }
 
-// Run PSV test
-void MainWindow::runTest()
+// Run Prediction test
+void PredictionWindow::runTest()
 {
     uint16_t separators_count;
     uint16_t vector_size;
@@ -93,7 +93,7 @@ void MainWindow::runTest()
 
     auto start_unsorted = std::chrono::high_resolution_clock::now();
     for(uint16_t i = 0; i < run_count; ++i)
-        PSV_unsorted(separators_count, numbers_range, vector_size);
+        prediction_test_unsorted(separators_count, numbers_range, vector_size);
 
     auto stop_unsorted = std::chrono::high_resolution_clock::now();
     auto duration_unsorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_unsorted - start_unsorted);
@@ -105,7 +105,7 @@ void MainWindow::runTest()
 
     auto start_sorted = std::chrono::high_resolution_clock::now();
     for(uint16_t i = 0; i < run_count; ++i)
-        PSV_sorted(separators_count, numbers_range, vector_size);
+        prediction_test_sorted(separators_count, numbers_range, vector_size);
 
     auto stop_sorted = std::chrono::high_resolution_clock::now();
     auto duration_sorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_sorted - start_sorted);

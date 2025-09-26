@@ -1,5 +1,5 @@
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef PREDICTION_WINDOW_H
+#define PREDICTION_WINDOW_H
 
 #include <QMainWindow>
 #include <QTextEdit>
@@ -8,10 +8,10 @@
 
 class QPushButton;
 
-class MainWindow : public QMainWindow {
+class PredictionWindow : public QMainWindow {
     Q_OBJECT
 public:
-    MainWindow(QWidget *parent = nullptr);
+    PredictionWindow(QWidget *parent = nullptr);
 
 private slots:
     void runTest();
@@ -28,4 +28,4 @@ private:
     void printResult(const QString &text);  // helper to print to QTextEdit and console
 };
 
-#endif // MAIN_WINDOW_H
+#endif // PREDICTION_WINDOW_H

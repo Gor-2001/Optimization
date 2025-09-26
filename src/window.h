@@ -14,7 +14,7 @@ public:
     MainMenuWindow(QWidget *parent = nullptr);
 
 private slots:
-    void openPSVWindow();
+    void openPTWindow();
 
 private:
     QPushButton *openButton;
