@@ -1,5 +1,5 @@
-#ifndef PREDICTION_SORTED_VECTOR_H
-#define PREDICTION_SORTED_VECTOR_H
+#ifndef PREDICTION_EXPERIMENT_H
+#define PREDICTION_EXPERIMENT_H
 
 #include <vector>
 #include <cstdint>
@@ -41,4 +41,4 @@ random_vector_generation(
     const vector_params_t& vector_params
 );
 
-#endif // PREDICTION_SORTED_VECTOR_H
+#endif // PREDICTION_EXPERIMENT_H

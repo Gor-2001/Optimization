@@ -11,11 +11,15 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 add_executable(optimization
+
     src/main.cpp
-    src/prediction/window.cpp
-    src/prediction/experiment.cpp
-    src/prediction/window.h
-    src/prediction/experiment.h
+    src/window.cpp
+    src/window.h
+
+    src/prediction/src/window.cpp
+    src/prediction/src/experiment.cpp
+    src/prediction/inc/window.h
+    src/prediction/inc/experiment.h
 )
 
 target_link_libraries(optimization Qt5::Widgets)

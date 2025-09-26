@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "prediction/window.h"
+#include "window.h"
 
 int main(int argc, char *argv[])
 {

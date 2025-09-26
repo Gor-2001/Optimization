@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QDebug>
 
-#include "experiment.h"
-#include "window.h"
+#include "../inc/experiment.h"
+#include "../inc/window.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

@@ -1,4 +1,4 @@
-#include "experiment.h"
+#include "../inc/experiment.h"
 using namespace std::chrono;
 
 void PSV_unsorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)
