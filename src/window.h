@@ -15,6 +15,7 @@ public:
 
 private slots:
     void openPTWindow();
+    void openAAAWindow();
 
 private:
     QPushButton *openButton;
