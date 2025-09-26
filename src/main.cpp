@@ -1,7 +1,13 @@
-#include "prediction_sorted_vector.h"
+#include <QApplication>
+#include "main_window.h"
 
-int main() {
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
 
-    PSV();
-    return 0;
+    MainWindow window;
+    window.setWindowTitle("PSV Optimization Test");
+    window.show();
+
+    return app.exec();
 }

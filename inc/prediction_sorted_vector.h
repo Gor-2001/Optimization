@@ -22,8 +22,18 @@ struct vector_params_t {
 // Benchmark functions
 
 void PSV();
-void PSV_unsorted();
-void PSV_sorted();
+
+void PSV_unsorted(
+    uint16_t separators_count = SEPARATORS_COUNT,
+    uint16_t numbers_range = NUMBERS_RANGE, 
+    uint16_t vector_size = VECTOR_SIZE
+);
+
+void PSV_sorted(
+    uint16_t separators_count = SEPARATORS_COUNT,
+    uint16_t numbers_range = NUMBERS_RANGE, 
+    uint16_t vector_size = VECTOR_SIZE
+);
 
 // Helper
 std::vector<uint16_t>  
