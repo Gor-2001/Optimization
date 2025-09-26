@@ -12,10 +12,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 add_executable(optimization
     src/main.cpp
-    src/main_window.cpp
-    src/prediction_sorted_vector.cpp
-    inc/main_window.h
-    inc/prediction_sorted_vector.h
+    src/prediction/window.cpp
+    src/prediction/experiment.cpp
+    src/prediction/window.h
+    src/prediction/experiment.h
 )
 
 target_link_libraries(optimization Qt5::Widgets)

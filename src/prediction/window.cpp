@@ -1,11 +1,11 @@
-#include "main_window.h"
-#include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
 #include <QDebug>
-#include "prediction_sorted_vector.h"
+
+#include "experiment.h"
+#include "window.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -98,8 +98,8 @@ void MainWindow::runTest()
     auto duration_unsorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_unsorted - start_unsorted);
 
     printResult(QString("%1 : %2 microseconds")
-        .arg("UNSORTED\t")                 // label left-aligned in 10 chars
-        .arg(duration_unsorted.count(), 10)  // number right-aligned in 10 chars
+        .arg("UNSORTED\t")
+        .arg(duration_unsorted.count(), 10)
     );
 
     auto start_sorted = std::chrono::high_resolution_clock::now();

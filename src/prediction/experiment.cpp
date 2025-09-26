@@ -1,30 +1,5 @@
-#include "prediction_sorted_vector.h"
+#include "experiment.h"
 using namespace std::chrono;
-
-// void PSV()
-// {
-//     srand (time(NULL));
-
-//     auto start_unsorted = high_resolution_clock::now();
-
-//     for(uint16_t i = 0; i < RUN_COUNT; ++i)
-//         PSV_unsorted();
-    
-//     auto stop_unsorted = high_resolution_clock::now();
-//     auto duration_unsorted = duration_cast<microseconds>(stop_unsorted - start_unsorted);
-//     std::cout << "Time taken by function: UNSORTED:\t"
-//          << duration_unsorted.count() << " microseconds" << std::endl;
-
-//     auto start_sorted = high_resolution_clock::now();
-
-//     for(uint16_t i = 0; i < RUN_COUNT; ++i)
-//         PSV_sorted();
-    
-//     auto stop_sorted = high_resolution_clock::now();
-//     auto duration_sorted = duration_cast<microseconds>(stop_sorted - start_sorted);
-//     std::cout << "Time taken by function: SORTED:  \t"
-//          << duration_sorted.count() << " microseconds" << std::endl;
-// }
 
 void PSV_unsorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)
 {
