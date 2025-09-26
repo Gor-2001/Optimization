@@ -1,6 +1,23 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef MAIN_MENU_WINDOW_H
+#define MAIN_MENU_WINDOW_H
 
-#include "prediction/inc/window.h"
+#include <QMainWindow>
+#include "define.h"
 
-#endif // WINDOW_H
+class QPushButton;
+
+class MainMenuWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainMenuWindow(QWidget *parent = nullptr);
+
+private slots:
+    void openPSVWindow();
+
+private:
+    QPushButton *openButton;
+};
+
+#endif // MAIN_MENU_WINDOW_H

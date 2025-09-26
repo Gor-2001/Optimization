@@ -6,6 +6,7 @@
 
 #include "../inc/experiment.h"
 #include "../inc/window.h"
+#include "../../define.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -62,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(central);
 
     // Make window larger by default
-    resize(800, 600);
+    resize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     connect(runButton, &QPushButton::clicked, this, &MainWindow::runTest);
 }
