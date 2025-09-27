@@ -108,26 +108,44 @@ void PredictionWindow::runTest()
     prediction_params_t prediction_params = {vector_size, run_count, separators_count, range};
     //outputBox->clear();
 
-    auto start_unsorted = std::chrono::high_resolution_clock::now();
-    prediction_test_unsorted(prediction_params);
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point stop;
+    microseconds duration{0};
 
-    auto stop_unsorted = std::chrono::high_resolution_clock::now();
-    auto duration_unsorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_unsorted - start_unsorted);
+    std::vector<uint16_t> v; 
+    std::vector<uint16_t> separator =
+        random_vector_generation(prediction_params.separators_count, prediction_params.range);
+
+    for(uint16_t i = 0; i < run_count; ++i)
+    {
+        v = random_vector_generation(prediction_params.vector_size, prediction_params.range);
+        start = high_resolution_clock::now();
+
+        prediction_test_unsorted(prediction_params, separator, v);
+
+        stop = high_resolution_clock::now();
+        duration += duration_cast<microseconds>(stop - start);
+    }
 
     printResult(QString("%1 : %2 microseconds")
         .arg("UNSORTED\t")
-        .arg(duration_unsorted.count(), 10)
+        .arg(duration.count(), 10)
     );
 
-    auto start_sorted = std::chrono::high_resolution_clock::now();
-    prediction_test_sorted(prediction_params);
+    for(uint16_t i = 0; i < run_count; ++i)
+    {
+        v = random_vector_generation(prediction_params.vector_size, prediction_params.range);
+        start = high_resolution_clock::now();
 
-    auto stop_sorted = std::chrono::high_resolution_clock::now();
-    auto duration_sorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_sorted - start_sorted);
+        prediction_test_sorted(prediction_params, separator, v);
+
+        stop = high_resolution_clock::now();
+        duration += duration_cast<microseconds>(stop - start);
+    }
 
     printResult(QString("%1 : %2 microseconds")
         .arg("SORTED\t")
-        .arg(duration_sorted.count(), 10)
+        .arg(duration.count(), 10)
     );
 }
 

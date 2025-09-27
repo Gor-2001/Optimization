@@ -18,11 +18,15 @@ struct JT_params_t {
 // Benchmark functions
 
 void jump_table_switch(
-    JT_params_t JT_params = {VECTOR_SIZE, RUN_COUNT, SEPARATORS_COUNT}
+    const JT_params_t JT_params,
+    const std::vector<uint8_t>& data,
+    std::vector<uint8_t>& count
 );
 
 void jump_table_ifelse(
-    JT_params_t JT_params = {VECTOR_SIZE, RUN_COUNT, SEPARATORS_COUNT}
+    const JT_params_t JT_params,
+    const std::vector<uint8_t>& data,
+    std::vector<uint8_t>& count
 );
 
 // Helper

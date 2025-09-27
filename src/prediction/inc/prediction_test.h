@@ -20,8 +20,17 @@ struct prediction_params_t {
 
 // Benchmark functions
 
-void prediction_test_unsorted(const prediction_params_t& prediction_params);
-void prediction_test_sorted(const prediction_params_t& prediction_params);
+void prediction_test_unsorted(    
+    const prediction_params_t& prediction_params,
+    const std::vector<uint16_t>& separator,
+    const std::vector<uint16_t>& v
+);
+
+void prediction_test_sorted(    
+    const prediction_params_t& prediction_params,
+    const std::vector<uint16_t>& separator,
+    std::vector<uint16_t>& v
+);
 
 // Helper
 std::vector<uint16_t> 

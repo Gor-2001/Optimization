@@ -88,26 +88,45 @@ void JTWindow::runTest()
     //outputBox->clear();
 
     JT_params_t JT_params = {vector_size, run_count, SEPARATORS_COUNT};
-    auto start_switch = std::chrono::high_resolution_clock::now();
-    jump_table_switch(JT_params);
 
-    auto stop_switch = std::chrono::high_resolution_clock::now();
-    auto duration_switch = std::chrono::duration_cast<std::chrono::microseconds>(stop_switch - start_switch);
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point stop;
+    microseconds duration{0};
+
+    std::vector<uint8_t> data; 
+    std::vector<uint8_t> count =
+        random_vector_generation(JT_params);
+
+    for(uint16_t i = 0; i < run_count; ++i)
+    {
+        data = random_vector_generation(JT_params);
+        start = high_resolution_clock::now();
+
+        jump_table_switch(JT_params, data, count);
+
+        stop = high_resolution_clock::now();
+        duration += duration_cast<microseconds>(stop - start);
+    }
 
     printResult(QString("%1 : %2 microseconds")
         .arg("SWITCH\t")
-        .arg(duration_switch.count(), 10)
+        .arg(duration.count(), 10)
     );
 
-    auto start_ifelse = std::chrono::high_resolution_clock::now();
-    jump_table_ifelse(JT_params);
+    for(uint16_t i = 0; i < run_count; ++i)
+    {
+        data = random_vector_generation(JT_params);
+        start = high_resolution_clock::now();
 
-    auto stop_ifelse = std::chrono::high_resolution_clock::now();
-    auto duration_ifelse = std::chrono::duration_cast<std::chrono::microseconds>(stop_ifelse - start_ifelse);
+        jump_table_ifelse(JT_params, data, count);
+
+        stop = high_resolution_clock::now();
+        duration += duration_cast<microseconds>(stop - start);
+    }
 
     printResult(QString("%1 : %2 microseconds")
         .arg("IFELSE\t")
-        .arg(duration_ifelse.count(), 10)
+        .arg(duration.count(), 10)
     );
 }
 
