@@ -59,7 +59,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     auto *labelRange = new QLabel("NUMBERS_RANGE:", this);
     spinRange = new QSpinBox(this);
     spinRange->setRange(1, 65536);
-    spinRange->setValue(NUMBERS_RANGE);  // probably you meant NUMBERS_RANGE instead of RUN_COUNT
+    spinRange->setValue(RANGE);  // probably you meant NUMBERS_RANGE instead of RUN_COUNT
     paramsLayout->addWidget(labelRange);
     paramsLayout->addWidget(spinRange);
 
@@ -96,20 +96,20 @@ void PredictionWindow::runTest()
 {
     uint16_t separators_count;
     uint16_t vector_size;
-    uint16_t numbers_range;
+    uint16_t range;
     uint16_t run_count;
 
     // Update global parameters from UI
     vector_size = static_cast<uint16_t>(spinVectorSize->value());
     separators_count = static_cast<uint16_t>(spinSeparators->value());
     run_count = static_cast<uint16_t>(spinRunCount->value());
-    numbers_range = static_cast<uint16_t>(spinRunCount->value());
+    range = static_cast<uint16_t>(spinRunCount->value());
 
+    prediction_params_t prediction_params = {vector_size, run_count, separators_count, range};
     //outputBox->clear();
 
     auto start_unsorted = std::chrono::high_resolution_clock::now();
-    for(uint16_t i = 0; i < run_count; ++i)
-        prediction_test_unsorted(separators_count, numbers_range, vector_size);
+    prediction_test_unsorted(prediction_params);
 
     auto stop_unsorted = std::chrono::high_resolution_clock::now();
     auto duration_unsorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_unsorted - start_unsorted);
@@ -120,8 +120,7 @@ void PredictionWindow::runTest()
     );
 
     auto start_sorted = std::chrono::high_resolution_clock::now();
-    for(uint16_t i = 0; i < run_count; ++i)
-        prediction_test_sorted(separators_count, numbers_range, vector_size);
+    prediction_test_sorted(prediction_params);
 
     auto stop_sorted = std::chrono::high_resolution_clock::now();
     auto duration_sorted = std::chrono::duration_cast<std::chrono::microseconds>(stop_sorted - start_sorted);

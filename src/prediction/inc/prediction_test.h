@@ -3,42 +3,31 @@
 #ifndef PREDICTION_TEST_H
 #define PREDICTION_TEST_H
 
-#include <vector>
-#include <cstdint>
-#include <algorithm>
-#include <chrono>
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include "../../define.h"
 
-#define SEPARATORS_COUNT    1024
 #define VECTOR_SIZE         256
-#define NUMBERS_RANGE       1024
 #define RUN_COUNT           100
+#define SEPARATORS_COUNT    1024
+#define RANGE               1024
 
-struct vector_params_t {
+
+struct prediction_params_t {
+    uint16_t vector_size;
+    uint16_t run_count;
+    uint16_t separators_count;
     uint16_t range;
-    uint16_t size;
 };
 
 // Benchmark functions
 
-void prediction_test_unsorted(
-    uint16_t separators_count = SEPARATORS_COUNT,
-    uint16_t numbers_range = NUMBERS_RANGE, 
-    uint16_t vector_size = VECTOR_SIZE
-);
-
-void prediction_test_sorted(
-    uint16_t separators_count = SEPARATORS_COUNT,
-    uint16_t numbers_range = NUMBERS_RANGE, 
-    uint16_t vector_size = VECTOR_SIZE
-);
+void prediction_test_unsorted(const prediction_params_t& prediction_params);
+void prediction_test_sorted(const prediction_params_t& prediction_params);
 
 // Helper
-std::vector<uint16_t>  
-random_vector_generation(    
-    const vector_params_t& vector_params
+std::vector<uint16_t> 
+random_vector_generation(
+    const uint16_t vector_size,
+    const uint16_t range
 );
 
 #endif // PREDICTION_TEST_H

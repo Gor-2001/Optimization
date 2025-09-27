@@ -7,8 +7,8 @@
 #include <QDebug>
 
 #include "../inc/aaa_window.h"
+#include "../inc/aaa_test.h"
 #include "../../info/info_window.h"
-#include "../../define.h"
 
 
 AAAWindow::AAAWindow(QWidget *parent)

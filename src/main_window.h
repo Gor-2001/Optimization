@@ -17,6 +17,7 @@ public:
 
 private slots:
     void openPTWindow();
+    void openJTWindow();
     void openAAAWindow();
 
 private:

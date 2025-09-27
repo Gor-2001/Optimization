@@ -6,6 +6,7 @@
 
 #include "main_window.h"
 #include "prediction/inc/prediction_window.h"
+#include "jump_table/inc/jump_table_window.h"
 #include "aaa/inc/aaa_window.h"
 
 MainMenuWindow::MainMenuWindow(QWidget *parent)
@@ -27,6 +28,12 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     mainLayout->addWidget(predictionButton, 0, Qt::AlignHCenter);
     connect(predictionButton, &QPushButton::clicked, this, &MainMenuWindow::openPTWindow);
 
+    // Button: Jump Table Test
+    QPushButton *jumpTableButton = new QPushButton("Open Jump Table Test", this);
+    jumpTableButton->setFixedSize(200, 40);
+    mainLayout->addWidget(jumpTableButton, 0, Qt::AlignHCenter);
+    connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJTWindow);
+
     // Button: AAA Test
     QPushButton *aaaButton = new QPushButton("Open AAA Test", this);
     aaaButton->setFixedSize(200, 40);
@@ -46,8 +53,14 @@ void MainMenuWindow::openPTWindow()
     ptWindow->show();
 }
 
+void MainMenuWindow::openJTWindow()
+{
+    JTWindow *jtWindow = new JTWindow(this); // create JT window
+    jtWindow->show();
+}
+
 void MainMenuWindow::openAAAWindow()
 {
-    AAAWindow *aaaWindow = new AAAWindow(this); // create PT window
+    AAAWindow *aaaWindow = new AAAWindow(this); // create AAA window
     aaaWindow->show();
 }

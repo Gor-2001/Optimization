@@ -27,7 +27,12 @@ add_executable(optimization
     src/aaa/inc/aaa_window.h
     src/aaa/inc/aaa_test.h
 
-    src/info/info_window.h
+    src/jump_table/src/jump_table_window.cpp
+    src/jump_table/src/jump_table_test.cpp
+    src/jump_table/inc/jump_table_window.h
+    src/jump_table/inc/jump_table_test.h
+
+   src/info/info_window.h
     src/info/info_window.cpp
 )
 
