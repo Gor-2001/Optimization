@@ -4,7 +4,7 @@
 #define MAIN_MENU_WINDOW_H
 
 #include <QMainWindow>
-#include "define.h"
+#include "main_utils.h"
 
 class QPushButton;
 

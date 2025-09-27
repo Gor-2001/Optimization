@@ -223,15 +223,3 @@ void jump_table_ifelse(
         }
     }
 }
-
-std::vector<uint8_t> 
-random_vector_generation(
-    const JT_params_t& JT_params
-)
-{
-    std::vector<uint8_t> result(JT_params.vector_size, 0);
-
-    for(auto& it : result)
-        it = rand() % JT_params.separators_count;
-    return result;
-}

@@ -8,7 +8,7 @@
 #include <QDebug>
 
 #include "info_window.h"
-#include "../define.h"
+#include "../main_utils.h"
 
 InfoWindow::InfoWindow(const QString &title,
                        const QString &filePath,

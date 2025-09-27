@@ -39,16 +39,3 @@ void prediction_test_sorted(
     }
 }
 
-std::vector<uint16_t> 
-random_vector_generation(
-    const uint16_t vector_size,
-    const uint16_t range
-)
-{
-    std::vector<uint16_t> result(vector_size, 0);
-
-    for(auto& it : result)
-        it = rand() % range;
-    return result;
-}
-

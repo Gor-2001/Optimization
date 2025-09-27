@@ -9,7 +9,7 @@
 #include "../inc/jump_table_window.h"
 #include "../inc/jump_table_test.h"
 #include "../../info/info_window.h"
-#include "../../define.h"
+#include "../../main_utils.h"
 
 
 JTWindow::JTWindow(QWidget *parent)
@@ -95,15 +95,15 @@ void JTWindow::runTest()
 
     std::vector<uint8_t> data; 
     std::vector<uint8_t> count =
-        random_vector_generation(JT_params);
+        random_vector_generation(JT_params.vector_size, JT_params.separators_count);
 
     for(uint16_t i = 0; i < run_count; ++i)
     {
-        data = random_vector_generation(JT_params);
+        data = 
+            random_vector_generation(JT_params.vector_size, JT_params.separators_count);
+        
         start = high_resolution_clock::now();
-
         jump_table_switch(JT_params, data, count);
-
         stop = high_resolution_clock::now();
         duration += duration_cast<microseconds>(stop - start);
     }
@@ -115,11 +115,11 @@ void JTWindow::runTest()
 
     for(uint16_t i = 0; i < run_count; ++i)
     {
-        data = random_vector_generation(JT_params);
+        data = 
+            random_vector_generation(JT_params.vector_size, JT_params.separators_count);
+        
         start = high_resolution_clock::now();
-
         jump_table_ifelse(JT_params, data, count);
-
         stop = high_resolution_clock::now();
         duration += duration_cast<microseconds>(stop - start);
     }

@@ -9,7 +9,7 @@
 #include "../inc/prediction_test.h"
 #include "../inc/prediction_window.h"
 #include "../../info/info_window.h"
-#include "../../define.h"
+#include "../../main_utils.h"
 
 PredictionWindow::PredictionWindow(QWidget *parent)
     : QMainWindow(parent)

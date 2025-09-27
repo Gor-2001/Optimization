@@ -1,17 +1,17 @@
 Jump Table Test Description
 -------------------------------
 
-This test is designed to demonstrate how CPU jump tables work and how they affect performance.
+This test is designed to demonstrate how jump tables work and how they affect performance.
 It is intended for educational purposes only and does not have practical use.
 
 The test consists of a set of repeated operations where a value is checked against multiple possible cases (e.g., 0–31). Two versions are compared:
 
 1. Switch-case version:
-   Uses a switch statement, which the compiler often implements as a jump table. This allows the CPU to quickly jump to the correct case with minimal comparisons.
+   Uses a switch statement, which the compiler often implements as a jump table. This allows to quickly jump to the correct case with minimal comparisons.
 
 2. If-else chain version:
-   Uses a long if-else if chain. The CPU must evaluate each condition sequentially until a match is found, which is generally slower for large numbers of cases.
+   Uses a long if-else if chain. The algorithm must evaluate each condition sequentially until a match is found, which is generally slower for large numbers of cases.
 
-The experiment may also test randomized case order to observe how branch prediction affects execution time. Despite identical logic, the switch/jump table version usually performs significantly faster than the sequential if-else version.
+The experiment may also test randomized case order to observe how jump tables affects execution time. Despite identical logic, the switch/jump table version usually performs significantly faster than the sequential if-else version.
 
-This test helps illustrate how branch prediction, jump tables, and memory access patterns influence CPU performance and why compiler optimizations matter in algorithm design.
+This test helps illustrate how jump tables influence performance and why compiler optimizations matter in algorithm design.

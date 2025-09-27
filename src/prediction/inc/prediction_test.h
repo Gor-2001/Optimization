@@ -3,7 +3,7 @@
 #ifndef PREDICTION_TEST_H
 #define PREDICTION_TEST_H
 
-#include "../../define.h"
+#include "../../main_utils.h"
 
 #define VECTOR_SIZE         256
 #define RUN_COUNT           100
@@ -30,13 +30,6 @@ void prediction_test_sorted(
     const prediction_params_t& prediction_params,
     const std::vector<uint16_t>& separator,
     std::vector<uint16_t>& v
-);
-
-// Helper
-std::vector<uint16_t> 
-random_vector_generation(
-    const uint16_t vector_size,
-    const uint16_t range
 );
 
 #endif // PREDICTION_TEST_H
