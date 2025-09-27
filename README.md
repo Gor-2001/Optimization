@@ -19,7 +19,6 @@ A C++/Qt application demonstrating **algorithms and their optimizations**. This 
 - Designed for **educational purposes** only.  
 - GUI is built entirely with **Qt Widgets**.  
 - Tested on **Linux**.  
-- Main window uses a **penguin icon** to enhance visualization.
 
 ***
 
