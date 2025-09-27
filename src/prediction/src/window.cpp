@@ -6,13 +6,26 @@
 
 #include "../inc/test.h"
 #include "../inc/window.h"
+#include "../../info/info_window.h"
 #include "../../define.h"
 
 PredictionWindow::PredictionWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     auto *central = new QWidget(this);
-    auto *mainLayout = new QVBoxLayout(central);
+    auto *mainLayout = new QVBoxLayout(central);  // only ONE main layout
+
+    // Button to open Info Window
+    QPushButton *openButton = new QPushButton("Open Info Window", this);
+    mainLayout->addWidget(openButton);
+
+    connect(openButton, &QPushButton::clicked, this, [this]() {
+        InfoWindow *info = new InfoWindow("Prediction Test Info",
+                                        "src/prediction/prediction_info",
+                                        this);
+        info->show();
+    });
+
 
     // Spin boxes layout
     auto *paramsLayout = new QHBoxLayout();
@@ -45,7 +58,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     auto *labelRange = new QLabel("NUMBERS_RANGE:", this);
     spinRange = new QSpinBox(this);
     spinRange->setRange(1, 65536);
-    spinRange->setValue(RUN_COUNT);  // default
+    spinRange->setValue(NUMBERS_RANGE);  // probably you meant NUMBERS_RANGE instead of RUN_COUNT
     paramsLayout->addWidget(labelRange);
     paramsLayout->addWidget(spinRange);
 
@@ -60,6 +73,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     outputBox->setReadOnly(true);
     mainLayout->addWidget(outputBox);
 
+    // Set central widget only ONCE
     setCentralWidget(central);
 
     // Make window larger by default
@@ -67,6 +81,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 
     connect(runButton, &QPushButton::clicked, this, &PredictionWindow::runTest);
 }
+
 
 // Helper: print to both QTextEdit and console
 void PredictionWindow::printResult(const QString &text)
