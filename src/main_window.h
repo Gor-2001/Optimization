@@ -1,3 +1,5 @@
+// main_window.h
+
 #ifndef MAIN_MENU_WINDOW_H
 #define MAIN_MENU_WINDOW_H
 

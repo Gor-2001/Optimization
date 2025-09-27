@@ -1,11 +1,13 @@
+// prediction_window.cpp
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
 #include <QDebug>
 
-#include "../inc/test.h"
-#include "../inc/window.h"
+#include "../inc/prediction_test.h"
+#include "../inc/prediction_window.h"
 #include "../../info/info_window.h"
 #include "../../define.h"
 
@@ -25,7 +27,6 @@ PredictionWindow::PredictionWindow(QWidget *parent)
                                         this);
         info->show();
     });
-
 
     // Spin boxes layout
     auto *paramsLayout = new QHBoxLayout();

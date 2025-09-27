@@ -1,3 +1,5 @@
+// info_window.h
+
 #ifndef INFO_WINDOW_H
 #define INFO_WINDOW_H
 

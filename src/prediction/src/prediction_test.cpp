@@ -1,4 +1,6 @@
-#include "../inc/test.h"
+// prediction_test.cpp
+
+#include "../inc/prediction_test.h"
 using namespace std::chrono;
 
 void prediction_test_unsorted(uint16_t separators_count, uint16_t numbers_range, uint16_t vector_size)

@@ -1,3 +1,5 @@
+// info_window.cpp
+
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QFile>

@@ -1,18 +1,33 @@
+// aaa_window.cpp
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
 #include <QDebug>
 
-#include "../inc/window.h"
+#include "../inc/aaa_window.h"
+#include "../../info/info_window.h"
 #include "../../define.h"
 
 
 AAAWindow::AAAWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+
     auto *central = new QWidget(this);
-    auto *mainLayout = new QVBoxLayout(central);
+    auto *mainLayout = new QVBoxLayout(central);  // only ONE main layout
+
+    // Button to open Info Window
+    QPushButton *openButton = new QPushButton("Open Info Window", this);
+    mainLayout->addWidget(openButton);
+
+    connect(openButton, &QPushButton::clicked, this, [this]() {
+        InfoWindow *info = new InfoWindow("AAA Test Info",
+                                        "src/aaa/aaa_info",
+                                        this);
+        info->show();
+    });
 
     // Spin boxes layout
     auto *paramsLayout = new QHBoxLayout();
