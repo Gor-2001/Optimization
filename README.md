@@ -22,17 +22,13 @@ A C++/Qt application demonstrating **algorithms and their optimizations**. This 
 
 ***
 
-## 🛠️ Building the Project
+### Prerequisites Linux 🐧
 
-The project can be built on Linux using **CMake** and **Qt5**.
-
-### Prerequisites
-
-Install Qt5 and CMake if not already installed:
-
-### Linux 🐧
-
-1.  Install Qt5 and CMake if not already installed:
+1. **Install Qt5 and CMake** if not already installed:
+    ```bash
+    sudo apt update
+    sudo apt install build-essential cmake qt5-default qtbase5-dev
+    ```
 
 2.  **Generate build files:** Generate the build files in the `out` directory:
     ```bash
