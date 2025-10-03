@@ -1,15 +1,6 @@
 // prediction_window.cpp
-
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QWidget>
-#include <QDebug>
-
-#include "../inc/prediction_test.h"
 #include "../inc/prediction_window.h"
-#include "../../info/info_window.h"
-#include "../../main_utils.h"
+#include "../inc/prediction_test.h"
 
 PredictionWindow::PredictionWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -95,54 +86,24 @@ void PredictionWindow::printResult(const QString &text)
 void PredictionWindow::runTest()
 {
     uint16_t separators_count;
-    uint16_t vector_size;
+    uint16_t data_size;
     uint16_t range;
     uint16_t run_count;
 
     // Update global parameters from UI
-    vector_size = static_cast<uint16_t>(spinVectorSize->value());
+    data_size = static_cast<uint16_t>(spinVectorSize->value());
     separators_count = static_cast<uint16_t>(spinSeparators->value());
     run_count = static_cast<uint16_t>(spinRunCount->value());
     range = static_cast<uint16_t>(spinRunCount->value());
-
-    prediction_params_t prediction_params = {vector_size, run_count, separators_count, range};
-    //outputBox->clear();
-
-    high_resolution_clock::time_point start;
-    high_resolution_clock::time_point stop;
     microseconds duration{0};
 
-    std::vector<uint16_t> v; 
-    std::vector<uint16_t> separator =
-        random_vector_generation(prediction_params.separators_count, prediction_params.range);
-
-    for(uint16_t i = 0; i < run_count; ++i)
-    {
-        v = random_vector_generation(prediction_params.vector_size, prediction_params.range);
-        start = high_resolution_clock::now();
-
-        prediction_test_unsorted(prediction_params, separator, v);
-
-        stop = high_resolution_clock::now();
-        duration += duration_cast<microseconds>(stop - start);
-    }
-
+    duration = prediction_test(prediction_test_unsorted, data_size, separators_count, range, run_count);
     printResult(QString("%1 : %2 microseconds")
         .arg("UNSORTED\t")
         .arg(duration.count(), 10)
     );
 
-    for(uint16_t i = 0; i < run_count; ++i)
-    {
-        v = random_vector_generation(prediction_params.vector_size, prediction_params.range);
-        start = high_resolution_clock::now();
-
-        prediction_test_sorted(prediction_params, separator, v);
-
-        stop = high_resolution_clock::now();
-        duration += duration_cast<microseconds>(stop - start);
-    }
-
+    duration = prediction_test(prediction_test_sorted, data_size, separators_count, range, run_count);
     printResult(QString("%1 : %2 microseconds")
         .arg("SORTED\t")
         .arg(duration.count(), 10)

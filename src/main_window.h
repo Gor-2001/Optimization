@@ -3,8 +3,8 @@
 #ifndef MAIN_MENU_WINDOW_H
 #define MAIN_MENU_WINDOW_H
 
-#include <QMainWindow>
-#include "main_utils.h"
+#include "prediction/inc/prediction_window.h"
+#include "jump_table/inc/jump_table_window.h"
 
 class QPushButton;
 
@@ -18,7 +18,6 @@ public:
 private slots:
     void openPTWindow();
     void openJTWindow();
-    void openAAAWindow();
 
 private:
     QPushButton *openButton;

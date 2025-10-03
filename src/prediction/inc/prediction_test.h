@@ -8,28 +8,45 @@
 #define VECTOR_SIZE         256
 #define RUN_COUNT           100
 #define SEPARATORS_COUNT    1024
-#define RANGE               1024
+#define RANGE               512
 
 
 struct prediction_params_t {
-    uint16_t vector_size;
-    uint16_t run_count;
+    std::vector<uint16_t> data;
+    uint16_t data_size;
+
+    std::vector<uint16_t> separator;
     uint16_t separators_count;
+
     uint16_t range;
 };
 
+microseconds    
+prediction_test(
+    void (*prediction_test_sub)(const prediction_params_t&),
+    uint16_t data_size,
+    uint16_t separators_count,
+    uint16_t range,
+    uint16_t run_count
+);
+
 // Benchmark functions
 
-void prediction_test_unsorted(    
-    const prediction_params_t& prediction_params,
-    const std::vector<uint16_t>& separator,
-    const std::vector<uint16_t>& v
+void 
+prediction_params_init(
+    prediction_params_t& prediction_params, 
+    uint16_t data_size,
+    uint16_t separators_count,
+    uint16_t range
+);
+
+void 
+prediction_test_unsorted(    
+    const prediction_params_t& prediction_params
 );
 
 void prediction_test_sorted(    
-    const prediction_params_t& prediction_params,
-    const std::vector<uint16_t>& separator,
-    std::vector<uint16_t>& v
+    const prediction_params_t& prediction_params
 );
 
 #endif // PREDICTION_TEST_H

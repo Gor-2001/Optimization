@@ -22,11 +22,6 @@ add_executable(optimization
     src/prediction/inc/prediction_window.h
     src/prediction/inc/prediction_test.h
 
-    src/aaa/src/aaa_window.cpp
-    src/aaa/src/aaa_test.cpp
-    src/aaa/inc/aaa_window.h
-    src/aaa/inc/aaa_test.h
-
     src/jump_table/src/jump_table_window.cpp
     src/jump_table/src/jump_table_test.cpp
     src/jump_table/inc/jump_table_window.h

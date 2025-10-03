@@ -1,15 +1,7 @@
 // jump_table_window.cpp
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QWidget>
-#include <QDebug>
-
 #include "../inc/jump_table_window.h"
 #include "../inc/jump_table_test.h"
-#include "../../info/info_window.h"
-#include "../../main_utils.h"
 
 
 JTWindow::JTWindow(QWidget *parent)

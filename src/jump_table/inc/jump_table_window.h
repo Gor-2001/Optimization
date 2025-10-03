@@ -3,10 +3,7 @@
 #ifndef JP_WINDOW_H
 #define JP_WINDOW_H
 
-#include <QMainWindow>
-#include <QTextEdit>
-#include <QSpinBox>
-#include <QPushButton>
+#include "../../info/info_window.h"
 
 class QPushButton;
 

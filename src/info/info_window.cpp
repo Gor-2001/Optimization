@@ -1,14 +1,6 @@
 // info_window.cpp
 
-#include <QVBoxLayout>
-#include <QWidget>
-#include <QFile>
-#include <QTextStream>
-#include <QFileInfo>
-#include <QDebug>
-
 #include "info_window.h"
-#include "../main_utils.h"
 
 InfoWindow::InfoWindow(const QString &title,
                        const QString &filePath,

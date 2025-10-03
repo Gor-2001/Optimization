@@ -1,13 +1,7 @@
 // main_window.cpp
 
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QWidget>
-
 #include "main_window.h"
-#include "prediction/inc/prediction_window.h"
-#include "jump_table/inc/jump_table_window.h"
-#include "aaa/inc/aaa_window.h"
+#include "main_utils.h"
 
 MainMenuWindow::MainMenuWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -34,12 +28,6 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     mainLayout->addWidget(jumpTableButton, 0, Qt::AlignHCenter);
     connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJTWindow);
 
-    // Button: AAA Test
-    QPushButton *aaaButton = new QPushButton("Open AAA Test", this);
-    aaaButton->setFixedSize(200, 40);
-    mainLayout->addWidget(aaaButton, 0, Qt::AlignHCenter);
-    connect(aaaButton, &QPushButton::clicked, this, &MainMenuWindow::openAAAWindow);
-
     // Optional: add stretch to push buttons slightly up
     mainLayout->addStretch();
 
@@ -57,10 +45,4 @@ void MainMenuWindow::openJTWindow()
 {
     JTWindow *jtWindow = new JTWindow(this); // create JT window
     jtWindow->show();
-}
-
-void MainMenuWindow::openAAAWindow()
-{
-    AAAWindow *aaaWindow = new AAAWindow(this); // create AAA window
-    aaaWindow->show();
 }
