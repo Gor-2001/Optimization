@@ -21,7 +21,7 @@ private:
     QPushButton *openButton;
     QTextEdit  *outputBox;
 
-    QSpinBox *spinVectorSize;
+    QSpinBox *spinDataSize;
     QSpinBox *spinSeparators;
     QSpinBox *spinRunCount;
     QSpinBox *spinRange;

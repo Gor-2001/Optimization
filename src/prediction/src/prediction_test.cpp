@@ -12,7 +12,6 @@ prediction_test(
 )
 {
     prediction_params_t prediction_params;
-    //outputBox->clear();
 
     high_resolution_clock::time_point start;
     high_resolution_clock::time_point stop;

@@ -2,15 +2,58 @@
 
 #include "../inc/jump_table_test.h"
 
-void jump_table_switch(    
-    const JT_params_t JT_params, 
-    const std::vector<uint8_t>& data,
-    std::vector<uint8_t>& count
+
+microseconds    
+jump_table_test(
+    void (*jump_table_test_sub)(const jump_table_params_t&),
+    uint16_t data_size,
+    uint16_t range,
+    uint16_t run_count
 )
 {
-    for(uint16_t i = 0; i < JT_params.vector_size; ++i)
+    jump_table_params_t jump_table_params;
+
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point stop;
+    microseconds duration{0};
+
+    for(uint16_t i = 0; i < run_count; ++i)
     {
-        switch (data[i])
+        jump_table_params_init(jump_table_params, data_size, range);
+        start = high_resolution_clock::now();
+        jump_table_test_sub(jump_table_params);
+        stop = high_resolution_clock::now();
+        duration += duration_cast<microseconds>(stop - start);
+    }
+
+    return duration;
+}
+
+
+void 
+jump_table_params_init(
+    jump_table_params_t& jump_table_params, 
+    uint16_t data_size,
+    uint16_t range
+)
+{
+    jump_table_params.data_size = data_size;
+    jump_table_params.range = range;
+
+    jump_table_params.data = 
+        random_vector_generation(jump_table_params.data_size, jump_table_params.range);
+}
+
+
+void jump_table_test_switch(    
+    const jump_table_params_t& jump_table_params
+)
+{
+    std::vector<uint16_t> count(SEPARATORS_COUNT, 0);
+
+    for(uint16_t i = 0; i < jump_table_params.data_size; ++i)
+    {
+        switch (jump_table_params.data[i])
         {
         case 0:
             ++count[0];
@@ -114,108 +157,108 @@ void jump_table_switch(
     }
 }
 
-void jump_table_ifelse(
-    const JT_params_t JT_params, 
-    const std::vector<uint8_t>& data,
-    std::vector<uint8_t>& count
+void jump_table_test_ifelse(
+    const jump_table_params_t& jump_table_params
 )
 {
-    for(uint16_t i = 0; i < JT_params.vector_size; ++i)
+    std::vector<uint16_t> count(SEPARATORS_COUNT, 0);
+
+    for(uint16_t i = 0; i < jump_table_params.data_size; ++i)
     {
-        if (data[i] == 17) {
+        if (jump_table_params.data[i] == 17) {
             ++count[17];
         }
-        else if (data[i] == 3) {
+        else if (jump_table_params.data[i] == 3) {
             ++count[3];
         }
-        else if (data[i] == 29) {
+        else if (jump_table_params.data[i] == 29) {
             ++count[29];
         }
-        else if (data[i] == 0) {
+        else if (jump_table_params.data[i] == 0) {
             ++count[0];
         }
-        else if (data[i] == 11) {
+        else if (jump_table_params.data[i] == 11) {
             ++count[11];
         }
-        else if (data[i] == 24) {
+        else if (jump_table_params.data[i] == 24) {
             ++count[24];
         }
-        else if (data[i] == 8) {
+        else if (jump_table_params.data[i] == 8) {
             ++count[8];
         }
-        else if (data[i] == 5) {
+        else if (jump_table_params.data[i] == 5) {
             ++count[5];
         }
-        else if (data[i] == 14) {
+        else if (jump_table_params.data[i] == 14) {
             ++count[14];
         }
-        else if (data[i] == 1) {
+        else if (jump_table_params.data[i] == 1) {
             ++count[1];
         }
-        else if (data[i] == 20) {
+        else if (jump_table_params.data[i] == 20) {
             ++count[20];
         }
-        else if (data[i] == 26) {
+        else if (jump_table_params.data[i] == 26) {
             ++count[26];
         }
-        else if (data[i] == 9) {
+        else if (jump_table_params.data[i] == 9) {
             ++count[9];
         }
-        else if (data[i] == 31) {
+        else if (jump_table_params.data[i] == 31) {
             ++count[31];
         }
-        else if (data[i] == 6) {
+        else if (jump_table_params.data[i] == 6) {
             ++count[6];
         }
-        else if (data[i] == 18) {
+        else if (jump_table_params.data[i] == 18) {
             ++count[18];
         }
-        else if (data[i] == 2) {
+        else if (jump_table_params.data[i] == 2) {
             ++count[2];
         }
-        else if (data[i] == 22) {
+        else if (jump_table_params.data[i] == 22) {
             ++count[22];
         }
-        else if (data[i] == 30) {
+        else if (jump_table_params.data[i] == 30) {
             ++count[30];
         }
-        else if (data[i] == 15) {
+        else if (jump_table_params.data[i] == 15) {
             ++count[15];
         }
-        else if (data[i] == 7) {
+        else if (jump_table_params.data[i] == 7) {
             ++count[7];
         }
-        else if (data[i] == 12) {
+        else if (jump_table_params.data[i] == 12) {
             ++count[12];
         }
-        else if (data[i] == 21) {
+        else if (jump_table_params.data[i] == 21) {
             ++count[21];
         }
-        else if (data[i] == 10) {
+        else if (jump_table_params.data[i] == 10) {
             ++count[10];
         }
-        else if (data[i] == 4) {
+        else if (jump_table_params.data[i] == 4) {
             ++count[4];
         }
-        else if (data[i] == 16) {
+        else if (jump_table_params.data[i] == 16) {
             ++count[16];
         }
-        else if (data[i] == 19) {
+        else if (jump_table_params.data[i] == 19) {
             ++count[19];
         }
-        else if (data[i] == 28) {
+        else if (jump_table_params.data[i] == 28) {
             ++count[28];
         }
-        else if (data[i] == 23) {
+        else if (jump_table_params.data[i] == 23) {
             ++count[23];
         }
-        else if (data[i] == 25) {
+        else if (jump_table_params.data[i] == 25) {
             ++count[25];
         }
-        else if (data[i] == 27) {
+        else if (jump_table_params.data[i] == 27) {
             ++count[27];
         }
-        else if (data[i] == 13) {
+        else if (jump_table_params.data[i] == 13) {
             ++count[13];
         }
         else {

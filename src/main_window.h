@@ -17,7 +17,7 @@ public:
 
 private slots:
     void openPTWindow();
-    void openJTWindow();
+    void openJumpTableWindow();
 
 private:
     QPushButton *openButton;

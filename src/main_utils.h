@@ -11,11 +11,16 @@
 #include <cstdlib>
 #include <ctime>
 
+/// Size of the data buffer (number of elements)
 #define DATA_SIZE                   256
+
+/// Maximum value range for data elements
 #define DATA_RANGE                  512
 
+/// Number of separator thresholds used in processing
 #define SEPARATORS_COUNT            32
 
+/// Number of times the test/algorithm should run
 #define RUN_COUNT                   100
 
 using namespace std::chrono;

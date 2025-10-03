@@ -8,10 +8,10 @@
 
 class QPushButton;
 
-class JTWindow : public QMainWindow {
+class JumpTableWindow : public QMainWindow {
     Q_OBJECT
 public:
-    JTWindow(QWidget *parent = nullptr);
+    JumpTableWindow(QWidget *parent = nullptr);
 
 private slots:
     void runTest();
@@ -20,7 +20,7 @@ private:
     QPushButton *runButton;
     QTextEdit  *outputBox;
 
-    QSpinBox *spinVectorSize;
+    QSpinBox *spinDataSize;
     QSpinBox *spinRunCount;
 
     void printResult(const QString &text);  // helper to print to QTextEdit and console

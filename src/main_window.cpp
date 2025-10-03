@@ -25,7 +25,7 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     QPushButton *jumpTableButton = new QPushButton("Open Jump Table Test", this);
     jumpTableButton->setFixedSize(200, 40);
     mainLayout->addWidget(jumpTableButton, 0, Qt::AlignHCenter);
-    connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJTWindow);
+    connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJumpTableWindow);
 
     // Optional: add stretch to push buttons slightly up
     mainLayout->addStretch();
@@ -40,8 +40,8 @@ void MainMenuWindow::openPTWindow()
     ptWindow->show();
 }
 
-void MainMenuWindow::openJTWindow()
+void MainMenuWindow::openJumpTableWindow()
 {
-    JTWindow *jtWindow = new JTWindow(this); // create JT window
-    jtWindow->show();
+    JumpTableWindow *jump_tableWindow = new JumpTableWindow(this); // create JumpTable window
+    jump_tableWindow->show();
 }

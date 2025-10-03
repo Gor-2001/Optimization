@@ -13,45 +13,19 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 
     connect(openButton, &QPushButton::clicked, this, [this]() {
         InfoWindow *info = new InfoWindow("Prediction Test Info",
-                                        "src/prediction/prediction_info",
-                                        this);
+                                          "src/prediction/prediction_info",
+                                          this);
         info->show();
     });
 
     // Spin boxes layout
     auto *paramsLayout = new QHBoxLayout();
 
-    // DATA_SIZE
-    auto *labelVectorSize = new QLabel("DATA_SIZE:", this);
-    spinVectorSize = new QSpinBox(this);
-    spinVectorSize->setRange(1, 65536);
-    spinVectorSize->setValue(DATA_SIZE);  // default
-    paramsLayout->addWidget(labelVectorSize);
-    paramsLayout->addWidget(spinVectorSize);
-
-    // SEPARATORS_COUNT
-    auto *labelSeparators = new QLabel("SEPARATORS_COUNT:", this);
-    spinSeparators = new QSpinBox(this);
-    spinSeparators->setRange(1, 65536);
-    spinSeparators->setValue(SEPARATORS_COUNT);  // default
-    paramsLayout->addWidget(labelSeparators);
-    paramsLayout->addWidget(spinSeparators);
-
-    // RUN_COUNT
-    auto *labelRunCount = new QLabel("RUN_COUNT:", this);
-    spinRunCount = new QSpinBox(this);
-    spinRunCount->setRange(1, 65536);
-    spinRunCount->setValue(RUN_COUNT);  // default
-    paramsLayout->addWidget(labelRunCount);
-    paramsLayout->addWidget(spinRunCount);
-
-    // DATA_RANGE
-    auto *labelRange = new QLabel("DATA_RANGE:", this);
-    spinRange = new QSpinBox(this);
-    spinRange->setRange(1, 65536);
-    spinRange->setValue(DATA_RANGE);  // probably you meant DATA_RANGE instead of RUN_COUNT
-    paramsLayout->addWidget(labelRange);
-    paramsLayout->addWidget(spinRange);
+    // Use the helper instead of repeating code
+    spinDataSize   = addLabeledSpinBox(paramsLayout, "DATA_SIZE:",        DATA_SIZE, this);
+    spinSeparators = addLabeledSpinBox(paramsLayout, "SEPARATORS_COUNT:", SEPARATORS_COUNT, this);
+    spinRunCount   = addLabeledSpinBox(paramsLayout, "RUN_COUNT:",        RUN_COUNT, this);
+    spinRange      = addLabeledSpinBox(paramsLayout, "DATA_RANGE:",       DATA_RANGE, this);
 
     mainLayout->addLayout(paramsLayout);
 
@@ -74,6 +48,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 }
 
 
+
 // Helper: print to both QTextEdit and console
 void PredictionWindow::printResult(const QString &text)
 {
@@ -90,7 +65,7 @@ void PredictionWindow::runTest()
     uint16_t run_count;
 
     // Update global parameters from UI
-    data_size = static_cast<uint16_t>(spinVectorSize->value());
+    data_size = static_cast<uint16_t>(spinDataSize->value());
     separators_count = static_cast<uint16_t>(spinSeparators->value());
     run_count = static_cast<uint16_t>(spinRunCount->value());
     range = static_cast<uint16_t>(spinRunCount->value());
