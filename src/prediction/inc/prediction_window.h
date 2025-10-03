@@ -3,6 +3,7 @@
 #ifndef PREDICTION_WINDOW_H
 #define PREDICTION_WINDOW_H
 
+#include "prediction_test.h"
 #include "../../info/info_window.h"
 
 class QPushButton;

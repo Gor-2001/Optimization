@@ -5,10 +5,6 @@
 
 #include "../../main_utils.h"
 
-#define VECTOR_SIZE         256
-#define RUN_COUNT           100
-#define SEPARATORS_COUNT    32
-
 struct JT_params_t {
     uint16_t vector_size;
     uint16_t run_count;

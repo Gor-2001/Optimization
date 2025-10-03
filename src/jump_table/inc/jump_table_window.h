@@ -4,6 +4,7 @@
 #define JP_WINDOW_H
 
 #include "../../info/info_window.h"
+#include "jump_table_test.h"
 
 class QPushButton;
 

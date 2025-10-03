@@ -1,7 +1,6 @@
 // jump_table_window.cpp
 
 #include "../inc/jump_table_window.h"
-#include "../inc/jump_table_test.h"
 
 
 JTWindow::JTWindow(QWidget *parent)
@@ -24,11 +23,11 @@ JTWindow::JTWindow(QWidget *parent)
     // Spin boxes layout
     auto *paramsLayout = new QHBoxLayout();
 
-    // VECTOR_SIZE
-    auto *labelVectorSize = new QLabel("VECTOR_SIZE:", this);
+    // DATA_SIZE
+    auto *labelVectorSize = new QLabel("DATA_SIZE:", this);
     spinVectorSize = new QSpinBox(this);
     spinVectorSize->setRange(1, 65536);
-    spinVectorSize->setValue(VECTOR_SIZE);  // default
+    spinVectorSize->setValue(DATA_SIZE);  // default
     paramsLayout->addWidget(labelVectorSize);
     paramsLayout->addWidget(spinVectorSize);
 

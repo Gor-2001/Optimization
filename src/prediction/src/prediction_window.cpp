@@ -1,6 +1,5 @@
 // prediction_window.cpp
 #include "../inc/prediction_window.h"
-#include "../inc/prediction_test.h"
 
 PredictionWindow::PredictionWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,11 +21,11 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     // Spin boxes layout
     auto *paramsLayout = new QHBoxLayout();
 
-    // VECTOR_SIZE
-    auto *labelVectorSize = new QLabel("VECTOR_SIZE:", this);
+    // DATA_SIZE
+    auto *labelVectorSize = new QLabel("DATA_SIZE:", this);
     spinVectorSize = new QSpinBox(this);
     spinVectorSize->setRange(1, 65536);
-    spinVectorSize->setValue(VECTOR_SIZE);  // default
+    spinVectorSize->setValue(DATA_SIZE);  // default
     paramsLayout->addWidget(labelVectorSize);
     paramsLayout->addWidget(spinVectorSize);
 
@@ -46,11 +45,11 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     paramsLayout->addWidget(labelRunCount);
     paramsLayout->addWidget(spinRunCount);
 
-    // NUMBERS_RANGE
-    auto *labelRange = new QLabel("NUMBERS_RANGE:", this);
+    // DATA_RANGE
+    auto *labelRange = new QLabel("DATA_RANGE:", this);
     spinRange = new QSpinBox(this);
     spinRange->setRange(1, 65536);
-    spinRange->setValue(RANGE);  // probably you meant NUMBERS_RANGE instead of RUN_COUNT
+    spinRange->setValue(DATA_RANGE);  // probably you meant DATA_RANGE instead of RUN_COUNT
     paramsLayout->addWidget(labelRange);
     paramsLayout->addWidget(spinRange);
 

@@ -11,10 +11,14 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace std::chrono;
+#define DATA_SIZE                   256
+#define DATA_RANGE                  512
 
-#define WINDOW_WIDTH    800
-#define WINDOW_HEIGHT   600
+#define SEPARATORS_COUNT            32
+
+#define RUN_COUNT                   100
+
+using namespace std::chrono;
 
 template <typename T>
 std::vector<T> random_vector_generation(

@@ -16,7 +16,8 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include "../main_utils.h"
+#define WINDOW_WIDTH    800
+#define WINDOW_HEIGHT   600
 
 class InfoWindow : public QMainWindow {
     Q_OBJECT
