@@ -5,6 +5,7 @@
 
 #include "prediction/inc/prediction_window.h"
 #include "jump_table/inc/jump_table_window.h"
+#include "packaging/inc/packaging_window.h"
 
 class QPushButton;
 
@@ -18,6 +19,7 @@ public:
 private slots:
     void openPredictionWindow();
     void openJumpTableWindow();
+    void openPackagingWindow();
 
 private:
     QPushButton *openButton;
