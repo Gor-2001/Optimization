@@ -22,8 +22,6 @@ private:
 
     QSpinBox *spinDataSize;
     QSpinBox *spinRunCount;
-
-    void printResult(const QString &text);  // helper to print to QTextEdit and console
 };
 
 #endif // JP_WINDOW_H

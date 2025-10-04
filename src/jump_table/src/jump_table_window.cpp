@@ -48,14 +48,6 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
     connect(runButton, &QPushButton::clicked, this, &JumpTableWindow::runTest);
 }
 
-
-// Helper: print to both QTextEdit and console
-void JumpTableWindow::printResult(const QString &text)
-{
-    outputBox->append(text);
-    qDebug() << text;
-}
-
 // Run Prediction test
 void JumpTableWindow::runTest()
 {
@@ -69,13 +61,17 @@ void JumpTableWindow::runTest()
     microseconds duration{0};
 
     duration = jump_table_test(jump_table_test_switch, data_size, DATA_RANGE, run_count);
-    printResult(QString("%1 : %2 microseconds")
+    printToOutput(
+        outputBox,
+        QString("%1 : %2 microseconds")
         .arg("SWITCH\t")
         .arg(duration.count(), 10)
     );
     
     duration = jump_table_test(jump_table_test_ifelse, data_size, DATA_RANGE, run_count);
-    printResult(QString("%1 : %2 microseconds")
+    printToOutput(
+        outputBox,
+        QString("%1 : %2 microseconds")
         .arg("IFELSE\t")
         .arg(duration.count(), 10)
     );

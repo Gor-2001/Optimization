@@ -25,8 +25,6 @@ private:
     QSpinBox *spinSeparators;
     QSpinBox *spinRunCount;
     QSpinBox *spinRange;
-
-    void printResult(const QString &text);  // helper to print to QTextEdit and console
 };
 
 #endif // PREDICTION_WINDOW_H

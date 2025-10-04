@@ -38,7 +38,8 @@ InfoWindow::InfoWindow(const QString &title,
     setCentralWidget(central);
 }
 
-QSpinBox* addLabeledSpinBox(
+QSpinBox* 
+addLabeledSpinBox(
     QBoxLayout* layout,
     const QString& labelText,
     int defaultValue,
@@ -56,5 +57,18 @@ QSpinBox* addLabeledSpinBox(
     layout->addWidget(spin);
 
     return spin;
+}
+
+void
+printToOutput(
+    QTextEdit* outputBox,
+    const QString& text
+)
+{
+    if (!outputBox)
+        return;
+
+    outputBox->append(text);
+    qDebug() << text;
 }
 

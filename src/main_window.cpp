@@ -19,7 +19,7 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     QPushButton *predictionButton = new QPushButton("Open Prediction Test", this);
     predictionButton->setFixedSize(200, 40);
     mainLayout->addWidget(predictionButton, 0, Qt::AlignHCenter);
-    connect(predictionButton, &QPushButton::clicked, this, &MainMenuWindow::openPTWindow);
+    connect(predictionButton, &QPushButton::clicked, this, &MainMenuWindow::openPredictionWindow);
 
     // Button: Jump Table Test
     QPushButton *jumpTableButton = new QPushButton("Open Jump Table Test", this);
@@ -34,7 +34,7 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
 }
 
 
-void MainMenuWindow::openPTWindow()
+void MainMenuWindow::openPredictionWindow()
 {
     PredictionWindow *ptWindow = new PredictionWindow(this); // create PT window
     ptWindow->show();

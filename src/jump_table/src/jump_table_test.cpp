@@ -2,6 +2,8 @@
 
 #include "../inc/jump_table_test.h"
 
+/// Number of separator thresholds used in processing
+#define SEPARATORS_COUNT_JT         32
 
 microseconds    
 jump_table_test(
@@ -49,7 +51,7 @@ void jump_table_test_switch(
     const jump_table_params_t& jump_table_params
 )
 {
-    std::vector<uint16_t> count(SEPARATORS_COUNT, 0);
+    std::vector<uint16_t> count(SEPARATORS_COUNT_JT, 0);
 
     for(uint16_t i = 0; i < jump_table_params.data_size; ++i)
     {
@@ -161,7 +163,7 @@ void jump_table_test_ifelse(
     const jump_table_params_t& jump_table_params
 )
 {
-    std::vector<uint16_t> count(SEPARATORS_COUNT, 0);
+    std::vector<uint16_t> count(SEPARATORS_COUNT_JT, 0);
 
     for(uint16_t i = 0; i < jump_table_params.data_size; ++i)
     {

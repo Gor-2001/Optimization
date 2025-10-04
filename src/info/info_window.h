@@ -31,13 +31,20 @@ private:
     QTextEdit *outputBox;
 };
 
-QSpinBox* addLabeledSpinBox(
+QSpinBox* 
+addLabeledSpinBox(
     QBoxLayout* layout,
     const QString& labelText,
     int defaultValue,
     QWidget* parent,
     uint16_t min = 1,
     uint16_t max = 65535
+);
+
+void
+printToOutput(
+    QTextEdit* outputBox,
+    const QString& text
 );
 
 #endif // INFO_WINDOW_H

@@ -17,9 +17,6 @@
 /// Maximum value range for data elements
 #define DATA_RANGE                  512
 
-/// Number of separator thresholds used in processing
-#define SEPARATORS_COUNT            32
-
 /// Number of times the test/algorithm should run
 #define RUN_COUNT                   100
 

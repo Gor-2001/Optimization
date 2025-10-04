@@ -5,6 +5,8 @@
 
 #include "../../main_utils.h"
 
+#define SEPARATORS_COUNT_PRED 256
+
 struct prediction_params_t {
     std::vector<uint16_t> data;
     uint16_t data_size;

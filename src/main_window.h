@@ -16,7 +16,7 @@ public:
     MainMenuWindow(QWidget *parent = nullptr);
 
 private slots:
-    void openPTWindow();
+    void openPredictionWindow();
     void openJumpTableWindow();
 
 private:

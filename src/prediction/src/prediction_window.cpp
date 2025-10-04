@@ -23,7 +23,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 
     // Use the helper instead of repeating code
     spinDataSize   = addLabeledSpinBox(paramsLayout, "DATA_SIZE:",        DATA_SIZE, this);
-    spinSeparators = addLabeledSpinBox(paramsLayout, "SEPARATORS_COUNT:", SEPARATORS_COUNT, this);
+    spinSeparators = addLabeledSpinBox(paramsLayout, "SEPARATORS_COUNT:", SEPARATORS_COUNT_PRED, this);
     spinRunCount   = addLabeledSpinBox(paramsLayout, "RUN_COUNT:",        RUN_COUNT, this);
     spinRange      = addLabeledSpinBox(paramsLayout, "DATA_RANGE:",       DATA_RANGE, this);
 
@@ -47,15 +47,6 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     connect(runButton, &QPushButton::clicked, this, &PredictionWindow::runTest);
 }
 
-
-
-// Helper: print to both QTextEdit and console
-void PredictionWindow::printResult(const QString &text)
-{
-    outputBox->append(text);
-    qDebug() << text;
-}
-
 // Run Prediction test
 void PredictionWindow::runTest()
 {
@@ -72,13 +63,17 @@ void PredictionWindow::runTest()
     microseconds duration{0};
 
     duration = prediction_test(prediction_test_unsorted, data_size, separators_count, range, run_count);
-    printResult(QString("%1 : %2 microseconds")
+    printToOutput(
+        outputBox, 
+        QString("%1 : %2 microseconds")
         .arg("UNSORTED\t")
         .arg(duration.count(), 10)
     );
 
     duration = prediction_test(prediction_test_sorted, data_size, separators_count, range, run_count);
-    printResult(QString("%1 : %2 microseconds")
+    printToOutput(
+        outputBox, 
+        QString("%1 : %2 microseconds")
         .arg("SORTED\t")
         .arg(duration.count(), 10)
     );
