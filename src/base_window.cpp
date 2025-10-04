@@ -155,6 +155,28 @@ BaseWindow::runTest()
 
     for(uint16_t i = 0; i < testCount; ++i)
     {
+
+        //duration = packaging_test(packaging_test_unsorted, data_size, separators_count, range, run_count);
+        // microseconds    
+        // packaging_test(
+        //     void (*packaging_test_sub)(const packaging_params_t&),
+        //     uint16_t data_size,
+        //     uint16_t separators_count,
+        //     uint16_t range,
+        //     uint16_t run_count
+        // );
+
+
+        //duration = jump_table_test(jump_table_test_switch, data_size, DATA_RANGE, run_count);
+        // microseconds    
+        // jump_table_test(
+        //     void (*jump_table_test_sub)(const jump_table_params_t&),
+        //     uint16_t data_size,
+        //     uint16_t range,
+        //     uint16_t run_count
+        // );
+
+
         printToOutput(
             outputBox, 
             QString("%1 : %2 microseconds")
