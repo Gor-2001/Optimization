@@ -17,12 +17,13 @@ private slots:
     void runTest();
 
 private:
-    QPushButton *runButton;
-    QTextEdit   *outputBox;
-    QPushButton *openButton;
 
-    QSpinBox *spinDataSize;
-    QSpinBox *spinRunCount;
+    QPushButton *runButton;
+    QPushButton *openButton;
+    QTextEdit   *outputBox;
+
+    QSpinBox    *spinDataSize;
+    QSpinBox    *spinRunCount;
 };
 
 #endif // JP_WINDOW_H

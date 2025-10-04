@@ -17,14 +17,15 @@ private slots:
     void runTest();
 
 private:
+
     QPushButton *runButton;
     QPushButton *openButton;
-    QTextEdit  *outputBox;
+    QTextEdit   *outputBox;
 
-    QSpinBox *spinDataSize;
-    QSpinBox *spinSeparators;
-    QSpinBox *spinRunCount;
-    QSpinBox *spinRange;
+    QSpinBox    *spinDataSize;
+    QSpinBox    *spinSeparators;
+    QSpinBox    *spinRunCount;
+    QSpinBox    *spinRange;
 };
 
 #endif // PREDICTION_WINDOW_H
