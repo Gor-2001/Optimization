@@ -17,6 +17,9 @@ add_executable(optimization
     src/main_window.h
     src/main_utils.h
 
+    src/base_window.h
+    src/base_window.cpp
+
     src/prediction/src/prediction_window.cpp
     src/prediction/src/prediction_test.cpp
     src/prediction/inc/prediction_window.h

@@ -5,27 +5,16 @@
 
 #include "prediction_test.h"
 #include "../../info/info_window.h"
+#include "../../base_window.h"
 
 class QPushButton;
 
-class PredictionWindow : public QMainWindow {
+class PredictionWindow : public BaseWindow {
     Q_OBJECT
 public:
     PredictionWindow(QWidget *parent = nullptr);
 
-private slots:
-    void runTest();
-
 private:
-
-    QPushButton *runButton;
-    QPushButton *openButton;
-    QTextEdit   *outputBox;
-
-    QSpinBox    *spinDataSize;
-    QSpinBox    *spinSeparators;
-    QSpinBox    *spinRunCount;
-    QSpinBox    *spinRange;
 };
 
 #endif // PREDICTION_WINDOW_H
