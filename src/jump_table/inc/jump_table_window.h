@@ -18,7 +18,8 @@ private slots:
 
 private:
     QPushButton *runButton;
-    QTextEdit  *outputBox;
+    QTextEdit   *outputBox;
+    QPushButton *openButton;
 
     QSpinBox *spinDataSize;
     QSpinBox *spinRunCount;

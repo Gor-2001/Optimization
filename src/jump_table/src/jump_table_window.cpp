@@ -9,7 +9,7 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
     auto *mainLayout = new QVBoxLayout(central);  // only ONE main layout
 
     // Button to open Info Window
-    QPushButton *openButton = new QPushButton("Open Info Window", this);
+    auto openButton = new QPushButton("Open Info Window", this);
     mainLayout->addWidget(openButton);
 
     connect(openButton, &QPushButton::clicked, this, [this]() {
