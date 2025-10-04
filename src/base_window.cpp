@@ -57,21 +57,43 @@ BaseWindow::setRunTitle(const std::string& run_title) {
     runTitle = std::move(run_title);
 }
 
-void 
-BaseWindow::drawInfoButton() {
-    // Button to open Info Window
+void BaseWindow::drawInfoButton() {
+
     openButton = new QPushButton("Open Info Window", this);
     mainLayout->addWidget(openButton);
 
     connect(openButton, &QPushButton::clicked, this, [this]() {
-        InfoWindow* info = new InfoWindow(
-            QString::fromStdString(this->infoTitle),
-            QString::fromStdString(this->infoPath),
-            this
-        );
-        info->show();
+        // Create a new dialog window
+        QDialog* infoDialog = new QDialog(this);
+        infoDialog->setWindowTitle(QString::fromStdString(infoTitle));
+        infoDialog->resize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        QVBoxLayout* layout = new QVBoxLayout(infoDialog);
+
+        QTextEdit* textBox = new QTextEdit(infoDialog);
+        textBox->setReadOnly(true);
+        layout->addWidget(textBox);
+
+        // Load file content if path is provided
+        if (!infoPath.empty()) {
+            QFile file(QString::fromStdString(infoPath));
+            QFileInfo fi(file);
+
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QTextStream in(&file);
+                textBox->setPlainText(in.readAll());
+            } else {
+                QString errMsg = "Failed to open file:\n" + fi.absoluteFilePath()
+                                 + "\nReason: " + file.errorString();
+                textBox->setPlainText(errMsg);
+                qDebug() << errMsg;
+            }
+        }
+
+        infoDialog->exec(); // show as modal window
     });
 }
+
 
 void
 BaseWindow::drawSpinVariableButtons() {
@@ -142,4 +164,37 @@ BaseWindow::runTest()
     }
 }
 
+void
+BaseWindow::printToOutput(
+    QTextEdit* outputBox,
+    const QString& text
+)
+{
+    if (!outputBox)
+        return;
 
+    outputBox->append(text);
+    qDebug() << text;
+}
+
+QSpinBox* 
+BaseWindow::addLabeledSpinBox(
+    QBoxLayout* layout,
+    const QString& labelText,
+    int defaultValue,
+    QWidget* parent,
+    uint16_t min,
+    uint16_t max
+) 
+{
+    auto* label = new QLabel(labelText, parent);
+    auto* spin  = new QSpinBox(parent);
+
+    spin->setRange(min, max);
+    spin->setValue(defaultValue);
+
+    layout->addWidget(label);
+    layout->addWidget(spin);
+
+    return spin;
+}

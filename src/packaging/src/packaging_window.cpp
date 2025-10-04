@@ -22,10 +22,10 @@ PackagingWindow::PackagingWindow(QWidget *parent)
     auto *paramsLayout = new QHBoxLayout();
 
     // Use the helper instead of repeating code
-    spinDataSize   = addLabeledSpinBox(paramsLayout, "DATA_SIZE:",        DATA_SIZE, this);
-    spinSeparators = addLabeledSpinBox(paramsLayout, "SEPARATORS_COUNT:", SEPARATORS_COUNT_PACK, this);
-    spinRunCount   = addLabeledSpinBox(paramsLayout, "RUN_COUNT:",        RUN_COUNT, this);
-    spinRange      = addLabeledSpinBox(paramsLayout, "DATA_RANGE:",       DATA_RANGE, this);
+    spinDataSize   = addLabeledSpinBox0(paramsLayout, "DATA_SIZE:",        DATA_SIZE, this);
+    spinSeparators = addLabeledSpinBox0(paramsLayout, "SEPARATORS_COUNT:", SEPARATORS_COUNT_PACK, this);
+    spinRunCount   = addLabeledSpinBox0(paramsLayout, "RUN_COUNT:",        RUN_COUNT, this);
+    spinRange      = addLabeledSpinBox0(paramsLayout, "DATA_RANGE:",       DATA_RANGE, this);
 
     mainLayout->addLayout(paramsLayout);
 
@@ -64,7 +64,7 @@ PackagingWindow::runTest()
     microseconds duration{0};
 
     duration = packaging_test(packaging_test_unsorted, data_size, separators_count, range, run_count);
-    printToOutput(
+    printToOutput0(
         outputBox, 
         QString("%1 : %2 microseconds")
         .arg("UNSORTED\t")
@@ -72,7 +72,7 @@ PackagingWindow::runTest()
     );
 
     duration = packaging_test(packaging_test_sorted, data_size, separators_count, range, run_count);
-    printToOutput(
+    printToOutput0(
         outputBox, 
         QString("%1 : %2 microseconds")
         .arg("SORTED\t")

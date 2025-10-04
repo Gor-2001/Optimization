@@ -3,7 +3,22 @@
 #ifndef BASE_WINDOW_H
 #define BASE_WINDOW_H
 
-#include "info/info_window.h"
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QTextEdit>
+#include <QFile>
+#include <QFileInfo>
+#include <QTextStream>
+#include <QDebug>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QWidget>
+#include <QMainWindow>
+#include <QPushButton>
+#include <QApplication>
+
+#define WINDOW_WIDTH    800
+#define WINDOW_HEIGHT   600
 
 class QPushButton;
 
@@ -56,6 +71,18 @@ private:
     uint16_t testCount;
     std::vector<std::string> testNames;
 
+    void printToOutput(QTextEdit* outputBox, const QString& text);
+
+    QSpinBox* addLabeledSpinBox(
+        QBoxLayout* layout,
+        const QString& labelText,
+        int defaultValue,
+        QWidget* parent,
+        uint16_t min = 1,
+        uint16_t max = 65535
+    );
+
 };
 
 #endif // BASE_WINDOW_H
+

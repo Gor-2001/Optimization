@@ -23,10 +23,10 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
     auto *paramsLayout = new QHBoxLayout();
 
     // DATA_SIZE
-    spinDataSize = addLabeledSpinBox(paramsLayout, "DATA_SIZE:", DATA_SIZE, this);
+    spinDataSize = addLabeledSpinBox0(paramsLayout, "DATA_SIZE:", DATA_SIZE, this);
 
     // RUN_COUNT
-    spinRunCount = addLabeledSpinBox(paramsLayout, "RUN_COUNT:", RUN_COUNT, this);
+    spinRunCount = addLabeledSpinBox0(paramsLayout, "RUN_COUNT:", RUN_COUNT, this);
 
     mainLayout->addLayout(paramsLayout);
 
@@ -61,7 +61,7 @@ void JumpTableWindow::runTest()
     microseconds duration{0};
 
     duration = jump_table_test(jump_table_test_switch, data_size, DATA_RANGE, run_count);
-    printToOutput(
+    printToOutput0(
         outputBox,
         QString("%1 : %2 microseconds")
         .arg("SWITCH\t")
@@ -69,7 +69,7 @@ void JumpTableWindow::runTest()
     );
     
     duration = jump_table_test(jump_table_test_ifelse, data_size, DATA_RANGE, run_count);
-    printToOutput(
+    printToOutput0(
         outputBox,
         QString("%1 : %2 microseconds")
         .arg("IFELSE\t")

@@ -28,7 +28,6 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     setInfoPath("src/prediction/prediction_info");
     setRunTitle("Run Prediction Test");
 
-
     drawInfoButton();
     drawSpinVariableButtons();
     drawRunButton();
@@ -36,7 +35,6 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 
     setTestCount(2);
     setTestNames({"UNSORTED\t", "SORTED\t"});
-
     setupWindow();
 }
 

@@ -39,7 +39,7 @@ InfoWindow::InfoWindow(const QString &title,
 }
 
 QSpinBox* 
-addLabeledSpinBox(
+addLabeledSpinBox0(
     QBoxLayout* layout,
     const QString& labelText,
     int defaultValue,
@@ -60,7 +60,7 @@ addLabeledSpinBox(
 }
 
 void
-printToOutput(
+printToOutput0(
     QTextEdit* outputBox,
     const QString& text
 )
