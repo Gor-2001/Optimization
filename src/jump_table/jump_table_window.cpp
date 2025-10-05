@@ -7,18 +7,20 @@
 JumpTableWindow::JumpTableWindow(QWidget *parent)
     : BaseWindow(parent)
 {
-    const uint16_t runCount     = 100;
+    // Variables that may change during execution (mutable, e.g., loop/spine-related)
+    const uint16_t runCount    = 100;
+    const uint16_t sampleSize  = 256;
 
-    const uint16_t sampleSize   = 256;
-    const uint16_t sampleRange  = 32;
+    // Variables that remain constant (immutable, not related to loop/spines)
+    const uint16_t sampleRange = 32;
 
-    const uint8_t  varCount     = 2; 
+    const uint8_t  spinCount    = 2; 
     const uint8_t  testCount    = 2;
 
     setCenter();
     setMainLayout();
 
-    setSpinVariablesCount(varCount);
+    setSpinVariablesCount(spinCount);
     setSpinVariables();
 
     setSpinVariableNames({
@@ -83,7 +85,7 @@ JumpTableWindow::test_ifelse(
 )
 {
     std::vector<uint16_t> count(jump_table_params.sample_size, 0);
-    
+
     for(uint16_t i = 0; i < jump_table_params.sample_size; ++i)
     {
         if (jump_table_params.sample[i] == 17) {

@@ -7,18 +7,19 @@
 PredictionWindow::PredictionWindow(QWidget *parent)
     : BaseWindow(parent)
 {
+    // Variables that may change during execution (mutable, e.g., loop/spine-related)
     const uint16_t runCount     = 100;
     const uint16_t sampleSize   = 256;
     const uint16_t sampleRange  = 256;
     const uint16_t bucketCount  = 256;
 
-    const uint8_t  varCount     = 4; 
+    const uint8_t  spinCount    = 4; 
     const uint8_t  testCount    = 2;
 
     setCenter();
     setMainLayout();
 
-    setSpinVariablesCount(varCount);
+    setSpinVariablesCount(spinCount);
     setSpinVariables();
 
     setSpinVariableNames({
