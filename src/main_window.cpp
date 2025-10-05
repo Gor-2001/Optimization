@@ -32,6 +32,12 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     mainLayout->addWidget(jumpTableButton, 0, Qt::AlignHCenter);
     connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJumpTableWindow);
 
+    // Button: Dependency Test
+    QPushButton *dependencyButton = new QPushButton("Open Dependency Test", this);
+    dependencyButton->setFixedSize(buttonWidth, buttonHeight);
+    mainLayout->addWidget(dependencyButton, 0, Qt::AlignHCenter);
+    connect(dependencyButton, &QPushButton::clicked, this, &MainMenuWindow::openDependencyWindow);
+
     // Optional: add stretch to push buttons slightly up
     mainLayout->addStretch();
 
@@ -49,4 +55,10 @@ void MainMenuWindow::openJumpTableWindow()
 {
     JumpTableWindow *jump_tableWindow = new JumpTableWindow(this); // create JumpTable window
     jump_tableWindow->show();
+}
+
+void MainMenuWindow::openDependencyWindow()
+{
+    DependencyWindow *dependencyWindow = new DependencyWindow(this); // create Dependency window
+    dependencyWindow->show();
 }

@@ -16,7 +16,6 @@ struct jump_table_params_t {
 enum jump_table_params_order_t {
     JUMP_RUN_COUNT_INDEX = 0,
     JUMP_SAMPLE_SIZE_INDEX,
-    JUMP_SAMPLE_RANGE_INDEX,
 };
 
 class QPushButton;

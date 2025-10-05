@@ -25,6 +25,9 @@ add_executable(optimization
 
     src/jump_table/jump_table_window.cpp
     src/jump_table/jump_table_window.h
+
+    src/dependency/dependency_window.cpp
+    src/dependency/dependency_window.h
 )
 
 target_link_libraries(optimization Qt5::Widgets)

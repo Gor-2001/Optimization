@@ -67,7 +67,6 @@ PredictionWindow::prediction_params_init(
     const std::vector<uint16_t>& spinVariables
 )
 {
-    std::cout << "kak" << std::endl;
     prediction_params.sample_size = spinVariables[PRED_SAMPLE_SIZE_INDEX];
     prediction_params.sample_range = spinVariables[PRED_SAMPLE_RANGE_INDEX];
     prediction_params.buckets_count = spinVariables[PRED_BUCKET_COUNT_INDEX];
