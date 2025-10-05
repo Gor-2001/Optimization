@@ -33,11 +33,12 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
         sampleSize
     });
 
-    jump_table_params_t jump_table_params;
-    jump_table_params_init(jump_table_params, sampleSize, sampleRange);
     setParam(jump_table_params);
+    setInitFunction<jump_table_params_t>(JumpTableWindow::jump_table_params_init);
+
     setGenFunction<jump_table_params_t>(JumpTableWindow::sample_gen);
     setRunCount(runCount);
+    setRunCountIndex(JUMP_RUN_COUNT_INDEX);
 
     setInfoTitle("Jump Table Test Info");
     setInfoPath("src/jump_table/jump_table_info");
@@ -60,12 +61,11 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
 void 
 JumpTableWindow::jump_table_params_init(
     jump_table_params_t& jump_table_params, 
-    const uint16_t sample_size,
-    const uint16_t sample_range
+    const std::vector<uint16_t>& spinVariables
 )
 {
-    jump_table_params.sample_size = sample_size;
-    jump_table_params.sample_range = sample_range;
+    jump_table_params.sample_size = spinVariables[JUMP_SAMPLE_SIZE_INDEX];
+    jump_table_params.sample_range = spinVariables[JUMP_SAMPLE_RANGE_INDEX];
 }
 
 void 

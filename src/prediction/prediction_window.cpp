@@ -41,7 +41,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 
     setGenFunction<prediction_params_t>(PredictionWindow::sample_gen);
     setRunCount(runCount);
-    setRunCountIndex(runCountIndexPred);
+    setRunCountIndex(PRED_RUN_COUNT_INDEX);
 
     setInfoTitle("Prediction Test Info");
     setInfoPath("src/prediction/prediction_info");
@@ -68,9 +68,9 @@ PredictionWindow::prediction_params_init(
 )
 {
     std::cout << "kak" << std::endl;
-    prediction_params.sample_size = spinVariables[sampleSizeIndex];
-    prediction_params.buckets_count = spinVariables[bucketCountIndex];
-    prediction_params.sample_range = spinVariables[sampleRangeIndex];
+    prediction_params.sample_size = spinVariables[PRED_SAMPLE_SIZE_INDEX];
+    prediction_params.sample_range = spinVariables[PRED_SAMPLE_RANGE_INDEX];
+    prediction_params.buckets_count = spinVariables[PRED_BUCKET_COUNT_INDEX];
 }
 
 void 

@@ -13,6 +13,12 @@ struct jump_table_params_t {
     uint16_t sample_range;
 };
 
+enum jump_table_params_order_t {
+    JUMP_RUN_COUNT_INDEX = 0,
+    JUMP_SAMPLE_SIZE_INDEX,
+    JUMP_SAMPLE_RANGE_INDEX,
+};
+
 class QPushButton;
 
 class JumpTableWindow : public BaseWindow {
@@ -21,20 +27,20 @@ public:
     JumpTableWindow(QWidget *parent = nullptr);
 
 private:
-    jump_table_params_t test_params;
-
-    void 
-    jump_table_params_init(
-        jump_table_params_t& test_params,
-        const uint16_t sample_size,
-        const uint16_t sample_range
-    );
+    jump_table_params_t jump_table_params;
 
     using BaseWindow::BaseWindow;
-    static void sample_gen(jump_table_params_t& test_params);
 
-    static void test_ifelse(jump_table_params_t& test_params);
-    static void test_switch(jump_table_params_t& test_params);
+    static void 
+    jump_table_params_init(
+        jump_table_params_t& jump_table_params,
+        const std::vector<uint16_t>& spinVariables
+    );
+
+    static void sample_gen(jump_table_params_t& jump_table_params);
+
+    static void test_ifelse(jump_table_params_t& jump_table_params);
+    static void test_switch(jump_table_params_t& jump_table_params);
 
 };
 

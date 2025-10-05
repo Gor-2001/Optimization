@@ -17,10 +17,10 @@ struct prediction_params_t {
 };
 
 enum prediction_params_order_t {
-    runCountIndexPred = 0,
-    sampleSizeIndex = 1,
-    sampleRangeIndex = 2,
-    bucketCountIndex = 3,
+    PRED_RUN_COUNT_INDEX = 0,
+    PRED_SAMPLE_SIZE_INDEX,
+    PRED_SAMPLE_RANGE_INDEX,
+    PRED_BUCKET_COUNT_INDEX,
 };
 
 class QPushButton;
