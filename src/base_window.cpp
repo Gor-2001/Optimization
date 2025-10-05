@@ -5,22 +5,13 @@
 /***************************************/
 
 BaseWindow::BaseWindow(QWidget* parent)
-    : QMainWindow(parent), central(nullptr), mainLayout(nullptr),
+    : QMainWindow(parent), central(new QWidget(this)), mainLayout(new QVBoxLayout(central)),
       runButton(nullptr), openButton(nullptr),
       spinVariablesCount(0){}
 
-void 
-BaseWindow::setCenter() {
-    central = new QWidget(this);
-}
 
 void 
-BaseWindow::setMainLayout() {
-    mainLayout = new QVBoxLayout(central);
-}
-
-void 
-BaseWindow::setSpinVariablesCount(uint16_t size) {
+BaseWindow::setSpinVariablesCount(const uint16_t size) {
     spinVariablesCount = size;
 }
 
@@ -40,10 +31,10 @@ BaseWindow::setSpinVariableNames(const std::vector<std::string>& names) {
 void 
 BaseWindow::setSpinVariableValues(const std::vector<uint16_t>& values) {
 
-    spinVariableDefValues = std::vector<uint16_t> (spinVariablesCount);
+    spinVariableValues = std::vector<uint16_t> (spinVariablesCount);
 
     for(uint16_t i = 0; i < values.size(); ++i)
-        spinVariableDefValues[i] = values[i];
+        spinVariableValues[i] = values[i];
 }
 
 std::vector<uint16_t> 
@@ -67,7 +58,7 @@ BaseWindow::drawSpinVariableButtons() {
     auto *paramsLayout = new QHBoxLayout();
 
     for(uint16_t i = 0; i < spinVariablesCount; ++i)
-        spinVariables[i] = addLabeledSpinBox(paramsLayout, QString::fromStdString(spinVariableNames[i]), spinVariableDefValues[i], this);
+        spinVariables[i] = addLabeledSpinBox(paramsLayout, QString::fromStdString(spinVariableNames[i]), spinVariableValues[i], this);
 
     mainLayout->addLayout(paramsLayout);
 }
@@ -241,8 +232,8 @@ BaseWindow::printToOutput(
 
 std::vector<uint16_t> 
 BaseWindow::random_sample_generation(
-    uint16_t vector_size,
-    uint16_t range
+    const uint16_t vector_size,
+    const uint16_t range
 )
 {
     std::vector<uint16_t> result(vector_size, 0);

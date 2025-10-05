@@ -14,9 +14,6 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
     const uint8_t  spinCount    = 2; 
     const uint8_t  testCount    = 2;
 
-    setCenter();
-    setMainLayout();
-
     setSpinVariablesCount(spinCount);
     setSpinVariables();
 

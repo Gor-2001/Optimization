@@ -16,9 +16,6 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     const uint8_t  spinCount    = 4; 
     const uint8_t  testCount    = 2;
 
-    setCenter();
-    setMainLayout();
-
     setSpinVariablesCount(spinCount);
     setSpinVariables();
 

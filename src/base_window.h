@@ -44,10 +44,7 @@ class BaseWindow : public QMainWindow {
 public:
     BaseWindow(QWidget *parent = nullptr);
 
-    void setCenter();
-    void setMainLayout();
-
-    void setSpinVariablesCount(uint16_t size);
+    void setSpinVariablesCount(const uint16_t size);
     void setSpinVariables();
     void setSpinVariableNames(const std::vector<std::string>& names);
     void setSpinVariableValues(const std::vector<uint16_t>& values);
@@ -70,8 +67,8 @@ public:
 
     std::vector<uint16_t> 
     random_sample_generation(
-        uint16_t vector_size,
-        uint16_t range
+        const uint16_t vector_size,
+        const uint16_t range
     );
 
     template <typename T>
@@ -125,7 +122,7 @@ private:
     uint16_t spinVariablesCount;
     std::vector<QSpinBox*> spinVariables;
     std::vector<std::string> spinVariableNames;
-    std::vector<uint16_t> spinVariableDefValues;
+    std::vector<uint16_t> spinVariableValues;
     std::string infoTitle;
     std::string infoPath;
     std::string runTitle;
