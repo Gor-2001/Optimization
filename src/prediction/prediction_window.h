@@ -1,9 +1,11 @@
+/***************************************/
 // prediction_window.h
-
+/***************************************/
 #ifndef PREDICTION_WINDOW_H
 #define PREDICTION_WINDOW_H
-
+/***************************************/
 #include "../base_window.h"
+/***************************************/
 
 struct test_params_t {
     std::vector<uint16_t> sample;

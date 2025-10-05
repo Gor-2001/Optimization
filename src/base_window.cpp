@@ -178,10 +178,10 @@ BaseWindow::runTest()
 
     high_resolution_clock::time_point start;
     high_resolution_clock::time_point stop;
-    microseconds duration{0};
 
     for(uint16_t i = 0; i < testCount; ++i)
     {
+        microseconds duration{0};
 
         for(uint16_t j = 0; j < runCount; ++j)
         {

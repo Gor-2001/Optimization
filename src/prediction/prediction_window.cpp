@@ -1,5 +1,8 @@
+/***************************************/
 // prediction_window.cpp
+/***************************************/
 #include "prediction_window.h"
+/***************************************/
 
 PredictionWindow::PredictionWindow(QWidget *parent)
     : BaseWindow(parent)
@@ -51,7 +54,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     setTestNames({"UNSORTED\t", "SORTED\t"});
 
     setSubTestFunctions<test_params_t>
-        ({PredictionWindow::test_unsorted, PredictionWindow::test_unsorted});
+        ({PredictionWindow::test_unsorted, PredictionWindow::test_sorted});
 
     setupWindow();
 }
@@ -81,9 +84,6 @@ PredictionWindow::sample_gen(
 
     test_params.buckets = 
         bw.random_sample_generation(test_params.buckets_count, test_params.sample_range);
-
-    // for(uint16_t i = 0; i < test_params.sample_size; ++i)
-    //     std::cout << test_params.sample[i] << std::endl;
 }
 
 void 
