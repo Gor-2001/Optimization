@@ -36,10 +36,10 @@ PredictionWindow::PredictionWindow(QWidget *parent)
         bucketCount
     });
 
-    test_params_t test_params;
+    prediction_params_t test_params;
     test_params_init(test_params, sampleSize, bucketCount, sampleRange);
     setParam(test_params);
-    setGenFunction<test_params_t>(PredictionWindow::sample_gen);
+    setGenFunction<prediction_params_t>(PredictionWindow::sample_gen);
     setRunCount(runCount);
 
     setInfoTitle("Prediction Test Info");
@@ -54,7 +54,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     setTestCount(testCount);
     setTestNames({"UNSORTED\t", "SORTED\t"});
 
-    setSubTestFunctions<test_params_t>
+    setSubTestFunctions<prediction_params_t>
         ({PredictionWindow::test_unsorted, PredictionWindow::test_sorted});
 
     setupWindow();
@@ -62,7 +62,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 
 void 
 PredictionWindow::test_params_init(
-    test_params_t& test_params, 
+    prediction_params_t& test_params, 
     const uint16_t sample_size,
     const uint16_t buckets_count,
     const uint16_t sample_range
@@ -75,7 +75,7 @@ PredictionWindow::test_params_init(
 
 void 
 PredictionWindow::sample_gen(
-    test_params_t& test_params
+    prediction_params_t& test_params
 )
 {
     BaseWindow bw;
@@ -89,7 +89,7 @@ PredictionWindow::sample_gen(
 
 void 
 PredictionWindow::test_unsorted(    
-    test_params_t& test_params
+    prediction_params_t& test_params
 )
 {
     std::vector<uint16_t> sums(test_params.buckets_count, 0);
@@ -108,7 +108,7 @@ PredictionWindow::test_unsorted(
 
 void 
 PredictionWindow::test_sorted(    
-    test_params_t& test_params
+    prediction_params_t& test_params
 )
 {
     std::vector<uint16_t> sums(test_params.buckets_count, 0);
