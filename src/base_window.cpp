@@ -1,5 +1,8 @@
+/***************************************/
 // base_window.cpp
+/***************************************/
 #include "base_window.h"
+/***************************************/
 
 BaseWindow::BaseWindow(QWidget* parent)
     : QMainWindow(parent), central(nullptr), mainLayout(nullptr),
@@ -156,6 +159,11 @@ BaseWindow::setTestCount(const uint16_t test_count) {
 }
 
 void 
+BaseWindow::setRunCount(const uint16_t run_count) {
+    runCount = run_count;
+}
+
+void 
 BaseWindow::setTestNames(const std::vector<std::string>& test_names) {
 
     testNames = std::vector<std::string> (testCount);
@@ -168,10 +176,22 @@ void
 BaseWindow::runTest()
 {
 
-    std::chrono::microseconds duration{0};
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point stop;
+    microseconds duration{0};
+
     for(uint16_t i = 0; i < testCount; ++i)
     {
-        runGen();
+
+        for(uint16_t j = 0; j < runCount; ++j)
+        {
+            runGen();
+            start = high_resolution_clock::now();
+            runSubTest(i);
+            stop = high_resolution_clock::now();
+            duration += duration_cast<microseconds>(stop - start);
+        }
+
         printToOutput(
             outputBox, 
             QString("%1 : %2 microseconds")

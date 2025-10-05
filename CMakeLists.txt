@@ -20,10 +20,8 @@ add_executable(optimization
     src/base_window.h
     src/base_window.cpp
 
-    src/prediction/src/prediction_window.cpp
-    src/prediction/src/prediction_test.cpp
-    src/prediction/inc/prediction_window.h
-    src/prediction/inc/prediction_test.h
+    src/prediction/prediction_window.cpp
+    src/prediction/prediction_window.h
 
     src/jump_table/src/jump_table_window.cpp
     src/jump_table/src/jump_table_test.cpp

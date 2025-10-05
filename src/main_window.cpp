@@ -5,6 +5,11 @@
 MainMenuWindow::MainMenuWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    const uint16_t spaceSize = 10;
+    const uint16_t marginSize = 20;
+    const uint16_t buttonWidth = 200;
+    const uint16_t buttonHeight = 40;
+
     setWindowTitle("Main Menu");
     setMinimumSize(WINDOW_WIDTH, WINDOW_HEIGHT); // use constants
 
@@ -12,18 +17,18 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     auto *mainLayout = new QVBoxLayout(central);
 
     // Remove unnecessary spacing and margins
-    mainLayout->setSpacing(10);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(spaceSize);
+    mainLayout->setContentsMargins(marginSize, marginSize, marginSize, marginSize);
 
     // Button: Prediction Test
     QPushButton *predictionButton = new QPushButton("Open Prediction Test", this);
-    predictionButton->setFixedSize(200, 40);
+    predictionButton->setFixedSize(buttonWidth, buttonHeight);
     mainLayout->addWidget(predictionButton, 0, Qt::AlignHCenter);
     connect(predictionButton, &QPushButton::clicked, this, &MainMenuWindow::openPredictionWindow);
 
     // Button: Jump Table Test
     QPushButton *jumpTableButton = new QPushButton("Open Jump Table Test", this);
-    jumpTableButton->setFixedSize(200, 40);
+    jumpTableButton->setFixedSize(buttonWidth, buttonHeight);
     mainLayout->addWidget(jumpTableButton, 0, Qt::AlignHCenter);
     connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJumpTableWindow);
 

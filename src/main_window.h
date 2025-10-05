@@ -3,7 +3,7 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include "prediction/inc/prediction_window.h"
+#include "prediction/prediction_window.h"
 #include "jump_table/inc/jump_table_window.h"
 
 class QPushButton;

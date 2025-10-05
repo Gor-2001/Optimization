@@ -1,8 +1,9 @@
+/***************************************/
 // base_window.h
-
+/***************************************/
 #ifndef BASE_WINDOW_H
 #define BASE_WINDOW_H
-
+/***************************************/
 #include <vector>
 #include <cstdint>
 #include <algorithm>
@@ -13,8 +14,7 @@
 #include <functional>
 #include <memory>
 #include <any>
-
-
+/***************************************/
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QTextEdit>
@@ -30,9 +30,12 @@
 #include <QApplication>
 #include <QSpinBox>
 #include <QString>
-
+/***************************************/
+using namespace std::chrono;
+/***************************************/
 #define WINDOW_WIDTH    800
 #define WINDOW_HEIGHT   600
+/***************************************/
 
 class QPushButton;
 
@@ -54,6 +57,7 @@ public:
     void setRunTitle(const std::string& run_title);
 
     void setTestCount(const uint16_t test_count);
+    void setRunCount(const uint16_t run_count);
     void setTestNames(const std::vector<std::string>& test_names);
 
     void drawInfoButton();
@@ -81,6 +85,18 @@ public:
         };
     }
 
+    template <typename T>
+    void setSubTestFunctions(const std::vector<std::function<void(T&)>>& funcs) {
+        subTestFunc.clear();
+        subTestFunc.reserve(funcs.size());
+
+        for (auto& f : funcs) {
+            subTestFunc.push_back([f](std::any& a) {
+                f(std::any_cast<T&>(a));
+            });
+        }
+    }
+
 
 private slots:
     void runTest();
@@ -103,6 +119,7 @@ private:
     std::string runTitle;
 
     uint16_t testCount;
+    uint16_t runCount;
     std::vector<std::string> testNames;
     std::function<void()> genFn;
 
@@ -120,9 +137,18 @@ private:
 
     std::any data;
     std::function<void(std::any&)> genFunc;
+    std::vector<std::function<void(std::any&)>> subTestFunc;
 
     void runGen() {
         if (genFunc) genFunc(data);
+    }
+
+    void runSubTest(uint16_t testIndex) {
+        if (testIndex < subTestFunc.size() && subTestFunc[testIndex]) {
+            subTestFunc[testIndex](data);
+        } else {
+            std::cerr << "Invalid subtest index: " << testIndex << "\n";
+        }
     }
 
 };

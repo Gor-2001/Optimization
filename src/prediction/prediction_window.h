@@ -3,7 +3,7 @@
 #ifndef PREDICTION_WINDOW_H
 #define PREDICTION_WINDOW_H
 
-#include "../../base_window.h"
+#include "../base_window.h"
 
 struct test_params_t {
     std::vector<uint16_t> sample;
@@ -34,9 +34,9 @@ private:
 
     using BaseWindow::BaseWindow;
     static void sample_gen(test_params_t& test_params);
-    
-    void test_unsorted(const test_params_t& test_params);
-    void test_sorted(const test_params_t& test_params);
+
+    static void test_unsorted(test_params_t& test_params);
+    static void test_sorted(test_params_t& test_params);
 
 };
 
