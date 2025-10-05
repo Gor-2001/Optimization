@@ -16,6 +16,13 @@ struct prediction_params_t {
     uint16_t buckets_count;
 };
 
+enum prediction_params_order_t {
+    runCountIndexPred = 0,
+    sampleSizeIndex = 1,
+    sampleRangeIndex = 2,
+    bucketCountIndex = 3,
+};
+
 class QPushButton;
 
 class PredictionWindow : public BaseWindow {
@@ -24,21 +31,20 @@ public:
     PredictionWindow(QWidget *parent = nullptr);
 
 private:
-    prediction_params_t test_params;
-
-    void 
-    test_params_init(
-        prediction_params_t& test_params, 
-        const uint16_t sample_size,
-        const uint16_t buckets_count,
-        const uint16_t sample_range
-    );
+    prediction_params_t prediction_params;
 
     using BaseWindow::BaseWindow;
-    static void sample_gen(prediction_params_t& test_params);
 
-    static void test_unsorted(prediction_params_t& test_params);
-    static void test_sorted(prediction_params_t& test_params);
+    static void 
+    prediction_params_init(
+        prediction_params_t& prediction_params, 
+        const std::vector<uint16_t>& spinVariables
+    );
+
+    static void sample_gen(prediction_params_t& prediction_params);
+
+    static void test_unsorted(prediction_params_t& prediction_params);
+    static void test_sorted(prediction_params_t& prediction_params);
 
 };
 

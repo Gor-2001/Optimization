@@ -37,12 +37,28 @@ BaseWindow::setSpinVariableNames(const std::vector<std::string>& names) {
         spinVariableNames[i] = names[i];
 }
 
-void BaseWindow::setSpinVariableDefValues(const std::vector<uint16_t>& values) {
+void 
+BaseWindow::setSpinVariableValues(const std::vector<uint16_t>& values) {
 
     spinVariableDefValues = std::vector<uint16_t> (spinVariablesCount);
 
     for(uint16_t i = 0; i < values.size(); ++i)
         spinVariableDefValues[i] = values[i];
+}
+
+std::vector<uint16_t> 
+BaseWindow::getSpinVariableValues() const
+{
+    std::vector<uint16_t> values;
+    values.reserve(spinVariables.size());
+
+    for (const auto* spin : spinVariables)
+    {
+        if (spin)
+            values.push_back(static_cast<uint16_t>(spin->value()));
+    }
+
+    return values;
 }
 
 void
@@ -164,6 +180,11 @@ BaseWindow::setRunCount(const uint16_t run_count) {
 }
 
 void 
+BaseWindow::setRunCountIndex(const uint16_t run_count_index) {
+    runCountIndex = run_count_index;
+}
+
+void 
 BaseWindow::setTestNames(const std::vector<std::string>& test_names) {
 
     testNames = std::vector<std::string> (testCount);
@@ -178,6 +199,10 @@ BaseWindow::runTest()
 
     high_resolution_clock::time_point start;
     high_resolution_clock::time_point stop;
+
+    std::vector<uint16_t> spinVariables = getSpinVariableValues();
+    setRunCount(spinVariables[runCountIndex]);
+    runInit(spinVariables);
 
     for(uint16_t i = 0; i < testCount; ++i)
     {

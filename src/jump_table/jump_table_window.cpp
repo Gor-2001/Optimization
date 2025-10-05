@@ -28,7 +28,7 @@ JumpTableWindow::JumpTableWindow(QWidget *parent)
         "Sample Size"
     });
 
-    setSpinVariableDefValues({
+    setSpinVariableValues({
         runCount, 
         sampleSize
     });

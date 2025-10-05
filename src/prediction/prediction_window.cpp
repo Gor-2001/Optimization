@@ -29,18 +29,19 @@ PredictionWindow::PredictionWindow(QWidget *parent)
         "Bucket Count"
     });
 
-    setSpinVariableDefValues({
+    setSpinVariableValues({
         runCount, 
         sampleSize,
         sampleRange,
         bucketCount
     });
 
-    prediction_params_t test_params;
-    test_params_init(test_params, sampleSize, bucketCount, sampleRange);
-    setParam(test_params);
+    setParam(prediction_params);
+    setInitFunction<prediction_params_t>(PredictionWindow::prediction_params_init);
+
     setGenFunction<prediction_params_t>(PredictionWindow::sample_gen);
     setRunCount(runCount);
+    setRunCountIndex(runCountIndexPred);
 
     setInfoTitle("Prediction Test Info");
     setInfoPath("src/prediction/prediction_info");
@@ -61,46 +62,45 @@ PredictionWindow::PredictionWindow(QWidget *parent)
 }
 
 void 
-PredictionWindow::test_params_init(
-    prediction_params_t& test_params, 
-    const uint16_t sample_size,
-    const uint16_t buckets_count,
-    const uint16_t sample_range
+PredictionWindow::prediction_params_init(
+    prediction_params_t& prediction_params, 
+    const std::vector<uint16_t>& spinVariables
 )
 {
-    test_params.sample_size = sample_size;
-    test_params.buckets_count = buckets_count;
-    test_params.sample_range = sample_range;
+    std::cout << "kak" << std::endl;
+    prediction_params.sample_size = spinVariables[sampleSizeIndex];
+    prediction_params.buckets_count = spinVariables[bucketCountIndex];
+    prediction_params.sample_range = spinVariables[sampleRangeIndex];
 }
 
 void 
 PredictionWindow::sample_gen(
-    prediction_params_t& test_params
+    prediction_params_t& prediction_params
 )
 {
     BaseWindow bw;
 
-    test_params.sample = 
-        bw.random_sample_generation(test_params.sample_size, test_params.sample_range);
+    prediction_params.sample = 
+        bw.random_sample_generation(prediction_params.sample_size, prediction_params.sample_range);
 
-    test_params.buckets = 
-        bw.random_sample_generation(test_params.buckets_count, test_params.sample_range);
+    prediction_params.buckets = 
+        bw.random_sample_generation(prediction_params.buckets_count, prediction_params.sample_range);
 }
 
 void 
 PredictionWindow::test_unsorted(    
-    prediction_params_t& test_params
+    prediction_params_t& prediction_params
 )
 {
-    std::vector<uint16_t> sums(test_params.buckets_count, 0);
+    std::vector<uint16_t> sums(prediction_params.buckets_count, 0);
 
-    std::vector<uint16_t> copy(test_params.sample.begin(), test_params.sample.end());
+    std::vector<uint16_t> copy(prediction_params.sample.begin(), prediction_params.sample.end());
 
-    for(uint16_t i = 0; i < test_params.buckets_count; ++i) 
+    for(uint16_t i = 0; i < prediction_params.buckets_count; ++i) 
     {
-        for(uint16_t j = 0; j < test_params.sample_size; ++j) 
+        for(uint16_t j = 0; j < prediction_params.sample_size; ++j) 
         {
-            if(copy[j] > test_params.buckets[i])
+            if(copy[j] > prediction_params.buckets[i])
                 sums[i] += copy[j];     
         }
     }
@@ -108,19 +108,19 @@ PredictionWindow::test_unsorted(
 
 void 
 PredictionWindow::test_sorted(    
-    prediction_params_t& test_params
+    prediction_params_t& prediction_params
 )
 {
-    std::vector<uint16_t> sums(test_params.buckets_count, 0);
+    std::vector<uint16_t> sums(prediction_params.buckets_count, 0);
 
-    std::vector<uint16_t> copy(test_params.sample.begin(), test_params.sample.end());
+    std::vector<uint16_t> copy(prediction_params.sample.begin(), prediction_params.sample.end());
     std::sort(copy.begin(), copy.end());
 
-    for(uint16_t i = 0; i < test_params.buckets_count; ++i) 
+    for(uint16_t i = 0; i < prediction_params.buckets_count; ++i) 
     {
-        for(uint16_t j = 0; j < test_params.sample_size; ++j) 
+        for(uint16_t j = 0; j < prediction_params.sample_size; ++j) 
         {
-            if(copy[j] > test_params.buckets[i])
+            if(copy[j] > prediction_params.buckets[i])
                 sums[i] += copy[j];     
         }
     }

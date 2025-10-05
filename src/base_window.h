@@ -50,7 +50,8 @@ public:
     void setSpinVariablesCount(uint16_t size);
     void setSpinVariables();
     void setSpinVariableNames(const std::vector<std::string>& names);
-    void setSpinVariableDefValues(const std::vector<uint16_t>& values);
+    void setSpinVariableValues(const std::vector<uint16_t>& values);
+    std::vector<uint16_t> getSpinVariableValues() const;
 
     void setInfoTitle(const std::string& info_title);
     void setInfoPath(const std::string& info_path);
@@ -58,6 +59,7 @@ public:
 
     void setTestCount(const uint16_t test_count);
     void setRunCount(const uint16_t run_count);
+    void setRunCountIndex(const uint16_t run_count_index);
     void setTestNames(const std::vector<std::string>& test_names);
 
     void drawInfoButton();
@@ -75,6 +77,16 @@ public:
     template <typename T>
     void setParam(const T& param) {
         data = param;
+    }
+
+    template <typename T>
+    void setInitFunction(const std::function<void(T&, const std::vector<uint16_t>&)>& f)
+    {
+        // Wrap type-safe function into a std::any-compatible version
+        initFunc = [f](std::any& a, const std::vector<uint16_t>& values)
+        {
+            f(std::any_cast<T&>(a), values);
+        };
     }
 
     template <typename T>
@@ -120,11 +132,10 @@ private:
 
     uint16_t testCount;
     uint16_t runCount;
+    uint16_t runCountIndex;
     std::vector<std::string> testNames;
-    std::function<void()> genFn;
 
     void printToOutput(QTextEdit* outputBox, const QString& text);
-    std::function<void(void)> genTestFn;
 
     QSpinBox* addLabeledSpinBox(
         QBoxLayout* layout,
@@ -136,8 +147,13 @@ private:
     );
 
     std::any data;
+    std::function<void(std::any&, const std::vector<uint16_t>&)> initFunc;
     std::function<void(std::any&)> genFunc;
     std::vector<std::function<void(std::any&)>> subTestFunc;
+
+    void runInit(const std::vector<uint16_t>& spinVariables) {
+        if (initFunc) initFunc(data, spinVariables);
+    }
 
     void runGen() {
         if (genFunc) genFunc(data);
