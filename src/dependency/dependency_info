@@ -1,20 +1,14 @@
-Prediction Test Description
+Instruction Dependency Test Description
 ---------------------------
 
-This test is designed to demonstrate basic CPU prediction capabilities. 
-It is intended for educational purposes only and does not have practical use.
+This test is designed to illustrate the effects of CPU instruction dependencies and memory access patterns on performance. It is intended for educational purposes and demonstrates how the order of operations can influence execution speed.
 
-The test consists of two nearly identical experiments. Both experiments start 
-by generating a dataset and selecting a set of thresholds or "buckets". 
-For example, the dataset could be numbers from 0 to 1023, and the buckets 
-could be {4, 5, 67}.
+Two experiments are performed:
 
-During the experiment, the program calculates the sum of all dataset elements 
-that are greater than each bucket value. The only difference between the two 
-experiments is that in one case, the dataset is sorted before performing the 
-sums. Although the sorted experiment performs additional sorting operations, 
-it often executes faster than the unsorted one. In my tests, the sorted version 
-achieved a 30–40% speedup.
+Neighbor Addition
+Each element in the dataset is incremented by the value of its immediate neighbor. For example, element 0 is incremented by element 1, element 1 by element 2, and so on, with the last element incremented by the first element. This creates a chain of read-after-write dependencies, which can limit parallel execution and prevent vectorization by the CPU.
 
-This behavior demonstrates how CPU branch prediction and memory access patterns 
-can affect algorithm performance, even for simple operations.
+Halfway Addition
+Each element is incremented by the value of the element halfway around the dataset (e.g., element 0 is incremented by element 8, element 1 by element 9, etc.). In this case, the source elements for each operation are independent of the targets in the same iteration, allowing instruction-level parallelism and vectorization.
+
+By comparing the execution times of these two experiments, the test demonstrates how data dependencies and access patterns can significantly affect performance, even on small arrays. The halfway addition usually executes faster due to reduced dependencies and improved CPU optimization opportunities.
