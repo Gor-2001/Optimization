@@ -25,11 +25,6 @@ add_executable(optimization
     src/prediction/inc/prediction_window.h
     src/prediction/inc/prediction_test.h
 
-    src/packaging/src/packaging_window.cpp
-    src/packaging/src/packaging_test.cpp
-    src/packaging/inc/packaging_window.h
-    src/packaging/inc/packaging_test.h
-
     src/jump_table/src/jump_table_window.cpp
     src/jump_table/src/jump_table_test.cpp
     src/jump_table/inc/jump_table_window.h

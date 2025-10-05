@@ -42,6 +42,39 @@ void BaseWindow::setSpinVariableDefValues(const std::vector<uint16_t>& values) {
         spinVariableDefValues[i] = values[i];
 }
 
+void
+BaseWindow::drawSpinVariableButtons() {
+
+    auto *paramsLayout = new QHBoxLayout();
+
+    for(uint16_t i = 0; i < spinVariablesCount; ++i)
+        spinVariables[i] = addLabeledSpinBox(paramsLayout, QString::fromStdString(spinVariableNames[i]), spinVariableDefValues[i], this);
+
+    mainLayout->addLayout(paramsLayout);
+}
+
+QSpinBox* 
+BaseWindow::addLabeledSpinBox(
+    QBoxLayout* layout,
+    const QString& labelText,
+    int defaultValue,
+    QWidget* parent,
+    uint16_t min,
+    uint16_t max
+) 
+{
+    auto* label = new QLabel(labelText, parent);
+    auto* spin  = new QSpinBox(parent);
+
+    spin->setRange(min, max);
+    spin->setValue(defaultValue);
+
+    layout->addWidget(label);
+    layout->addWidget(spin);
+
+    return spin;
+}
+
 void 
 BaseWindow::setInfoTitle(const std::string& info_title) {
     infoTitle = std::move(info_title);
@@ -50,11 +83,6 @@ BaseWindow::setInfoTitle(const std::string& info_title) {
 void 
 BaseWindow::setInfoPath(const std::string& info_path) {
     infoPath = std::move(info_path);
-}
-
-void 
-BaseWindow::setRunTitle(const std::string& run_title) {
-    runTitle = std::move(run_title);
 }
 
 void BaseWindow::drawInfoButton() {
@@ -94,16 +122,9 @@ void BaseWindow::drawInfoButton() {
     });
 }
 
-
-void
-BaseWindow::drawSpinVariableButtons() {
-
-    auto *paramsLayout = new QHBoxLayout();
-
-    for(uint16_t i = 0; i < spinVariablesCount; ++i)
-        spinVariables[i] = addLabeledSpinBox(paramsLayout, QString::fromStdString(spinVariableNames[i]), spinVariableDefValues[i], this);
-
-    mainLayout->addLayout(paramsLayout);
+void 
+BaseWindow::setRunTitle(const std::string& run_title) {
+    runTitle = std::move(run_title);
 }
 
 void 
@@ -115,22 +136,17 @@ BaseWindow::drawRunButton() {
 
 void 
 BaseWindow::drawOutputBox() {
-    // Create and configure the output box
+
     outputBox = new QTextEdit(this);
     outputBox->setReadOnly(true);
 
-    // Add it to the main layout
     mainLayout->addWidget(outputBox);
 }
 
 void BaseWindow::setupWindow() {
-    // Set central widget only ONCE
+
     setCentralWidget(central);
-
-    // Make window larger by default
     resize(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    // Connect the run button to its slot
     connect(runButton, &QPushButton::clicked, this, &BaseWindow::runTest);
 }
 
@@ -151,32 +167,11 @@ BaseWindow::setTestNames(const std::vector<std::string>& test_names) {
 void 
 BaseWindow::runTest()
 {
-    std::chrono::microseconds duration{0};
 
+    std::chrono::microseconds duration{0};
     for(uint16_t i = 0; i < testCount; ++i)
     {
-
-        //duration = packaging_test(packaging_test_unsorted, data_size, separators_count, range, run_count);
-        // microseconds    
-        // packaging_test(
-        //     void (*packaging_test_sub)(const packaging_params_t&),
-        //     uint16_t data_size,
-        //     uint16_t separators_count,
-        //     uint16_t range,
-        //     uint16_t run_count
-        // );
-
-
-        //duration = jump_table_test(jump_table_test_switch, data_size, DATA_RANGE, run_count);
-        // microseconds    
-        // jump_table_test(
-        //     void (*jump_table_test_sub)(const jump_table_params_t&),
-        //     uint16_t data_size,
-        //     uint16_t range,
-        //     uint16_t run_count
-        // );
-
-
+        runGen();
         printToOutput(
             outputBox, 
             QString("%1 : %2 microseconds")
@@ -199,24 +194,16 @@ BaseWindow::printToOutput(
     qDebug() << text;
 }
 
-QSpinBox* 
-BaseWindow::addLabeledSpinBox(
-    QBoxLayout* layout,
-    const QString& labelText,
-    int defaultValue,
-    QWidget* parent,
-    uint16_t min,
-    uint16_t max
-) 
+std::vector<uint16_t> 
+BaseWindow::random_sample_generation(
+    uint16_t vector_size,
+    uint16_t range
+)
 {
-    auto* label = new QLabel(labelText, parent);
-    auto* spin  = new QSpinBox(parent);
+    std::vector<uint16_t> result(vector_size, 0);
 
-    spin->setRange(min, max);
-    spin->setValue(defaultValue);
+    for (auto& it : result)
+        it = static_cast<uint16_t>(rand() % range);
 
-    layout->addWidget(label);
-    layout->addWidget(spin);
-
-    return spin;
+    return result;
 }

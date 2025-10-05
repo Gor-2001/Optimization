@@ -42,10 +42,10 @@ prediction_params_init(
     prediction_params.range = range;
 
     prediction_params.data = 
-        random_vector_generation(prediction_params.data_size, prediction_params.range);
+        random_vector_generation0(prediction_params.data_size, prediction_params.range);
 
     prediction_params.separator = 
-        random_vector_generation(prediction_params.separators_count, prediction_params.range);
+        random_vector_generation0(prediction_params.separators_count, prediction_params.range);
 
 }
 

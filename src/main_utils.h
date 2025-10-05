@@ -23,7 +23,7 @@
 using namespace std::chrono;
 
 template <typename T>
-std::vector<T> random_vector_generation(
+std::vector<T> random_vector_generation0(
     std::size_t vector_size,
     T range
 )

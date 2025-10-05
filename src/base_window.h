@@ -3,6 +3,18 @@
 #ifndef BASE_WINDOW_H
 #define BASE_WINDOW_H
 
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <chrono>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <functional>
+#include <memory>
+#include <any>
+
+
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QTextEdit>
@@ -16,6 +28,8 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QApplication>
+#include <QSpinBox>
+#include <QString>
 
 #define WINDOW_WIDTH    800
 #define WINDOW_HEIGHT   600
@@ -41,12 +55,32 @@ public:
 
     void setTestCount(const uint16_t test_count);
     void setTestNames(const std::vector<std::string>& test_names);
-    
+
     void drawInfoButton();
     void drawSpinVariableButtons();
     void drawRunButton();
     void drawOutputBox();
     void setupWindow();
+
+    std::vector<uint16_t> 
+    random_sample_generation(
+        uint16_t vector_size,
+        uint16_t range
+    );
+
+    template <typename T>
+    void setParam(const T& param) {
+        data = param;
+    }
+
+    template <typename T>
+    void setGenFunction(const std::function<void(T&)>& f) {
+        // Wrap f to work with std::any
+        genFunc = [f](std::any& a) {
+            f(std::any_cast<T&>(a));
+        };
+    }
+
 
 private slots:
     void runTest();
@@ -57,7 +91,7 @@ private:
     QPushButton *openButton;
     QTextEdit   *outputBox;
 
-    QWidget *central;
+    QWidget     *central;
     QVBoxLayout *mainLayout;
 
     uint16_t spinVariablesCount;
@@ -70,8 +104,10 @@ private:
 
     uint16_t testCount;
     std::vector<std::string> testNames;
+    std::function<void()> genFn;
 
     void printToOutput(QTextEdit* outputBox, const QString& text);
+    std::function<void(void)> genTestFn;
 
     QSpinBox* addLabeledSpinBox(
         QBoxLayout* layout,
@@ -82,7 +118,15 @@ private:
         uint16_t max = 65535
     );
 
+    std::any data;
+    std::function<void(std::any&)> genFunc;
+
+    void runGen() {
+        if (genFunc) genFunc(data);
+    }
+
 };
+
 
 #endif // BASE_WINDOW_H
 

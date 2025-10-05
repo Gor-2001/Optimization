@@ -27,12 +27,6 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     mainLayout->addWidget(jumpTableButton, 0, Qt::AlignHCenter);
     connect(jumpTableButton, &QPushButton::clicked, this, &MainMenuWindow::openJumpTableWindow);
 
-    // Button: Packaging Test
-    QPushButton *packagingButton = new QPushButton("Open Packaging Test", this);
-    packagingButton->setFixedSize(200, 40);
-    mainLayout->addWidget(packagingButton, 0, Qt::AlignHCenter);
-    connect(packagingButton, &QPushButton::clicked, this, &MainMenuWindow::openPackagingWindow);
-
     // Optional: add stretch to push buttons slightly up
     mainLayout->addStretch();
 
@@ -50,10 +44,4 @@ void MainMenuWindow::openJumpTableWindow()
 {
     JumpTableWindow *jump_tableWindow = new JumpTableWindow(this); // create JumpTable window
     jump_tableWindow->show();
-}
-
-void MainMenuWindow::openPackagingWindow()
-{
-    PackagingWindow *packagingWindow = new PackagingWindow(this); // create Packaging window
-    packagingWindow->show();
 }

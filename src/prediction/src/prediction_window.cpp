@@ -4,25 +4,38 @@
 PredictionWindow::PredictionWindow(QWidget *parent)
     : BaseWindow(parent)
 {
+    const uint16_t runCount     = 100;
+    const uint16_t sampleSize   = 256;
+    const uint16_t sampleRange  = 256;
+    const uint16_t bucketCount  = 256;
+
+    const uint8_t  varCount     = 4; 
+    const uint8_t  testCount    = 2;
+
     setCenter();
     setMainLayout();
 
-    setSpinVariablesCount(4);
+    setSpinVariablesCount(varCount);
     setSpinVariables();
 
     setSpinVariableNames({
-        "DATA_SIZE",
-        "SEPARATORS_COUNT",
-        "RUN_COUNT",
-        "DATA_RANGE"
+        "Run Count",
+        "Sample Size",
+        "Sample Range",
+        "Bucket Count"
     });
 
     setSpinVariableDefValues({
-        DATA_SIZE, 
-        SEPARATORS_COUNT_PRED,
-        RUN_COUNT,
-        DATA_RANGE
+        runCount, 
+        sampleSize,
+        sampleRange,
+        bucketCount
     });
+
+    test_params_t test_params;
+    test_params_init(test_params, sampleSize, bucketCount, sampleRange);
+    setParam(test_params);
+    setGenFunction<test_params_t>(PredictionWindow::sample_gen);
 
     setInfoTitle("Prediction Test Info");
     setInfoPath("src/prediction/prediction_info");
@@ -33,8 +46,77 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     drawRunButton();
     drawOutputBox();
 
-    setTestCount(2);
+    setTestCount(testCount);
     setTestNames({"UNSORTED\t", "SORTED\t"});
     setupWindow();
+}
+
+void 
+PredictionWindow::test_params_init(
+    test_params_t& test_params, 
+    const uint16_t sample_size,
+    const uint16_t buckets_count,
+    const uint16_t sample_range
+)
+{
+    test_params.sample_size = sample_size;
+    test_params.buckets_count = buckets_count;
+    test_params.sample_range = sample_range;
+}
+
+void 
+PredictionWindow::sample_gen(
+    test_params_t& test_params
+)
+{
+    BaseWindow bw;
+
+    test_params.sample = 
+        bw.random_sample_generation(test_params.sample_size, test_params.sample_range);
+
+    test_params.buckets = 
+        bw.random_sample_generation(test_params.buckets_count, test_params.sample_range);
+
+    for(uint16_t i = 0; i < test_params.sample_size; ++i)
+        std::cout << test_params.sample[i] << std::endl;
+}
+
+void 
+PredictionWindow::test_unsorted(    
+    const test_params_t& test_params
+)
+{
+    std::vector<uint16_t> sums(test_params.buckets_count, 0);
+
+    std::vector<uint16_t> copy(test_params.sample.begin(), test_params.sample.end());
+
+    for(uint16_t i = 0; i < test_params.buckets_count; ++i) 
+    {
+        for(uint16_t j = 0; j < test_params.sample_size; ++j) 
+        {
+            if(copy[j] > test_params.buckets[i])
+                sums[i] += copy[j];     
+        }
+    }
+}
+
+void 
+PredictionWindow::test_sorted(    
+    const test_params_t& test_params
+)
+{
+    std::vector<uint16_t> sums(test_params.buckets_count, 0);
+
+    std::vector<uint16_t> copy(test_params.sample.begin(), test_params.sample.end());
+    std::sort(copy.begin(), copy.end());
+
+    for(uint16_t i = 0; i < test_params.buckets_count; ++i) 
+    {
+        for(uint16_t j = 0; j < test_params.sample_size; ++j) 
+        {
+            if(copy[j] > test_params.buckets[i])
+                sums[i] += copy[j];     
+        }
+    }
 }
 

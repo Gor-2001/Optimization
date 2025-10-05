@@ -43,7 +43,7 @@ jump_table_params_init(
     jump_table_params.range = range;
 
     jump_table_params.data = 
-        random_vector_generation(jump_table_params.data_size, jump_table_params.range);
+        random_vector_generation0(jump_table_params.data_size, jump_table_params.range);
 }
 
 
