@@ -5,10 +5,9 @@
 /***************************************/
 
 BaseWindow::BaseWindow(QWidget* parent)
-    : QMainWindow(parent), central(new QWidget(this)), mainLayout(new QVBoxLayout(central)),
-      runButton(nullptr), openButton(nullptr)
-      {}
-
+    : QMainWindow(parent), central(new QWidget(this)),
+    mainLayout(new QVBoxLayout(central)),
+    runButton(nullptr), openButton(nullptr) {}
 
 
 void BaseWindow::setSpinVariables(
@@ -49,10 +48,9 @@ BaseWindow::getSpinVariableValues() const
     return values;
 }
 
-
 void
-BaseWindow::drawSpinVariableButtons() {
-
+BaseWindow::drawSpinVariableButtons() 
+{
     auto *paramsLayout = new QHBoxLayout();
 
     std::vector<uint16_t> spinValues = getSpinVariableValues();
@@ -75,7 +73,7 @@ QSpinBox*
 BaseWindow::addLabeledSpinBox(
     QBoxLayout* layout,
     const QString& labelText,
-    int defaultValue,
+    uint16_t defaultValue,
     QWidget* parent,
     uint16_t min,
     uint16_t max
@@ -103,8 +101,8 @@ BaseWindow::setInfoPath(const std::string& info_path) {
     infoPath = std::move(info_path);
 }
 
-void BaseWindow::drawInfoButton() {
-
+void BaseWindow::drawInfoButton() 
+{
     openButton = new QPushButton("Open Info Window", this);
     mainLayout->addWidget(openButton);
 
@@ -147,7 +145,6 @@ BaseWindow::setRunTitle(const std::string& run_title) {
 
 void 
 BaseWindow::drawRunButton() {
-
     runButton = new QPushButton(QString::fromStdString(runTitle), this);
     mainLayout->addWidget(runButton);
 }
@@ -173,27 +170,25 @@ void BaseWindow::setupWindow() {
     connect(runButton, &QPushButton::clicked, this, &BaseWindow::runTest);
 }
 
-
 void 
-BaseWindow::setRunCount(const uint16_t run_count) {
+BaseWindow::setRunCount(
+    const uint16_t run_count,
+    const uint16_t run_count_index
+) 
+{
     runCount = run_count;
-}
-
-void 
-BaseWindow::setRunCountIndex(const uint16_t run_count_index) {
     runCountIndex = run_count_index;
 }
 
 void 
 BaseWindow::runTest()
 {
-
     uint16_t testCount = subTestFunc.size();
     high_resolution_clock::time_point start;
     high_resolution_clock::time_point stop;
 
     std::vector<uint16_t> spinVariables = getSpinVariableValues();
-    setRunCount(spinVariables[runCountIndex]);
+    setRunCount(spinVariables[runCountIndex], runCountIndex);
     runInit(spinVariables);
 
     for(uint16_t i = 0; i < testCount; ++i)

@@ -42,26 +42,27 @@ class QPushButton;
 class BaseWindow : public QMainWindow {
     Q_OBJECT
 public:
-    BaseWindow(QWidget *parent = nullptr);
 
+    /************************************************************************/
+    BaseWindow(QWidget *parent = nullptr);
+    /************************************************************************/
     void 
     setSpinVariables(
         const std::vector<std::tuple<std::string,
         uint16_t>>& spinData);
-
+    /************************************************************************/
     void setInfoTitle(const std::string& info_title);
     void setInfoPath(const std::string& info_path);
     void setRunTitle(const std::string& run_title);
-
-    void setRunCount(const uint16_t run_count);
-    void setRunCountIndex(const uint16_t run_count_index);
+    /************************************************************************/
+    void setRunCount(const uint16_t run_count, const uint16_t run_count_index);
     void setupWindow();
-
+    /************************************************************************/
     template <typename T>
     void setParam(const T& param) {
         data = param;
     }
-
+    /************************************************************************/
     template <typename T>
     void setInitFunction(const std::function<void(T&, const std::vector<uint16_t>&)>& f)
     {
@@ -71,7 +72,7 @@ public:
             f(std::any_cast<T&>(a), values);
         };
     }
-
+    /************************************************************************/
     template <typename T>
     void setGenFunction(const std::function<void(T&)>& f) {
         // Wrap f to work with std::any
@@ -79,7 +80,7 @@ public:
             f(std::any_cast<T&>(a));
         };
     }
-
+    /************************************************************************/
     template <typename T>
     void setTestFunctions(
         const std::vector<std::tuple<std::string, std::function<void(T&)>>>& funcs)
@@ -97,14 +98,14 @@ public:
             });
         }
     }
-
-
+    /************************************************************************/
     static std::vector<uint16_t> 
     random_sample_generation(
         const uint16_t vector_size,
         const uint16_t range
     );
-
+    /************************************************************************/
+    
 private slots:
     void runTest();
 
@@ -152,12 +153,11 @@ private:
     }
     /************************************************************************/
     void printToOutput(QTextEdit* outputBox, const QString& text);
-    std::vector<uint16_t> getSpinVariableValues() const;
 
     QSpinBox* addLabeledSpinBox(
         QBoxLayout* layout,
         const QString& labelText,
-        int defaultValue,
+        uint16_t defaultValue,
         QWidget* parent,
         uint16_t min = 1,
         uint16_t max = 65535
@@ -167,6 +167,8 @@ private:
     void drawSpinVariableButtons();
     void drawRunButton();
     void drawOutputBox();
+
+    std::vector<uint16_t> getSpinVariableValues() const;
     /************************************************************************/
 
 };

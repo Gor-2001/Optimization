@@ -13,6 +13,8 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     const uint16_t sampleRange  = 256;
     const uint16_t bucketCount  = 256;
 
+    setRunCount(runCount, PRED_RUN_COUNT_INDEX);
+
     setSpinVariables({
         {"Run Count", runCount},
         {"Sample Size", sampleSize},
@@ -23,14 +25,11 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     setParam(prediction_params);
     setInitFunction<prediction_params_t>(PredictionWindow::prediction_params_init);
     setGenFunction<prediction_params_t>(PredictionWindow::sample_gen);
-
+    
     setTestFunctions<prediction_params_t>({
         {"UNSORTED\t", PredictionWindow::test_unsorted},
         {"SORTED\t", PredictionWindow::test_sorted}
     });
-
-    setRunCount(runCount);
-    setRunCountIndex(PRED_RUN_COUNT_INDEX);
 
     setInfoTitle("Prediction Test Info");
     setInfoPath("src/prediction/prediction_info");
