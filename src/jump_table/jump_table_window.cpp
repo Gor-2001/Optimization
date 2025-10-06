@@ -7,12 +7,12 @@
 JumpTableWindow::JumpTableWindow(QWidget *parent)
     : BaseWindow(parent)
 {
-
     // Variables that may change during execution (mutable, e.g., loop/spine-related)
     const uint16_t runCount    = 100;
     const uint16_t sampleSize  = 256;
 
-    setRunCount(runCount, JUMP_RUN_COUNT_INDEX);
+    setRunCount(runCount);
+    setRunCountIndex(JUMP_RUN_COUNT_INDEX);
 
     setSpinVariables({
         {"Run Count", runCount},

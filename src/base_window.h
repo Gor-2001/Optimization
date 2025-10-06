@@ -55,7 +55,9 @@ public:
     void setInfoPath(const std::string& info_path);
     void setRunTitle(const std::string& run_title);
     /************************************************************************/
-    void setRunCount(const uint16_t run_count, const uint16_t run_count_index);
+    void setRunCount(const uint16_t run_count);
+    void setRunCountIndex(const uint16_t run_count_index);
+    /************************************************************************/
     void setupWindow();
     /************************************************************************/
     template <typename T>

@@ -7,52 +7,34 @@
 DependencyWindow::DependencyWindow(QWidget *parent)
     : BaseWindow(parent)
 {
-    // // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    // const uint16_t runCount     = 1000;
-    // const uint16_t sampleSize   = 2048;
-    // const uint16_t sampleRange  = 256;
+    // Variables that may change during execution (mutable, e.g., loop/spine-related)
+    const uint16_t runCount     = 1000;
+    const uint16_t sampleSize   = 2048;
+    const uint16_t sampleRange  = 256;
 
-    // const uint8_t  spinCount    = 3; 
-    // const uint8_t  testCount    = 2;
+    setRunCount(runCount);
+    setRunCountIndex(DEP_RUN_COUNT_INDEX);
 
-    // setSpinVariablesCount(spinCount);
-    // setSpinVariables();
+    setSpinVariables({
+        {"Run Count", runCount},
+        {"Sample Size", sampleSize},
+        {"Sample Range", sampleRange}
+    });
 
-    // setSpinVariableNames({
-    //     "Run Count",
-    //     "Sample Size",
-    //     "Samlpe Range"
-    // });
+    setParam(dependency_params);
+    setInitFunction<dependency_params_t>(DependencyWindow::dependency_params_init);
+    setGenFunction<dependency_params_t>(DependencyWindow::sample_gen);
 
-    // setSpinVariableValues({
-    //     runCount, 
-    //     sampleSize,
-    //     sampleRange
-    // });
+    setTestFunctions<dependency_params_t>({
+        {"DEPENDENT\t", DependencyWindow::test_neighbor_add},
+        {"INDEPENDENT\t", DependencyWindow::test_halfway_add}
+    });
 
-    // setParam(dependency_params);
-    // setInitFunction<dependency_params_t>(DependencyWindow::dependency_params_init);
+    setInfoTitle("Dependency Test Info");
+    setInfoPath("src/dependency/dependency_info");
+    setRunTitle("Run Dependency Test");
 
-    // setGenFunction<dependency_params_t>(DependencyWindow::sample_gen);
-    // setRunCount(runCount);
-    // setRunCountIndex(DEP_RUN_COUNT_INDEX);
-
-    // setInfoTitle("Dependency Test Info");
-    // setInfoPath("src/dependency/dependency_info");
-    // setRunTitle("Run Dependency Test");
-
-    // drawInfoButton();
-    // drawSpinVariableButtons();
-    // drawRunButton();
-    // drawOutputBox();
-
-    // setTestCount(testCount);
-    // setTestNames({"DEPENDENT\t", "INDEPENDENT\t"});
-
-    // setSubTestFunctions<dependency_params_t>
-    //     ({DependencyWindow::test_neighbor_add, DependencyWindow::test_halfway_add});
-
-    // setupWindow();
+    setupWindow();
 }
 
 void 

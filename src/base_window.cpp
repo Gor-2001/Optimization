@@ -171,12 +171,12 @@ void BaseWindow::setupWindow() {
 }
 
 void 
-BaseWindow::setRunCount(
-    const uint16_t run_count,
-    const uint16_t run_count_index
-) 
-{
+BaseWindow::setRunCount(const uint16_t run_count) {
     runCount = run_count;
+}
+
+void 
+BaseWindow::setRunCountIndex(const uint16_t run_count_index) {
     runCountIndex = run_count_index;
 }
 
@@ -188,7 +188,7 @@ BaseWindow::runTest()
     high_resolution_clock::time_point stop;
 
     std::vector<uint16_t> spinVariables = getSpinVariableValues();
-    setRunCount(spinVariables[runCountIndex], runCountIndex);
+    setRunCount(spinVariables[runCountIndex]);
     runInit(spinVariables);
 
     for(uint16_t i = 0; i < testCount; ++i)

@@ -13,7 +13,8 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     const uint16_t sampleRange  = 256;
     const uint16_t bucketCount  = 256;
 
-    setRunCount(runCount, PRED_RUN_COUNT_INDEX);
+    setRunCount(runCount);
+    setRunCountIndex(PRED_RUN_COUNT_INDEX);
 
     setSpinVariables({
         {"Run Count", runCount},
