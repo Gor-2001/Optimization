@@ -7,49 +7,49 @@
 JumpTableWindow::JumpTableWindow(QWidget *parent)
     : BaseWindow(parent)
 {
-    // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    const uint16_t runCount    = 100;
-    const uint16_t sampleSize  = 256;
+    // // Variables that may change during execution (mutable, e.g., loop/spine-related)
+    // const uint16_t runCount    = 100;
+    // const uint16_t sampleSize  = 256;
 
-    const uint8_t  spinCount    = 2; 
-    const uint8_t  testCount    = 2;
+    // const uint8_t  spinCount    = 2; 
+    // const uint8_t  testCount    = 2;
 
-    setSpinVariablesCount(spinCount);
-    setSpinVariables();
+    // setSpinVariablesCount(spinCount);
+    // setSpinVariables();
 
-    setSpinVariableNames({
-        "Run Count",
-        "Sample Size"
-    });
+    // setSpinVariableNames({
+    //     "Run Count",
+    //     "Sample Size"
+    // });
 
-    setSpinVariableValues({
-        runCount, 
-        sampleSize
-    });
+    // setSpinVariableValues({
+    //     runCount, 
+    //     sampleSize
+    // });
 
-    setParam(jump_table_params);
-    setInitFunction<jump_table_params_t>(JumpTableWindow::jump_table_params_init);
+    // setParam(jump_table_params);
+    // setInitFunction<jump_table_params_t>(JumpTableWindow::jump_table_params_init);
 
-    setGenFunction<jump_table_params_t>(JumpTableWindow::sample_gen);
-    setRunCount(runCount);
-    setRunCountIndex(JUMP_RUN_COUNT_INDEX);
+    // setGenFunction<jump_table_params_t>(JumpTableWindow::sample_gen);
+    // setRunCount(runCount);
+    // setRunCountIndex(JUMP_RUN_COUNT_INDEX);
 
-    setInfoTitle("Jump Table Test Info");
-    setInfoPath("src/jump_table/jump_table_info");
-    setRunTitle("Run Jump Table Test");
+    // setInfoTitle("Jump Table Test Info");
+    // setInfoPath("src/jump_table/jump_table_info");
+    // setRunTitle("Run Jump Table Test");
 
-    drawInfoButton();
-    drawSpinVariableButtons();
-    drawRunButton();
-    drawOutputBox();
+    // drawInfoButton();
+    // drawSpinVariableButtons();
+    // drawRunButton();
+    // drawOutputBox();
 
-    setTestCount(testCount);
-    setTestNames({"IFELSE\t", "SWITCH\t"});
+    // setTestCount(testCount);
+    // setTestNames({"IFELSE\t", "SWITCH\t"});
 
-    setSubTestFunctions<jump_table_params_t>
-        ({JumpTableWindow::test_ifelse, JumpTableWindow::test_switch});
+    // setSubTestFunctions<jump_table_params_t>
+    //     ({JumpTableWindow::test_ifelse, JumpTableWindow::test_switch});
 
-    setupWindow();
+    // setupWindow();
 }
 
 void 
@@ -69,10 +69,8 @@ JumpTableWindow::sample_gen(
     jump_table_params_t& jump_table_params
 )
 {
-    BaseWindow bw;
-
     jump_table_params.sample = 
-        bw.random_sample_generation(jump_table_params.sample_size, jump_table_params.sample_range);
+        random_sample_generation(jump_table_params.sample_size, jump_table_params.sample_range);
 }
 
 void 

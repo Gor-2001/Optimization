@@ -7,52 +7,52 @@
 DependencyWindow::DependencyWindow(QWidget *parent)
     : BaseWindow(parent)
 {
-    // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    const uint16_t runCount     = 1000;
-    const uint16_t sampleSize   = 2048;
-    const uint16_t sampleRange  = 256;
+    // // Variables that may change during execution (mutable, e.g., loop/spine-related)
+    // const uint16_t runCount     = 1000;
+    // const uint16_t sampleSize   = 2048;
+    // const uint16_t sampleRange  = 256;
 
-    const uint8_t  spinCount    = 3; 
-    const uint8_t  testCount    = 2;
+    // const uint8_t  spinCount    = 3; 
+    // const uint8_t  testCount    = 2;
 
-    setSpinVariablesCount(spinCount);
-    setSpinVariables();
+    // setSpinVariablesCount(spinCount);
+    // setSpinVariables();
 
-    setSpinVariableNames({
-        "Run Count",
-        "Sample Size",
-        "Samlpe Range"
-    });
+    // setSpinVariableNames({
+    //     "Run Count",
+    //     "Sample Size",
+    //     "Samlpe Range"
+    // });
 
-    setSpinVariableValues({
-        runCount, 
-        sampleSize,
-        sampleRange
-    });
+    // setSpinVariableValues({
+    //     runCount, 
+    //     sampleSize,
+    //     sampleRange
+    // });
 
-    setParam(dependency_params);
-    setInitFunction<dependency_params_t>(DependencyWindow::dependency_params_init);
+    // setParam(dependency_params);
+    // setInitFunction<dependency_params_t>(DependencyWindow::dependency_params_init);
 
-    setGenFunction<dependency_params_t>(DependencyWindow::sample_gen);
-    setRunCount(runCount);
-    setRunCountIndex(DEP_RUN_COUNT_INDEX);
+    // setGenFunction<dependency_params_t>(DependencyWindow::sample_gen);
+    // setRunCount(runCount);
+    // setRunCountIndex(DEP_RUN_COUNT_INDEX);
 
-    setInfoTitle("Dependency Test Info");
-    setInfoPath("src/dependency/dependency_info");
-    setRunTitle("Run Dependency Test");
+    // setInfoTitle("Dependency Test Info");
+    // setInfoPath("src/dependency/dependency_info");
+    // setRunTitle("Run Dependency Test");
 
-    drawInfoButton();
-    drawSpinVariableButtons();
-    drawRunButton();
-    drawOutputBox();
+    // drawInfoButton();
+    // drawSpinVariableButtons();
+    // drawRunButton();
+    // drawOutputBox();
 
-    setTestCount(testCount);
-    setTestNames({"DEPENDENT\t", "INDEPENDENT\t"});
+    // setTestCount(testCount);
+    // setTestNames({"DEPENDENT\t", "INDEPENDENT\t"});
 
-    setSubTestFunctions<dependency_params_t>
-        ({DependencyWindow::test_neighbor_add, DependencyWindow::test_halfway_add});
+    // setSubTestFunctions<dependency_params_t>
+    //     ({DependencyWindow::test_neighbor_add, DependencyWindow::test_halfway_add});
 
-    setupWindow();
+    // setupWindow();
 }
 
 void 
@@ -70,10 +70,8 @@ DependencyWindow::sample_gen(
     dependency_params_t& dependency_params
 )
 {
-    BaseWindow bw;
-
     dependency_params.sample = 
-        bw.random_sample_generation(dependency_params.sample_size, dependency_params.sample_range);
+        random_sample_generation(dependency_params.sample_size, dependency_params.sample_range);
 }
 
 void 

@@ -6,42 +6,39 @@
 
 BaseWindow::BaseWindow(QWidget* parent)
     : QMainWindow(parent), central(new QWidget(this)), mainLayout(new QVBoxLayout(central)),
-      runButton(nullptr), openButton(nullptr),
-      spinVariablesCount(0){}
+      runButton(nullptr), openButton(nullptr)
+      {}
 
 
-void 
-BaseWindow::setSpinVariablesCount(const uint16_t size) {
-    spinVariablesCount = size;
-}
 
-void 
-BaseWindow::setSpinVariables() {
-    spinVariables = std::vector<QSpinBox*> (spinVariablesCount);
-}
+void BaseWindow::setSpinVariables(
+    const std::vector<std::tuple<std::string, uint16_t>>& spinData)
+{
+    uint16_t spinsCount = static_cast<uint16_t>(spinData.size());
+    spinVariables.resize(spinsCount);
+    spinVariableNames.resize(spinsCount);
 
-void 
-BaseWindow::setSpinVariableNames(const std::vector<std::string>& names) {
-    spinVariableNames = std::vector<std::string> (spinVariablesCount);
+    for (uint16_t i = 0; i < spinsCount; ++i)
+    {
+        const auto& [name, value] = spinData[i];
 
-    for (uint16_t i = 0; i < names.size(); ++i)
-        spinVariableNames[i] = names[i];
-}
+        // Create the QSpinBox if it doesn't exist yet
+        if (!spinVariables[i]) {
+            spinVariables[i] = new QSpinBox(this);
+            spinVariables[i]->setRange(0, 65535); // or any max you need
+        }
 
-void 
-BaseWindow::setSpinVariableValues(const std::vector<uint16_t>& values) {
-
-    spinVariableValues = std::vector<uint16_t> (spinVariablesCount);
-
-    for(uint16_t i = 0; i < values.size(); ++i)
-        spinVariableValues[i] = values[i];
+        spinVariables[i]->setValue(value);
+        spinVariableNames[i] = name;
+    }
 }
 
 std::vector<uint16_t> 
 BaseWindow::getSpinVariableValues() const
 {
     std::vector<uint16_t> values;
-    values.reserve(spinVariables.size());
+    uint16_t spinsCount = static_cast<uint16_t>(spinVariables.size());
+    values.reserve(spinsCount);
 
     for (const auto* spin : spinVariables)
     {
@@ -52,13 +49,24 @@ BaseWindow::getSpinVariableValues() const
     return values;
 }
 
+
 void
 BaseWindow::drawSpinVariableButtons() {
 
     auto *paramsLayout = new QHBoxLayout();
 
-    for(uint16_t i = 0; i < spinVariablesCount; ++i)
-        spinVariables[i] = addLabeledSpinBox(paramsLayout, QString::fromStdString(spinVariableNames[i]), spinVariableValues[i], this);
+    std::vector<uint16_t> spinValues = getSpinVariableValues();
+    uint16_t spinsCount = static_cast<uint16_t>(spinValues.size());
+
+    for(uint16_t i = 0; i < spinsCount; ++i)
+    {
+        spinVariables[i] = addLabeledSpinBox(
+            paramsLayout, 
+            QString::fromStdString(spinVariableNames[i]),
+            spinValues[i],
+            this
+        );
+    }
 
     mainLayout->addLayout(paramsLayout);
 }
@@ -155,15 +163,16 @@ BaseWindow::drawOutputBox() {
 
 void BaseWindow::setupWindow() {
 
+    drawInfoButton();
+    drawSpinVariableButtons();
+    drawRunButton();
+    drawOutputBox();
+
     setCentralWidget(central);
     resize(WINDOW_WIDTH, WINDOW_HEIGHT);
     connect(runButton, &QPushButton::clicked, this, &BaseWindow::runTest);
 }
 
-void 
-BaseWindow::setTestCount(const uint16_t test_count) {
-    testCount = test_count;
-}
 
 void 
 BaseWindow::setRunCount(const uint16_t run_count) {
@@ -176,18 +185,10 @@ BaseWindow::setRunCountIndex(const uint16_t run_count_index) {
 }
 
 void 
-BaseWindow::setTestNames(const std::vector<std::string>& test_names) {
-
-    testNames = std::vector<std::string> (testCount);
-
-    for (uint16_t i = 0; i < testCount; ++i)
-        testNames[i] = test_names[i];
-}
-
-void 
 BaseWindow::runTest()
 {
 
+    uint16_t testCount = subTestFunc.size();
     high_resolution_clock::time_point start;
     high_resolution_clock::time_point stop;
 

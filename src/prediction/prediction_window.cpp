@@ -13,47 +13,28 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     const uint16_t sampleRange  = 256;
     const uint16_t bucketCount  = 256;
 
-    const uint8_t  spinCount    = 4; 
-    const uint8_t  testCount    = 2;
-
-    setSpinVariablesCount(spinCount);
-    setSpinVariables();
-
-    setSpinVariableNames({
-        "Run Count",
-        "Sample Size",
-        "Sample Range",
-        "Bucket Count"
-    });
-
-    setSpinVariableValues({
-        runCount, 
-        sampleSize,
-        sampleRange,
-        bucketCount
+    setSpinVariables({
+        {"Run Count", runCount},
+        {"Sample Size", sampleSize},
+        {"Sample Range", sampleRange},
+        {"Bucket Count", bucketCount}
     });
 
     setParam(prediction_params);
     setInitFunction<prediction_params_t>(PredictionWindow::prediction_params_init);
-
     setGenFunction<prediction_params_t>(PredictionWindow::sample_gen);
+
+    setTestFunctions<prediction_params_t>({
+        {"UNSORTED\t", PredictionWindow::test_unsorted},
+        {"SORTED\t", PredictionWindow::test_sorted}
+    });
+
     setRunCount(runCount);
     setRunCountIndex(PRED_RUN_COUNT_INDEX);
 
     setInfoTitle("Prediction Test Info");
     setInfoPath("src/prediction/prediction_info");
     setRunTitle("Run Prediction Test");
-
-    drawInfoButton();
-    drawSpinVariableButtons();
-    drawRunButton();
-    drawOutputBox();
-
-    setTestCount(testCount);
-    setTestNames({"UNSORTED\t", "SORTED\t"});
-
-    setSubTestFunctions<prediction_params_t>
-        ({PredictionWindow::test_unsorted, PredictionWindow::test_sorted});
 
     setupWindow();
 }
@@ -74,13 +55,11 @@ PredictionWindow::sample_gen(
     prediction_params_t& prediction_params
 )
 {
-    BaseWindow bw;
-
     prediction_params.sample = 
-        bw.random_sample_generation(prediction_params.sample_size, prediction_params.sample_range);
+        random_sample_generation(prediction_params.sample_size, prediction_params.sample_range);
 
     prediction_params.buckets = 
-        bw.random_sample_generation(prediction_params.buckets_count, prediction_params.sample_range);
+        random_sample_generation(prediction_params.buckets_count, prediction_params.sample_range);
 }
 
 void 
