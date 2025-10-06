@@ -21,12 +21,13 @@ void BaseWindow::setSpinVariables(
     {
         const auto& [name, value] = spinData[i];
 
-        // Create the QSpinBox if it doesn't exist yet
+        // Ensure the QSpinBox is created only once (This part is correct)
         if (!spinVariables[i]) {
             spinVariables[i] = new QSpinBox(this);
-            spinVariables[i]->setRange(0, 65535); // or any max you need
+            spinVariables[i]->setRange(1, 65535); // Set the range here
         }
 
+        // Configure the widget
         spinVariables[i]->setValue(value);
         spinVariableNames[i] = name;
     }
@@ -48,47 +49,31 @@ BaseWindow::getSpinVariableValues() const
     return values;
 }
 
-void
-BaseWindow::drawSpinVariableButtons() 
+void BaseWindow::drawSpinVariableButtons() 
 {
     auto *paramsLayout = new QHBoxLayout();
-
-    std::vector<uint16_t> spinValues = getSpinVariableValues();
-    uint16_t spinsCount = static_cast<uint16_t>(spinValues.size());
+    
+    // We get the names/objects that were set up by setSpinVariables
+    uint16_t spinsCount = static_cast<uint16_t>(spinVariables.size());
 
     for(uint16_t i = 0; i < spinsCount; ++i)
     {
-        spinVariables[i] = addLabeledSpinBox(
-            paramsLayout, 
-            QString::fromStdString(spinVariableNames[i]),
-            spinValues[i],
-            this
+        // 1. Create the label.
+        // NOTE: We use spinVariableNames and spinVariables, which must be sized correctly
+        // by the preceding call to setSpinVariables.
+        auto* label = new QLabel(
+            QString::fromStdString(spinVariableNames[i]), this
         );
+
+        // 2. Reuse the QSpinBox object created in setSpinVariables().
+        QSpinBox* spin = spinVariables[i];
+
+        // 3. Add them to the horizontal layout.
+        paramsLayout->addWidget(label);
+        paramsLayout->addWidget(spin);
     }
 
     mainLayout->addLayout(paramsLayout);
-}
-
-QSpinBox* 
-BaseWindow::addLabeledSpinBox(
-    QBoxLayout* layout,
-    const QString& labelText,
-    uint16_t defaultValue,
-    QWidget* parent,
-    uint16_t min,
-    uint16_t max
-) 
-{
-    auto* label = new QLabel(labelText, parent);
-    auto* spin  = new QSpinBox(parent);
-
-    spin->setRange(min, max);
-    spin->setValue(defaultValue);
-
-    layout->addWidget(label);
-    layout->addWidget(spin);
-
-    return spin;
 }
 
 void 
@@ -159,6 +144,11 @@ BaseWindow::drawOutputBox() {
 }
 
 void BaseWindow::setupWindow() {
+
+    if (mainLayout)
+        delete mainLayout;
+
+    mainLayout = new QVBoxLayout(central);
 
     drawInfoButton();
     drawSpinVariableButtons();

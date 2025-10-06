@@ -155,16 +155,6 @@ private:
     }
     /************************************************************************/
     void printToOutput(QTextEdit* outputBox, const QString& text);
-
-    QSpinBox* addLabeledSpinBox(
-        QBoxLayout* layout,
-        const QString& labelText,
-        uint16_t defaultValue,
-        QWidget* parent,
-        uint16_t min = 1,
-        uint16_t max = 65535
-    );
-
     void drawInfoButton();
     void drawSpinVariableButtons();
     void drawRunButton();
