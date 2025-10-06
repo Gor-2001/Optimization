@@ -7,49 +7,32 @@
 JumpTableWindow::JumpTableWindow(QWidget *parent)
     : BaseWindow(parent)
 {
-    // // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    // const uint16_t runCount    = 100;
-    // const uint16_t sampleSize  = 256;
 
-    // const uint8_t  spinCount    = 2; 
-    // const uint8_t  testCount    = 2;
+    // Variables that may change during execution (mutable, e.g., loop/spine-related)
+    const uint16_t runCount    = 100;
+    const uint16_t sampleSize  = 256;
 
-    // setSpinVariablesCount(spinCount);
-    // setSpinVariables();
+    setRunCount(runCount, JUMP_RUN_COUNT_INDEX);
 
-    // setSpinVariableNames({
-    //     "Run Count",
-    //     "Sample Size"
-    // });
+    setSpinVariables({
+        {"Run Count", runCount},
+        {"Sample Size", sampleSize}
+    });
 
-    // setSpinVariableValues({
-    //     runCount, 
-    //     sampleSize
-    // });
+    setParam(jump_table_params);
+    setInitFunction<jump_table_params_t>(JumpTableWindow::jump_table_params_init);
+    setGenFunction<jump_table_params_t>(JumpTableWindow::sample_gen);
 
-    // setParam(jump_table_params);
-    // setInitFunction<jump_table_params_t>(JumpTableWindow::jump_table_params_init);
+    setTestFunctions<jump_table_params_t>({
+        {"IFELSE\t", JumpTableWindow::test_ifelse},
+        {"SWITCH\t", JumpTableWindow::test_switch}
+    });
 
-    // setGenFunction<jump_table_params_t>(JumpTableWindow::sample_gen);
-    // setRunCount(runCount);
-    // setRunCountIndex(JUMP_RUN_COUNT_INDEX);
+    setInfoTitle("Jump Table Test Info");
+    setInfoPath("src/jump_table/jump_table_info");
+    setRunTitle("Run Jump Table Test");
 
-    // setInfoTitle("Jump Table Test Info");
-    // setInfoPath("src/jump_table/jump_table_info");
-    // setRunTitle("Run Jump Table Test");
-
-    // drawInfoButton();
-    // drawSpinVariableButtons();
-    // drawRunButton();
-    // drawOutputBox();
-
-    // setTestCount(testCount);
-    // setTestNames({"IFELSE\t", "SWITCH\t"});
-
-    // setSubTestFunctions<jump_table_params_t>
-    //     ({JumpTableWindow::test_ifelse, JumpTableWindow::test_switch});
-
-    // setupWindow();
+    setupWindow();
 }
 
 void 

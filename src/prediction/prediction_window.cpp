@@ -25,7 +25,7 @@ PredictionWindow::PredictionWindow(QWidget *parent)
     setParam(prediction_params);
     setInitFunction<prediction_params_t>(PredictionWindow::prediction_params_init);
     setGenFunction<prediction_params_t>(PredictionWindow::sample_gen);
-    
+
     setTestFunctions<prediction_params_t>({
         {"UNSORTED\t", PredictionWindow::test_unsorted},
         {"SORTED\t", PredictionWindow::test_sorted}
