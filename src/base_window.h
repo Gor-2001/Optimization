@@ -110,11 +110,13 @@ public:
     
 private slots:
     void runTest();
-
+    void cleanOutput();
+    
 private:
 
     /************************************************************************/
     QPushButton *runButton;
+    QPushButton *cleanButton;
     QPushButton *openButton;
     QTextEdit   *outputBox;
 
@@ -158,6 +160,7 @@ private:
     void drawInfoButton();
     void drawSpinVariableButtons();
     void drawRunButton();
+    void drawCleanButton();
     void drawOutputBox();
 
     std::vector<uint16_t> getSpinVariableValues() const;

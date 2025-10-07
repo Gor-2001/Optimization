@@ -135,6 +135,12 @@ BaseWindow::drawRunButton() {
 }
 
 void 
+BaseWindow::drawCleanButton() {
+    cleanButton = new QPushButton(QString::fromStdString("Clean the output window"), this);
+    mainLayout->addWidget(cleanButton);
+}
+
+void 
 BaseWindow::drawOutputBox() {
 
     outputBox = new QTextEdit(this);
@@ -153,11 +159,13 @@ void BaseWindow::setupWindow() {
     drawInfoButton();
     drawSpinVariableButtons();
     drawRunButton();
+    drawCleanButton();
     drawOutputBox();
 
     setCentralWidget(central);
     resize(WINDOW_WIDTH, WINDOW_HEIGHT);
     connect(runButton, &QPushButton::clicked, this, &BaseWindow::runTest);
+    connect(cleanButton, &QPushButton::clicked, this, &BaseWindow::cleanOutput);
 }
 
 void 
@@ -200,6 +208,14 @@ BaseWindow::runTest()
             .arg(QString::fromStdString(testNames[i]))
             .arg(duration.count(), 10)
         );
+    }
+}
+
+void 
+BaseWindow::cleanOutput()
+{
+    if (outputBox) {
+        outputBox->clear();
     }
 }
 
