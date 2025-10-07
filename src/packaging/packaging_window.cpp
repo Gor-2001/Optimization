@@ -3,7 +3,10 @@
 /***************************************/
 #include "packaging_window.h"
 /***************************************/
-
+extern "C" {
+    void print_asm_message();
+}
+/***************************************/
 PackagingWindow::PackagingWindow(QWidget *parent)
     : BaseWindow(parent)
 {
@@ -67,7 +70,7 @@ PackagingWindow::test_unsorted(
     packaging_params_t& packaging_params
 )
 {
-    
+    print_asm_message();
 }
 
 void 
@@ -75,6 +78,8 @@ PackagingWindow::test_sorted(
     packaging_params_t& packaging_params
 )
 {
-
+    std::cout << 
+        "-> Hello from C++ Code called by C++! <- Sort" 
+        << std::endl;
 }
 
