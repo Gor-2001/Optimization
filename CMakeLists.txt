@@ -28,6 +28,9 @@ add_executable(optimization
 
     src/dependency/dependency_window.cpp
     src/dependency/dependency_window.h
+
+    src/packaging/packaging_window.cpp
+    src/packaging/packaging_window.h
 )
 
 target_link_libraries(optimization Qt5::Widgets)

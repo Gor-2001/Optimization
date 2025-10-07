@@ -38,6 +38,12 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     mainLayout->addWidget(dependencyButton, 0, Qt::AlignHCenter);
     connect(dependencyButton, &QPushButton::clicked, this, &MainMenuWindow::openDependencyWindow);
 
+    // Button: Packaging  Test
+    QPushButton *packagingButton = new QPushButton("Open Packaging Test", this);
+    packagingButton->setFixedSize(buttonWidth, buttonHeight);
+    mainLayout->addWidget(packagingButton, 0, Qt::AlignHCenter);
+    connect(packagingButton, &QPushButton::clicked, this, &MainMenuWindow::openPackagingWindow);
+
     // Optional: add stretch to push buttons slightly up
     mainLayout->addStretch();
 
@@ -61,4 +67,11 @@ void MainMenuWindow::openDependencyWindow()
 {
     DependencyWindow *dependencyWindow = new DependencyWindow(this); // create Dependency window
     dependencyWindow->show();
+}
+
+
+void MainMenuWindow::openPackagingWindow()
+{
+    PackagingWindow *packagingWindow = new PackagingWindow(this); // create Packaging window
+    packagingWindow->show();
 }

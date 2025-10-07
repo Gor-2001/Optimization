@@ -1,0 +1,20 @@
+Prediction Test Description
+---------------------------
+
+This test is designed to demonstrate basic CPU prediction capabilities. 
+It is intended for educational purposes only and does not have practical use.
+
+The test consists of two nearly identical experiments. Both experiments start 
+by generating a dataset and selecting a set of thresholds or "buckets". 
+For example, the dataset could be numbers from 0 to 1023, and the buckets 
+could be {4, 5, 67}.
+
+During the experiment, the program calculates the sum of all dataset elements 
+that are greater than each bucket value. The only difference between the two 
+experiments is that in one case, the dataset is sorted before performing the 
+sums. Although the sorted experiment performs additional sorting operations, 
+it often executes faster than the unsorted one. In my tests, the sorted version 
+achieved a 30–40% speedup.
+
+This behavior demonstrates how CPU branch prediction and memory access patterns 
+can affect algorithm performance, even for simple operations.
