@@ -6,8 +6,6 @@
 /***************************************/
 #include "../base_window.h"
 /***************************************/
-#include <bits/c++config.h>
-/***************************************/
 
 struct packaging_params_t {
     std::vector<uint16_t> sample;

@@ -2,7 +2,7 @@
 .intel_syntax noprefix
 
 .section .data
-msg:    .ascii "-> Hello from Asm Code called by C++! <- Unsort\n "
+msg:    .ascii "Hello World !\n "
 len = . - msg
 
 .section .text

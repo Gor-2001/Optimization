@@ -3,9 +3,7 @@
 /***************************************/
 #include "packaging_window.h"
 /***************************************/
-extern "C" {
-    void print_asm_message();
-}
+extern "C" { void print_asm_message(); }
 /***************************************/
 PackagingWindow::PackagingWindow(QWidget *parent)
     : BaseWindow(parent)
@@ -31,8 +29,8 @@ PackagingWindow::PackagingWindow(QWidget *parent)
     setGenFunction<packaging_params_t>(PackagingWindow::sample_gen);
 
     setTestFunctions<packaging_params_t>({
-        {"UNSORTED\t", PackagingWindow::test_unsorted},
-        {"SORTED\t", PackagingWindow::test_sorted}
+        {"Asm\t", PackagingWindow::test_unsorted},
+        {"C++\t", PackagingWindow::test_sorted}
     });
 
     setInfoTitle("Packaging  Test Info");
@@ -78,8 +76,7 @@ PackagingWindow::test_sorted(
     packaging_params_t& packaging_params
 )
 {
-    std::cout << 
-        "-> Hello from C++ Code called by C++! <- Sort" 
-        << std::endl;
+    setvbuf(stdout, nullptr, _IONBF, 0); // disable buffering
+    std::cout << "Hello World !" << std::endl;
 }
 
