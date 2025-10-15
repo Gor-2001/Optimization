@@ -53,7 +53,7 @@ DependencyWindow::sample_gen(
 )
 {
     dependency_params.sample = 
-        random_sample_generation(dependency_params.sample_size, dependency_params.sample_range);
+        random_sample_generation16(dependency_params.sample_size, dependency_params.sample_range);
 }
 
 void 
@@ -64,7 +64,7 @@ DependencyWindow::test_neighbor_add(
     for (uint16_t i = 0; i < dependency_params.sample.size() - 1; i++)
         dependency_params.sample[i] = dependency_params.sample[i + 1];
     
-    dependency_params.sample[dependency_params.sample.size() - 2] += dependency_params.sample[0];
+    dependency_params.sample[dependency_params.sample.size() - 1] += dependency_params.sample[0];
 }
 
 void 

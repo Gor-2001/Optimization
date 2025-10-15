@@ -102,7 +102,13 @@ public:
     }
     /************************************************************************/
     static std::vector<uint16_t> 
-    random_sample_generation(
+    random_sample_generation16(
+        const uint16_t vector_size,
+        const uint16_t range
+    );
+
+    static std::vector<uint8_t> 
+    random_sample_generation8(
         const uint16_t vector_size,
         const uint16_t range
     );

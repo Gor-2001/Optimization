@@ -53,7 +53,7 @@ JumpTableWindow::sample_gen(
 )
 {
     jump_table_params.sample = 
-        random_sample_generation(jump_table_params.sample_size, jump_table_params.sample_range);
+        random_sample_generation16(jump_table_params.sample_size, jump_table_params.sample_range);
 }
 
 void 

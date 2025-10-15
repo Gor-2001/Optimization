@@ -56,10 +56,10 @@ PredictionWindow::sample_gen(
 )
 {
     prediction_params.sample = 
-        random_sample_generation(prediction_params.sample_size, prediction_params.sample_range);
+        random_sample_generation16(prediction_params.sample_size, prediction_params.sample_range);
 
     prediction_params.buckets = 
-        random_sample_generation(prediction_params.buckets_count, prediction_params.sample_range);
+        random_sample_generation16(prediction_params.buckets_count, prediction_params.sample_range);
 }
 
 void 

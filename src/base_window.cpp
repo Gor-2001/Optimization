@@ -233,7 +233,7 @@ BaseWindow::printToOutput(
 }
 
 std::vector<uint16_t> 
-BaseWindow::random_sample_generation(
+BaseWindow::random_sample_generation16(
     const uint16_t vector_size,
     const uint16_t range
 )
@@ -242,6 +242,20 @@ BaseWindow::random_sample_generation(
 
     for (auto& it : result)
         it = static_cast<uint16_t>(rand() % range);
+
+    return result;
+}
+
+std::vector<uint8_t> 
+BaseWindow::random_sample_generation8(
+    const uint16_t vector_size,
+    const uint16_t range
+)
+{
+    std::vector<uint8_t> result(vector_size, 0);
+
+    for (auto& it : result)
+        it = static_cast<uint8_t>(rand() % range);
 
     return result;
 }

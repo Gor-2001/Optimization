@@ -8,19 +8,18 @@
 /***************************************/
 
 struct packaging_params_t {
-    std::vector<uint16_t> sample;
-    uint16_t sample_size;
-    uint16_t sample_range;
+    std::vector<uint8_t> src;
+    uint16_t srcSize;
 
-    std::vector<uint16_t> buckets;
-    uint16_t buckets_count;
+    std::vector<uint32_t> words;
+    uint16_t wordsCount;
+    uint8_t wordsBitLen;
 };
 
 enum packaging_params_order_t {
     PACK_RUN_COUNT_INDEX = 0,
-    PACK_SAMPLE_SIZE_INDEX,
-    PACK_SAMPLE_RANGE_INDEX,
-    PACK_BUCKET_COUNT_INDEX,
+    PACK_WORD_COUNT_INDEX,
+    PACK_WORD_BIT_LEN_INDEX
 };
 
 class QPushButton;
@@ -43,7 +42,7 @@ private:
 
     static void sample_gen(packaging_params_t& packaging_params);
 
-    static void test_unsorted(packaging_params_t& packaging_params);
+    static void bit_by_bit(packaging_params_t& packaging_params);
     static void test_sorted(packaging_params_t& packaging_params);
 
 };
