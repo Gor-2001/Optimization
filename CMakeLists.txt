@@ -8,6 +8,7 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
+# TODO: asm
 # Assemble .asm file manually
 # set(ASM_SOURCE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/packaging/hello_asm.asm)
 # set(ASM_OBJECT_FILE ${CMAKE_CURRENT_BINARY_DIR}/hello_asm.o)
@@ -22,6 +23,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 
 add_executable(optimization
+    # TODO: asm
     #${ASM_OBJECT_FILE}
     src/main.cpp
     src/main_window.cpp
