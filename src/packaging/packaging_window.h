@@ -9,11 +9,12 @@
 
 struct packaging_params_t {
     std::vector<uint8_t> src;
-    uint16_t srcSize;
-
     std::vector<uint32_t> words;
+    
+    uint16_t srcSize;
+    uint16_t srcRange;
     uint16_t wordsCount;
-    uint8_t wordsBitLen;
+    uint16_t wordsBitLen;
 };
 
 enum packaging_params_order_t {

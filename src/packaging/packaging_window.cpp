@@ -38,32 +38,36 @@ PackagingWindow::PackagingWindow(QWidget *parent)
     setupWindow();
 }
 
+#define BIT_TO_BYTE(c) ((c) + 7) >> 3
+
 void 
 PackagingWindow::packaging_params_init(
     packaging_params_t& packaging_params, 
     const std::vector<uint16_t>& spinVariables
 )
 {
+    packaging_params.srcRange = 256;
     packaging_params.wordsCount = spinVariables[PACK_WORD_COUNT_INDEX];
     packaging_params.wordsBitLen = spinVariables[PACK_WORD_BIT_LEN_INDEX];
-}
 
-#define BIT_TO_BYTE(c) ((c) + 7) >> 3
+    const uint16_t extra = 4;
+    packaging_params.srcSize = packaging_params.wordsCount;
+    packaging_params.srcSize *= packaging_params.wordsBitLen;
+    packaging_params.srcSize >>= 3;
+    packaging_params.srcSize += extra;
+
+    packaging_params.words.resize(packaging_params.wordsCount);
+}
 
 void 
 PackagingWindow::sample_gen(
     packaging_params_t& packaging_params
 )
 {
-    const uint16_t range = 256;
-    const uint16_t extra = 4;
-
-    packaging_params.srcSize = 
-        BIT_TO_BYTE(packaging_params.wordsCount + packaging_params.wordsBitLen) + extra;
-
-
-    packaging_params.src = random_sample_generation8(packaging_params.srcSize, range);
-    packaging_params.words.resize(packaging_params.wordsCount);
+    packaging_params.src = random_sample_generation8(
+        packaging_params.srcSize, 
+        packaging_params.srcRange
+    );
 }
 
 void 
@@ -71,7 +75,21 @@ PackagingWindow::bit_by_bit(
     packaging_params_t& packaging_params
 )
 {
-    //print_asm_message();
+    uint64_t bitPos = 0;
+    for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+    {
+        uint32_t value = 0;
+        for (uint16_t b = 0; b < packaging_params.wordsBitLen; ++b) {
+            uint32_t byteIndex = bitPos >> 3;
+            uint8_t  bitIndex  = 7 - (bitPos & 7);
+            uint8_t  bit = (packaging_params.src[byteIndex] >> bitIndex) & 1;
+
+            value = (value << 1) | bit;
+            ++bitPos;
+        }
+
+        packaging_params.words[i] = value;
+    }
 }
 
 void 
