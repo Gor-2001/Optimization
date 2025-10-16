@@ -117,7 +117,7 @@ PackagingWindow::word_by_word(
         value |= *(ptr++);
 
         value <<= 24 + (bitPos & 7);
-        value >>= 53;
+        value >>= (64 - packaging_params.wordsBitLen);
         packaging_params.words[i] = value;
 
         bitPos += packaging_params.wordsBitLen;
@@ -129,14 +129,30 @@ PackagingWindow::chaining(
     packaging_params_t& packaging_params
 )
 {
+    uint8_t* ptr = packaging_params.src.data();
+
+    if(packaging_params.wordsBitLen == 32)
+    {
+        for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+        {
+            packaging_params.words[i] = *(ptr++);
+            packaging_params.words[i] <<= 8;
+            packaging_params.words[i] |= *(ptr++);
+            packaging_params.words[i] <<= 8;
+            packaging_params.words[i] |= *(ptr++);
+            packaging_params.words[i] <<= 8;
+            packaging_params.words[i] |= *(ptr++);
+        }
+
+        return;
+    }
+
     uint64_t bitCount = 0;
     uint64_t value = 0;
     uint64_t temp = 0;
 
     uint64_t mask = 
         (1u << packaging_params.wordsBitLen) - 1u;
-
-    uint8_t* ptr = packaging_params.src.data();
 
     for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
     {
@@ -164,7 +180,7 @@ void
 PackagingWindow::inner_test()
 {
     packaging_params_t packaging_params;
-    const std::vector<uint16_t> spinVariables = {1, 200, 11};
+    const std::vector<uint16_t> spinVariables = {1, 200, 32};
 
     packaging_params_init(packaging_params, spinVariables);
     sample_gen(packaging_params);
