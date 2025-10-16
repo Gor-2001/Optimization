@@ -3,7 +3,8 @@
 /***************************************/
 #include "packaging_window.h"
 /***************************************/
-extern "C" { void print_asm_message(); }
+//TODO: asm
+//extern "C" { void print_asm_message(); }
 /***************************************/
 PackagingWindow::PackagingWindow(QWidget *parent)
     : BaseWindow(parent)
@@ -27,8 +28,8 @@ PackagingWindow::PackagingWindow(QWidget *parent)
     setGenFunction<packaging_params_t>(PackagingWindow::sample_gen);
 
     setTestFunctions<packaging_params_t>({
-        {"Bit By Bit\t", PackagingWindow::bit_by_bit},
-        {"C++\t", PackagingWindow::test_sorted}
+        {"Bit By Bit\t\t", PackagingWindow::bit_by_bit},
+        {"Word By Word\t", PackagingWindow::word_by_word}
     });
 
     setInfoTitle("Packaging  Test Info");
@@ -37,8 +38,6 @@ PackagingWindow::PackagingWindow(QWidget *parent)
 
     setupWindow();
 }
-
-#define BIT_TO_BYTE(c) ((c) + 7) >> 3
 
 void 
 PackagingWindow::packaging_params_init(
@@ -93,11 +92,35 @@ PackagingWindow::bit_by_bit(
 }
 
 void 
-PackagingWindow::test_sorted(    
+PackagingWindow::word_by_word(    
     packaging_params_t& packaging_params
 )
 {
-    //setvbuf(stdout, nullptr, _IONBF, 0); // disable buffering
-    //std::cout << "Hello World !" << std::endl;
+    uint64_t bitPos = 0;
+    uint64_t value = 0;
+    uint8_t* ptr;
+
+    for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+    {
+        ptr = packaging_params.src.data() + (bitPos >> 3);
+
+        value = *(ptr++);
+        value <<= 8;
+        value |= *(ptr++);
+        value <<= 8;
+        value |= *(ptr++);
+        value <<= 8;
+        value |= *(ptr++);
+        value <<= 8;
+        value |= *(ptr++);
+
+        value <<= 24 + (bitPos & 7);
+        value >>= 53;
+        packaging_params.words[i] = value;
+
+        bitPos += packaging_params.wordsBitLen;
+    }
 }
+
+
 

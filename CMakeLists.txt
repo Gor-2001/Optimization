@@ -9,19 +9,20 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 # Assemble .asm file manually
-set(ASM_SOURCE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/packaging/hello_asm.asm)
-set(ASM_OBJECT_FILE ${CMAKE_CURRENT_BINARY_DIR}/hello_asm.o)
+# set(ASM_SOURCE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/packaging/hello_asm.asm)
+# set(ASM_OBJECT_FILE ${CMAKE_CURRENT_BINARY_DIR}/hello_asm.o)
 
-add_custom_command(
-    OUTPUT ${ASM_OBJECT_FILE}
-    COMMAND as --64 ${ASM_SOURCE_FILE} -o ${ASM_OBJECT_FILE}
-    DEPENDS ${ASM_SOURCE_FILE}
-    COMMENT "Assembling 64-bit x86 assembly function: ${ASM_SOURCE_FILE}"
-)
+# TODO: asm
+# add_custom_command(
+#     OUTPUT ${ASM_OBJECT_FILE}
+#     COMMAND as --64 ${ASM_SOURCE_FILE} -o ${ASM_OBJECT_FILE}
+#     DEPENDS ${ASM_SOURCE_FILE}
+#     COMMENT "Assembling 64-bit x86 assembly function: ${ASM_SOURCE_FILE}"
+# )
 
 
 add_executable(optimization
-    ${ASM_OBJECT_FILE}
+    #${ASM_OBJECT_FILE}
     src/main.cpp
     src/main_window.cpp
     src/main_window.h

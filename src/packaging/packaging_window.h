@@ -44,7 +44,7 @@ private:
     static void sample_gen(packaging_params_t& packaging_params);
 
     static void bit_by_bit(packaging_params_t& packaging_params);
-    static void test_sorted(packaging_params_t& packaging_params);
+    static void word_by_word(packaging_params_t& packaging_params);
 
 };
 
