@@ -9,6 +9,7 @@
 PackagingWindow::PackagingWindow(QWidget *parent)
     : BaseWindow(parent)
 {
+    inner_test();
     // Variables that may change during execution (mutable, e.g., loop/spine-related)
     const uint16_t runCount     = 100;
     const uint16_t wordCount    = 200;
@@ -122,5 +123,28 @@ PackagingWindow::word_by_word(
     }
 }
 
+void
+PackagingWindow::inner_test()
+{
+    packaging_params_t packaging_params;
+    const std::vector<uint16_t> spinVariables = {1, 200, 11};
 
+    packaging_params_init(packaging_params, spinVariables);
+    sample_gen(packaging_params);
 
+    bit_by_bit(packaging_params);
+    std::vector<uint32_t> temp = packaging_params.words;
+
+    word_by_word(packaging_params);
+    const auto& words = packaging_params.words;
+
+    if (!std::equal(temp.begin(), temp.end(), words.begin())) {
+        std::cout << "Vectors are NOT equal!\n";
+        std::cout << "temp:  ";
+        for (auto v : temp) std::cout << (int)v << ' ';
+        std::cout << "\nwords: ";
+        for (auto v : words) std::cout << (int)v << ' ';
+        std::cout << '\n';
+    }
+
+}

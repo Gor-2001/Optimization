@@ -34,6 +34,7 @@ private:
     packaging_params_t packaging_params;
 
     using BaseWindow::BaseWindow;
+    void inner_test();
 
     static void 
     packaging_params_init(
