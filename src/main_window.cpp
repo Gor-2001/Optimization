@@ -11,7 +11,7 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     const uint16_t buttonHeight = 40;
 
     setWindowTitle("Main Menu");
-    setMinimumSize(WINDOW_WIDTH, WINDOW_HEIGHT); // use constants
+    setMinimumSize(BaseWindow::window_width, BaseWindow::window_height); // use constants
 
     QWidget *central = new QWidget(this);
     auto *mainLayout = new QVBoxLayout(central);

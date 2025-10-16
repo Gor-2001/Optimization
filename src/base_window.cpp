@@ -95,7 +95,7 @@ void BaseWindow::drawInfoButton()
         // Create a new dialog window
         QDialog* infoDialog = new QDialog(this);
         infoDialog->setWindowTitle(QString::fromStdString(infoTitle));
-        infoDialog->resize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        infoDialog->resize(BaseWindow::window_width, BaseWindow::window_height);
 
         QVBoxLayout* layout = new QVBoxLayout(infoDialog);
 
@@ -163,7 +163,7 @@ void BaseWindow::setupWindow() {
     drawOutputBox();
 
     setCentralWidget(central);
-    resize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    resize(BaseWindow::window_width, BaseWindow::window_height);
     connect(runButton, &QPushButton::clicked, this, &BaseWindow::runTest);
     connect(cleanButton, &QPushButton::clicked, this, &BaseWindow::cleanOutput);
 }

@@ -33,9 +33,6 @@
 /***************************************/
 using namespace std::chrono;
 /***************************************/
-#define WINDOW_WIDTH    800
-#define WINDOW_HEIGHT   600
-/***************************************/
 
 class QPushButton;
 
@@ -45,6 +42,9 @@ public:
 
     /************************************************************************/
     BaseWindow(QWidget *parent = nullptr);
+    /************************************************************************/
+    static const uint16_t window_width = 800;
+    static const uint16_t window_height = 600;
     /************************************************************************/
     void 
     setSpinVariables(
