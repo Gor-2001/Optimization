@@ -46,6 +46,7 @@ private:
 
     static void bit_by_bit(packaging_params_t& packaging_params);
     static void word_by_word(packaging_params_t& packaging_params);
+    static void chaining(packaging_params_t& packaging_params);
 
 };
 

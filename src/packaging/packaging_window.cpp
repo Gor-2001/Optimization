@@ -30,7 +30,8 @@ PackagingWindow::PackagingWindow(QWidget *parent)
 
     setTestFunctions<packaging_params_t>({
         {"Bit By Bit\t\t", PackagingWindow::bit_by_bit},
-        {"Word By Word\t", PackagingWindow::word_by_word}
+        {"Word By Word\t", PackagingWindow::word_by_word},
+        {"Chaining\t\t", PackagingWindow::chaining}
     });
 
     setInfoTitle("Packaging  Test Info");
@@ -123,6 +124,42 @@ PackagingWindow::word_by_word(
     }
 }
 
+void 
+PackagingWindow::chaining(    
+    packaging_params_t& packaging_params
+)
+{
+    uint64_t bitCount = 0;
+    uint64_t value = 0;
+    uint64_t temp = 0;
+
+    uint64_t mask = 
+        (1u << packaging_params.wordsBitLen) - 1u;
+
+    uint8_t* ptr = packaging_params.src.data();
+
+    for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+    {
+        if(bitCount < packaging_params.wordsBitLen)
+        {
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            bitCount += 32;
+        }
+
+        bitCount -= packaging_params.wordsBitLen;
+        temp = (value >> bitCount);
+        temp &= mask;
+        packaging_params.words[i] = temp;
+    }
+}
+
 void
 PackagingWindow::inner_test()
 {
@@ -133,18 +170,29 @@ PackagingWindow::inner_test()
     sample_gen(packaging_params);
 
     bit_by_bit(packaging_params);
-    std::vector<uint32_t> temp = packaging_params.words;
+    std::vector<uint32_t> bit_by_bit_dt = packaging_params.words;
 
     word_by_word(packaging_params);
-    const auto& words = packaging_params.words;
+    std::vector<uint32_t> word_by_word_dt = packaging_params.words;
 
-    if (!std::equal(temp.begin(), temp.end(), words.begin())) {
+    chaining(packaging_params);
+    std::vector<uint32_t> chaining_dt = packaging_params.words;
+
+    if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), word_by_word_dt.begin())) {
         std::cout << "Vectors are NOT equal!\n";
-        std::cout << "temp:  ";
-        for (auto v : temp) std::cout << (int)v << ' ';
-        std::cout << "\nwords: ";
-        for (auto v : words) std::cout << (int)v << ' ';
+        std::cout << "bit_by_bit_dt:  ";
+        for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+        std::cout << "\nword_by_word_dt: ";
+        for (auto v : word_by_word_dt) std::cout << (int)v << ' ';
         std::cout << '\n';
     }
 
+    if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_dt.begin())) {
+        std::cout << "Vectors are NOT equal!\n";
+        std::cout << "bit_by_bit_dt:  ";
+        for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+        std::cout << "\nchaining_dt: ";
+        for (auto v : chaining_dt) std::cout << (int)v << ' ';
+        std::cout << '\n';
+    }
 }
