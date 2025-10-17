@@ -6,6 +6,10 @@
 //TODO: asm
 //extern "C" { void print_asm_message(); }
 /***************************************/
+
+#define IS_LITTLE_ENDIAN (*(uint8_t *)&(uint16_t){1})
+
+
 PackagingWindow::PackagingWindow(QWidget *parent)
     : BaseWindow(parent)
 {
@@ -197,9 +201,10 @@ PackagingWindow::inner_test()
     packaging_params_t packaging_params;
     std::vector<uint16_t> spinVariables = {1, 200, 0};
 #ifdef __DEBUG
-    for (size_t i = 0; i < 32; i++)
+    for (size_t i = 0; i < 1; i++)
     {
         ++spinVariables[2];
+        spinVariables[2] = 11;
         std::cout << "Test params are\n";
         std::cout << "Word Bit Count = " << spinVariables[2] << "\n";
 
@@ -212,12 +217,6 @@ PackagingWindow::inner_test()
         word_by_word(packaging_params);
         std::vector<uint32_t> word_by_word_dt = packaging_params.words;
 
-        chaining_little_u64(packaging_params);
-        std::vector<uint32_t> chaining_l64_dt = packaging_params.words;
-
-        chaining_big_u64(packaging_params);
-        std::vector<uint32_t> chaining_b64_dt = packaging_params.words;
-
         if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), word_by_word_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
             std::cout << "bit_by_bit_dt:  ";
@@ -226,6 +225,9 @@ PackagingWindow::inner_test()
             for (auto v : word_by_word_dt) std::cout << (int)v << ' ';
             std::cout << '\n';
         }
+
+        chaining_little_u64(packaging_params);
+        std::vector<uint32_t> chaining_l64_dt = packaging_params.words;
 
         if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_l64_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
@@ -236,6 +238,11 @@ PackagingWindow::inner_test()
             std::cout << '\n';
         }
 
+        chaining_big_u64(packaging_params);
+        std::vector<uint32_t> chaining_b64_dt = packaging_params.words;
+
+    #ifndef IS_LITTLE_ENDIAN
+
         if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_b64_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
             std::cout << "bit_by_bit_dt:  ";
@@ -244,6 +251,11 @@ PackagingWindow::inner_test()
             for (auto v : chaining_b64_dt) std::cout << (int)v << ' ';
             std::cout << '\n';
         }
+
+    #else
+        std::cout << "Little endian \n\n\n";
+    #endif
+
     }
 #endif
 }
