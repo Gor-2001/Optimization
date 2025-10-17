@@ -131,28 +131,12 @@ PackagingWindow::chaining(
 {
     uint8_t* ptr = packaging_params.src.data();
 
-    if(packaging_params.wordsBitLen == 32)
-    {
-        for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
-        {
-            packaging_params.words[i] = *(ptr++);
-            packaging_params.words[i] <<= 8;
-            packaging_params.words[i] |= *(ptr++);
-            packaging_params.words[i] <<= 8;
-            packaging_params.words[i] |= *(ptr++);
-            packaging_params.words[i] <<= 8;
-            packaging_params.words[i] |= *(ptr++);
-        }
-
-        return;
-    }
-
     uint64_t bitCount = 0;
     uint64_t value = 0;
     uint64_t temp = 0;
 
     uint64_t mask = 
-        (1u << packaging_params.wordsBitLen) - 1u;
+        (1ull << packaging_params.wordsBitLen) - 1ull;
 
     for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
     {
@@ -180,35 +164,43 @@ void
 PackagingWindow::inner_test()
 {
     packaging_params_t packaging_params;
-    const std::vector<uint16_t> spinVariables = {1, 200, 32};
+    std::vector<uint16_t> spinVariables = {1, 200, 0};
+#ifdef __DEBUG
+    for (size_t i = 0; i < 32; i++)
+    {
+        ++spinVariables[2];
+        std::cout << "Test params are\n";
+        std::cout << "Word Bit Count = " << spinVariables[2] << "\n";
 
-    packaging_params_init(packaging_params, spinVariables);
-    sample_gen(packaging_params);
+        packaging_params_init(packaging_params, spinVariables);
+        sample_gen(packaging_params);
 
-    bit_by_bit(packaging_params);
-    std::vector<uint32_t> bit_by_bit_dt = packaging_params.words;
+        bit_by_bit(packaging_params);
+        std::vector<uint32_t> bit_by_bit_dt = packaging_params.words;
 
-    word_by_word(packaging_params);
-    std::vector<uint32_t> word_by_word_dt = packaging_params.words;
+        word_by_word(packaging_params);
+        std::vector<uint32_t> word_by_word_dt = packaging_params.words;
 
-    chaining(packaging_params);
-    std::vector<uint32_t> chaining_dt = packaging_params.words;
+        chaining(packaging_params);
+        std::vector<uint32_t> chaining_dt = packaging_params.words;
 
-    if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), word_by_word_dt.begin())) {
-        std::cout << "Vectors are NOT equal!\n";
-        std::cout << "bit_by_bit_dt:  ";
-        for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
-        std::cout << "\nword_by_word_dt: ";
-        for (auto v : word_by_word_dt) std::cout << (int)v << ' ';
-        std::cout << '\n';
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), word_by_word_dt.begin())) {
+            std::cout << "Vectors are NOT equal!\n";
+            std::cout << "bit_by_bit_dt:  ";
+            for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+            std::cout << "\nword_by_word_dt: ";
+            for (auto v : word_by_word_dt) std::cout << (int)v << ' ';
+            std::cout << '\n';
+        }
+
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_dt.begin())) {
+            std::cout << "Vectors are NOT equal!\n";
+            std::cout << "bit_by_bit_dt:  ";
+            for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_dt: ";
+            for (auto v : chaining_dt) std::cout << (int)v << ' ';
+            std::cout << '\n';
+        }
     }
-
-    if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_dt.begin())) {
-        std::cout << "Vectors are NOT equal!\n";
-        std::cout << "bit_by_bit_dt:  ";
-        for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
-        std::cout << "\nchaining_dt: ";
-        for (auto v : chaining_dt) std::cout << (int)v << ' ';
-        std::cout << '\n';
-    }
+#endif
 }

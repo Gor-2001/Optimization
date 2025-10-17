@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(__DEBUG)
+endif()
+
+
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
