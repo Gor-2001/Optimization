@@ -11,8 +11,8 @@ PackagingWindow::PackagingWindow(QWidget *parent)
 {
     inner_test();
     // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    const uint16_t runCount     = 100;
-    const uint16_t wordCount    = 200;
+    const uint16_t runCount     = 1000;
+    const uint16_t wordCount    = 1000;
     const uint16_t wordBitLen   = 11;
 
     setRunCount(runCount);
@@ -31,10 +31,11 @@ PackagingWindow::PackagingWindow(QWidget *parent)
     setTestFunctions<packaging_params_t>({
         {"Bit By Bit\t\t", PackagingWindow::bit_by_bit},
         {"Word By Word\t", PackagingWindow::word_by_word},
-        {"Chaining\t\t", PackagingWindow::chaining}
+        {"Chaining Little u64\t", PackagingWindow::chaining_little_u64},
+        {"Chaining Big u64\t", PackagingWindow::chaining_big_u64}
     });
 
-    setInfoTitle("Packaging  Test Info");
+    setInfoTitle("Packaging Test Info");
     setInfoPath("src/packaging/packaging_info");
     setRunTitle("Run Packaging  Test");
 
@@ -125,7 +126,7 @@ PackagingWindow::word_by_word(
 }
 
 void 
-PackagingWindow::chaining(    
+PackagingWindow::chaining_little_u64(    
     packaging_params_t& packaging_params
 )
 {
@@ -160,6 +161,36 @@ PackagingWindow::chaining(
     }
 }
 
+void 
+PackagingWindow::chaining_big_u64(    
+    packaging_params_t& packaging_params
+)
+{
+    uint32_t* ptr = (uint32_t*)packaging_params.src.data();
+
+    uint64_t bitCount = 0;
+    uint64_t value = 0;
+    uint64_t temp = 0;
+
+    uint64_t mask = 
+        (1ull << packaging_params.wordsBitLen) - 1ull;
+
+    for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+    {
+        if(bitCount < packaging_params.wordsBitLen)
+        {
+            value <<= 32;
+            value |= *(ptr++);
+            bitCount += 32;
+        }
+
+        bitCount -= packaging_params.wordsBitLen;
+        temp = (value >> bitCount);
+        temp &= mask;
+        packaging_params.words[i] = temp;
+    }
+}
+
 void
 PackagingWindow::inner_test()
 {
@@ -181,8 +212,11 @@ PackagingWindow::inner_test()
         word_by_word(packaging_params);
         std::vector<uint32_t> word_by_word_dt = packaging_params.words;
 
-        chaining(packaging_params);
-        std::vector<uint32_t> chaining_dt = packaging_params.words;
+        chaining_little_u64(packaging_params);
+        std::vector<uint32_t> chaining_l64_dt = packaging_params.words;
+
+        chaining_big_u64(packaging_params);
+        std::vector<uint32_t> chaining_b64_dt = packaging_params.words;
 
         if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), word_by_word_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
@@ -193,12 +227,21 @@ PackagingWindow::inner_test()
             std::cout << '\n';
         }
 
-        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_dt.begin())) {
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_l64_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
             std::cout << "bit_by_bit_dt:  ";
             for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
-            std::cout << "\nchaining_dt: ";
-            for (auto v : chaining_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_l64_dt: ";
+            for (auto v : chaining_l64_dt) std::cout << (int)v << ' ';
+            std::cout << '\n';
+        }
+
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_b64_dt.begin())) {
+            std::cout << "Vectors are NOT equal!\n";
+            std::cout << "bit_by_bit_dt:  ";
+            for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_b64_dt: ";
+            for (auto v : chaining_b64_dt) std::cout << (int)v << ' ';
             std::cout << '\n';
         }
     }
