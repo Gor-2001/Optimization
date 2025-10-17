@@ -52,23 +52,16 @@ BaseWindow::getSpinVariableValues() const
 void BaseWindow::drawSpinVariableButtons() 
 {
     auto *paramsLayout = new QHBoxLayout();
-    
-    // We get the names/objects that were set up by setSpinVariables
     uint16_t spinsCount = static_cast<uint16_t>(spinVariables.size());
 
     for(uint16_t i = 0; i < spinsCount; ++i)
     {
-        // 1. Create the label.
-        // NOTE: We use spinVariableNames and spinVariables, which must be sized correctly
-        // by the preceding call to setSpinVariables.
         auto* label = new QLabel(
             QString::fromStdString(spinVariableNames[i]), this
         );
 
-        // 2. Reuse the QSpinBox object created in setSpinVariables().
         QSpinBox* spin = spinVariables[i];
 
-        // 3. Add them to the horizontal layout.
         paramsLayout->addWidget(label);
         paramsLayout->addWidget(spin);
     }

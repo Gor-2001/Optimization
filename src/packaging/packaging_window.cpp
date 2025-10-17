@@ -8,14 +8,14 @@
 /***************************************/
 
 #define IS_LITTLE_ENDIAN (*(uint8_t *)&(uint16_t){1})
-
+#include <cstdint>
 
 PackagingWindow::PackagingWindow(QWidget *parent)
     : BaseWindow(parent)
 {
     inner_test();
     // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    const uint16_t runCount     = 1000;
+    const uint16_t runCount     = 10000;
     const uint16_t wordCount    = 1000;
     const uint16_t wordBitLen   = 11;
 
@@ -35,8 +35,10 @@ PackagingWindow::PackagingWindow(QWidget *parent)
     setTestFunctions<packaging_params_t>({
         {"Bit By Bit\t\t", PackagingWindow::bit_by_bit},
         {"Word By Word\t", PackagingWindow::word_by_word},
-        {"Chaining Little u64\t", PackagingWindow::chaining_little_u64},
-        {"Chaining Big u64\t", PackagingWindow::chaining_big_u64}
+        {"Chaining Standart u64\t", PackagingWindow::chaining_u64}//,
+        //{"Chaining Standart u128\t", PackagingWindow::chaining_u128},
+        //{"Chaining Big u64\t", PackagingWindow::chaining_u64_big},
+        //{"Chaining Big u128\t", PackagingWindow::chaining_u128_big}
     });
 
     setInfoTitle("Packaging Test Info");
@@ -130,7 +132,7 @@ PackagingWindow::word_by_word(
 }
 
 void 
-PackagingWindow::chaining_little_u64(    
+PackagingWindow::chaining_u64(    
     packaging_params_t& packaging_params
 )
 {
@@ -166,7 +168,63 @@ PackagingWindow::chaining_little_u64(
 }
 
 void 
-PackagingWindow::chaining_big_u64(    
+PackagingWindow::chaining_u128(    
+    packaging_params_t& packaging_params
+)
+{
+    uint8_t* ptr = packaging_params.src.data();
+
+    uint64_t bitCount = 0;
+
+    unsigned __int128 value = 0;
+    unsigned __int128 temp = 0;
+
+    unsigned __int128 mask = 
+        (1ull << packaging_params.wordsBitLen) - 1ull;
+
+    for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+    {
+        if(bitCount < packaging_params.wordsBitLen)
+        {
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+            value <<= 8;
+            value |= *(ptr++);
+
+            bitCount += 96;
+        }
+
+        bitCount -= packaging_params.wordsBitLen;
+        temp = (value >> bitCount);
+        temp &= mask;
+        packaging_params.words[i] = temp;
+    }
+}
+
+void 
+PackagingWindow::chaining_u64_big(    
     packaging_params_t& packaging_params
 )
 {
@@ -195,25 +253,65 @@ PackagingWindow::chaining_big_u64(
     }
 }
 
+void 
+PackagingWindow::chaining_u128_big(    
+    packaging_params_t& packaging_params
+)
+{
+    uint32_t* ptr = (uint32_t*)packaging_params.src.data();
+
+    uint64_t bitCount = 0;
+
+    unsigned __int128 value = 0;
+    unsigned __int128 temp = 0;
+
+    unsigned __int128 mask = 
+        (1ull << packaging_params.wordsBitLen) - 1ull;
+
+    for (uint32_t i = 0; i < packaging_params.wordsCount; ++i) 
+    {
+        if(bitCount < packaging_params.wordsBitLen)
+        {
+            value <<= 32;
+            value |= *(ptr++);
+
+            value <<= 32;
+            value |= *(ptr++);
+
+            value <<= 32;
+            value |= *(ptr++);
+
+            bitCount += 96;
+        }
+
+        bitCount -= packaging_params.wordsBitLen;
+        temp = (value >> bitCount);
+        temp &= mask;
+        packaging_params.words[i] = temp;
+    }
+}
+
 void
 PackagingWindow::inner_test()
 {
-    packaging_params_t packaging_params;
-    std::vector<uint16_t> spinVariables = {1, 200, 0};
 #ifdef __DEBUG
 
     #ifdef IS_LITTLE_ENDIAN
-        std::cout << "Little endian \n\n\n";
+        std::cout << "Little endian \n";
     #else
-        std::cout << "Big endian \n\n\n";
+        std::cout << "Big endian \n";
     #endif
-    
-    for (size_t i = 0; i < 1; i++)
+
+    packaging_params_t packaging_params;
+    std::vector<uint16_t> spinVariables = {1, 200, 0};
+
+    std::cout << "Test params are\n";
+    std::cout << "Words Bit Count = {1, 2, ..., 32}\n";
+    std::cout << "Words Count = " << spinVariables[1] << "\n";
+
+    for (size_t i = 0; i < 32; i++)
     {
         ++spinVariables[2];
-        spinVariables[2] = 11;
-        std::cout << "Test params are\n";
-        std::cout << "Word Bit Count = " << spinVariables[2] << "\n";
 
         packaging_params_init(packaging_params, spinVariables);
         sample_gen(packaging_params);
@@ -233,30 +331,56 @@ PackagingWindow::inner_test()
             std::cout << '\n';
         }
 
-        chaining_little_u64(packaging_params);
-        std::vector<uint32_t> chaining_l64_dt = packaging_params.words;
+        chaining_u64(packaging_params);
+        std::vector<uint32_t> chaining_64_dt = packaging_params.words;
 
-        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_l64_dt.begin())) {
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_64_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
             std::cout << "bit_by_bit_dt:  ";
             for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
-            std::cout << "\nchaining_l64_dt: ";
-            for (auto v : chaining_l64_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_64_dt: ";
+            for (auto v : chaining_64_dt) std::cout << (int)v << ' ';
             std::cout << '\n';
         }
 
-        chaining_big_u64(packaging_params);
-        std::vector<uint32_t> chaining_b64_dt = packaging_params.words;
+        chaining_u128(packaging_params);
+        std::vector<uint32_t> chaining_128_dt = packaging_params.words;
+
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_128_dt.begin())) {
+            std::cout << "Vectors are NOT equal!\n";
+            std::cout << "bit_by_bit_dt:  ";
+            for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_128_dt: ";
+            for (auto v : chaining_128_dt) std::cout << (int)v << ' ';
+            std::cout << '\n';
+        }
 
     #ifndef IS_LITTLE_ENDIAN
-        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_b64_dt.begin())) {
+
+        chaining_u64_big(packaging_params);
+        std::vector<uint32_t> chaining_u64_big_dt = packaging_params.words;
+
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_u64_big_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
             std::cout << "bit_by_bit_dt:  ";
             for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
-            std::cout << "\nchaining_b64_dt: ";
-            for (auto v : chaining_b64_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_u64_big_dt: ";
+            for (auto v : chaining_u64_big_dt) std::cout << (int)v << ' ';
             std::cout << '\n';
         }
+
+        chaining_u128_big(packaging_params);
+        std::vector<uint32_t> chaining_u128_big = packaging_params.words;
+        
+        if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_u128_big.begin())) {
+            std::cout << "Vectors are NOT equal!\n";
+            std::cout << "bit_by_bit_dt:  ";
+            for (auto v : bit_by_bit_dt) std::cout << (int)v << ' ';
+            std::cout << "\nchaining_u128_big: ";
+            for (auto v : chaining_u128_big) std::cout << (int)v << ' ';
+            std::cout << '\n';
+        }
+
     #endif
 
     }
