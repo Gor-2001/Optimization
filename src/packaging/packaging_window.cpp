@@ -201,6 +201,13 @@ PackagingWindow::inner_test()
     packaging_params_t packaging_params;
     std::vector<uint16_t> spinVariables = {1, 200, 0};
 #ifdef __DEBUG
+
+    #ifdef IS_LITTLE_ENDIAN
+        std::cout << "Little endian \n\n\n";
+    #else
+        std::cout << "Big endian \n\n\n";
+    #endif
+    
     for (size_t i = 0; i < 1; i++)
     {
         ++spinVariables[2];
@@ -242,7 +249,6 @@ PackagingWindow::inner_test()
         std::vector<uint32_t> chaining_b64_dt = packaging_params.words;
 
     #ifndef IS_LITTLE_ENDIAN
-
         if (!std::equal(bit_by_bit_dt.begin(), bit_by_bit_dt.end(), chaining_b64_dt.begin())) {
             std::cout << "Vectors are NOT equal!\n";
             std::cout << "bit_by_bit_dt:  ";
@@ -251,9 +257,6 @@ PackagingWindow::inner_test()
             for (auto v : chaining_b64_dt) std::cout << (int)v << ' ';
             std::cout << '\n';
         }
-
-    #else
-        std::cout << "Little endian \n\n\n";
     #endif
 
     }
