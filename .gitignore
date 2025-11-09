@@ -39,7 +39,6 @@ Makefile
 # ==========================
 # Executables / binaries
 # ==========================
-todoapp
 *.exe
 *.o
 *.obj

@@ -7,6 +7,7 @@
 #include "jump_table/jump_table_window.h"
 #include "dependency/dependency_window.h"
 #include "packaging/packaging_window.h"
+#include "registers/registers_window.h"
 
 class QPushButton;
 
@@ -22,6 +23,7 @@ private slots:
     void openJumpTableWindow();
     void openDependencyWindow();
     void openPackagingWindow();
+    void openRegistersWindow();
     
 private:
     QPushButton *openButton;

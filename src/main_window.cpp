@@ -44,6 +44,12 @@ MainMenuWindow::MainMenuWindow(QWidget *parent)
     mainLayout->addWidget(packagingButton, 0, Qt::AlignHCenter);
     connect(packagingButton, &QPushButton::clicked, this, &MainMenuWindow::openPackagingWindow);
 
+    // Button: Registers  Test
+    QPushButton *registersButton = new QPushButton("Open Registers Test", this);
+    registersButton->setFixedSize(buttonWidth, buttonHeight);
+    mainLayout->addWidget(registersButton, 0, Qt::AlignHCenter);
+    connect(registersButton, &QPushButton::clicked, this, &MainMenuWindow::openRegistersWindow);
+
     // Optional: add stretch to push buttons slightly up
     mainLayout->addStretch();
 
@@ -69,9 +75,14 @@ void MainMenuWindow::openDependencyWindow()
     dependencyWindow->show();
 }
 
-
 void MainMenuWindow::openPackagingWindow()
 {
     PackagingWindow *packagingWindow = new PackagingWindow(this); // create Packaging window
     packagingWindow->show();
+}
+
+void MainMenuWindow::openRegistersWindow()
+{
+    RegistersWindow *registersWindow = new RegistersWindow(this); // create Registers window
+    registersWindow->show();
 }

@@ -3,9 +3,6 @@
 /***************************************/
 #include "packaging_window.h"
 /***************************************/
-//TODO: asm
-//extern "C" { void print_asm_message(); }
-/***************************************/
 
 #define IS_LITTLE_ENDIAN (*(uint8_t *)&(uint16_t){1})
 #include <cstdint>
