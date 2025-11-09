@@ -8,7 +8,8 @@
 /***************************************/
 
 struct registers_params_t {
-    std::vector<std::vector<uint8_t>> sample;
+    std::vector<uint8_t> sample;
+    uint16_t round_count;
     uint16_t sample_range;
     uint8_t row_count;
     uint8_t column_count;
@@ -16,6 +17,7 @@ struct registers_params_t {
 
 enum registers_params_order_t {
     REG_RUN_COUNT_INDEX = 0,
+    REG_ROUND_COUNT_INDEX = 1,
 };
 
 class QPushButton;

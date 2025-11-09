@@ -3,20 +3,22 @@
 /***************************************/
 #include "registers_window.h"
 /***************************************/
-//extern "C" { void print_asm_message(); }
+extern "C" void transform_sample_asm(uint8_t* sample, uint16_t rounds);
 /***************************************/
 
 RegistersWindow::RegistersWindow(QWidget *parent)
     : BaseWindow(parent)
 {
     // Variables that may change during execution (mutable, e.g., loop/spine-related)
-    const uint16_t runCount     = 100;
+    const uint16_t runCount     = 1000;
+    const uint16_t roundCount   = 100;
 
     setRunCount(runCount);
     setRunCountIndex(REG_RUN_COUNT_INDEX);
 
     setSpinVariables({
-        {"Run Count", runCount}
+        {"Run Count", runCount},
+        {"Round Count", roundCount}
     });
 
     setParam(registers_params);
@@ -44,6 +46,7 @@ RegistersWindow::registers_params_init(
     registers_params.row_count = 4;
     registers_params.column_count = 16;
     registers_params.sample_range = 256;
+    registers_params.round_count = spinVariables[REG_ROUND_COUNT_INDEX];
 }
 
 void 
@@ -51,73 +54,82 @@ RegistersWindow::sample_gen(
     registers_params_t& registers_params
 )
 {
-    registers_params.sample.erase(
-        registers_params.sample.begin(), 
-        registers_params.sample.end());
-
-    for(uint8_t i = 0; i < registers_params.row_count; ++i)
-        registers_params.sample.push_back(
-            random_sample_generation8(
-                registers_params.column_count, 
-                registers_params.sample_range));
+    registers_params.sample = random_sample_generation8(
+            registers_params.column_count * registers_params.column_count,
+            registers_params.sample_range);
 
 }
 
-
-void 
-RegistersWindow::test_small_registers(    
-    registers_params_t& registers_params
-)
+void RegistersWindow::test_small_registers(registers_params_t& registers_params)
 {
-    auto sample = registers_params.sample;
+    auto& sample = registers_params.sample; // flat vector
+    const uint16_t rounds = registers_params.round_count;
+    const size_t row_count = registers_params.row_count;       // 4
+    const size_t column_count = registers_params.column_count; // 16
 
-    const size_t n = sample[0].size();
-
-    auto add_rows = [](std::vector<uint8_t>& a, const std::vector<uint8_t>& b) {
-        for (size_t j = 0; j < a.size(); ++j)
-            a[j] = static_cast<uint8_t>(a[j] + b[j]); // wraps around automatically
+    auto add_rows = [&](size_t row_a, size_t row_b) {
+        for (size_t j = 0; j < column_count; ++j) {
+            sample[row_a * column_count + j] =
+                static_cast<uint8_t>(
+                    sample[row_a * column_count + j] + 
+                    sample[row_b * column_count + j]
+                ); // wraps around automatically
+        }
     };
 
-    // --- Step 1: Row arithmetic ---
-    add_rows(sample[0], sample[1]);
-    add_rows(sample[2], sample[3]);
+    for (uint16_t r = 0; r < rounds; ++r)
+    {
+        // --- Step 1: Row arithmetic ---
+        add_rows(0, 1); // row0 += row1
+        add_rows(2, 3); // row2 += row3
 
-    // --- Step 2: Swap rows 1 and 2 ---
-    std::swap(sample[1], sample[2]);
+        // --- Step 2: Swap rows 1 and 2 ---
+        for (size_t j = 0; j < column_count; ++j) {
+            std::swap(
+                sample[1 * column_count + j],
+                sample[2 * column_count + j]
+            );
+        }
 
-    // --- Step 3: Cyclic shifts ---
-    // Row 0: left by 1
-    std::rotate(sample[0].begin(), sample[0].begin() + 1, sample[0].end());
-    // Row 1: right by 1
-    std::rotate(sample[1].rbegin(), sample[1].rbegin() + 1, sample[1].rend());
-    // Row 2: left by 2
-    std::rotate(sample[2].begin(), sample[2].begin() + 2, sample[2].end());
-    // Row 3: right by 2
-    std::rotate(sample[3].rbegin(), sample[3].rbegin() + 2, sample[3].rend());
+        // --- Step 3: Cyclic shifts ---
+        // Row 0: left by 1
+        std::rotate(
+            sample.begin() + 0 * column_count,
+            sample.begin() + 0 * column_count + 1,
+            sample.begin() + 1 * column_count
+        );
 
-    // --- Step 4: Repeat add+swap ---
-    add_rows(sample[0], sample[1]);
-    add_rows(sample[2], sample[3]);
-    std::swap(sample[1], sample[2]);
+        // Row 1: right by 1
+        std::rotate(
+            sample.rbegin() + (row_count - 1 - 1) * column_count,
+            sample.rbegin() + (row_count - 1 - 1) * column_count + 1,
+            sample.rbegin() + (row_count - 1 - 0) * column_count
+        );
+
+        // Row 2: left by 2
+        std::rotate(
+            sample.begin() + 2 * column_count,
+            sample.begin() + 2 * column_count + 2,
+            sample.begin() + 3 * column_count
+        );
+
+        // Row 3: right by 2
+        std::rotate(
+            sample.rbegin() + (row_count - 1 - 3) * column_count,
+            sample.rbegin() + (row_count - 1 - 3) * column_count + 2,
+            sample.rbegin() + (row_count - 1 - 2) * column_count
+        );
+    }
 }
+
 
 void 
 RegistersWindow::test_large_registers(    
     registers_params_t& registers_params
 )
 {
-    // std::vector<uint16_t> sums(registers_params.buckets_count, 0);
-
-    // std::vector<uint16_t> copy(registers_params.sample.begin(), registers_params.sample.end());
-    // std::sort(copy.begin(), copy.end());
-
-    // for(uint16_t i = 0; i < registers_params.buckets_count; ++i) 
-    // {
-    //     for(uint16_t j = 0; j < registers_params.sample_size; ++j) 
-    //     {
-    //         if(copy[j] > registers_params.buckets[i])
-    //             sums[i] += copy[j];     
-    //     }
-    // }
+    transform_sample_asm(
+        registers_params.sample.data(),
+        registers_params.round_count);
 }
 
